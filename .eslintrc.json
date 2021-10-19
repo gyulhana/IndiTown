@@ -11,6 +11,12 @@
     "ecmaVersion": 2018
   },
   "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
     "no-console": "off",
     "strict": ["error", "global"],
     "curly": "warn"
