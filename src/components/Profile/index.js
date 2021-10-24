@@ -17,7 +17,7 @@ const sizeStyles = {
   },
 }
 
-const ProfileWrapper = styled.div`
+const StyledProfile = styled.div`
   display: flex;
   align-items: center;
   line-height: 1.4;
@@ -36,7 +36,7 @@ const Profile = ({
   ...props
 }) => {
   return (
-    <ProfileWrapper {...props}>
+    <StyledProfile {...props}>
       <Avatar
         lazy={lazy}
         threshold={threshold}
@@ -65,7 +65,7 @@ const Profile = ({
           {town}
         </Text>
       </div>
-    </ProfileWrapper>
+    </StyledProfile>
   )
 }
 Profile.propTypes = {

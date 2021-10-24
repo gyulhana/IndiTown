@@ -10,7 +10,7 @@ const ShapeToCssValue = {
   square: '0',
 }
 
-const AvatarWrapper = styled.div`
+const StyledAvatar = styled.div`
   position: relative;
   display: inline-block;
   border: 1px solid #f5f5f5;
@@ -44,7 +44,7 @@ const Avatar = ({
   }, [src])
 
   return (
-    <AvatarWrapper {...props} shape={shape}>
+    <StyledAvatar {...props} shape={shape}>
       <ImageComponent
         block
         lazy={lazy}
@@ -57,7 +57,7 @@ const Avatar = ({
         mode={mode}
         style={{ opacity: loaded ? 1 : 0 }}
       />
-    </AvatarWrapper>
+    </StyledAvatar>
   )
 }
 
