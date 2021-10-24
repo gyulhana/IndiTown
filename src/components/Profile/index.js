@@ -1,0 +1,82 @@
+import PropTypes from 'prop-types'
+import styled from '@emotion/styled'
+import Avatar from '../Avatar'
+import Text from '../Text'
+import theme from '../../themes'
+
+const sizeStyles = {
+  medium: {
+    avatarSize: 48,
+    fontsize_1: theme.fontSizes.sm,
+    fontsize_2: theme.fontSizes.sm,
+  },
+  large: {
+    avatarSize: 60,
+    fontsize_1: theme.fontSizes.h6,
+    fontsize_2: theme.fontSizes.sm,
+  },
+}
+
+const ProfileWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const Profile = ({
+  lazy,
+  threshold,
+  placeholder,
+  src,
+  size,
+  alt,
+  nickName,
+  id,
+  town,
+  ...props
+}) => {
+  return (
+    <ProfileWrapper>
+      <Avatar
+        lazy={lazy}
+        threshold={threshold}
+        size={sizeStyles[size].avatarSize}
+        src={src}
+        placeholder={placeholder}
+        alt={alt}
+      ></Avatar>
+      <div style={{ marginLeft: '0.875rem' }}>
+        <Text strong size={sizeStyles[size].fontsize_1}>
+          {nickName}
+        </Text>
+        <Text
+          className={theme.colors.gray_5}
+          color={theme.colors.gray_5}
+          size={sizeStyles[size].fontsize_1}
+          style={{ marginLeft: '0.4rem' }}
+        >
+          @{id}
+        </Text>
+        <Text
+          block
+          color={theme.colors.gray_5}
+          size={sizeStyles[size].fontsize_2}
+        >
+          {town}
+        </Text>
+      </div>
+    </ProfileWrapper>
+  )
+}
+Profile.propTypes = {
+  lazy: PropTypes.bool,
+  threshold: PropTypes.number,
+  placeholder: PropTypes.string,
+  src: PropTypes.string.isRequired,
+  size: PropTypes.string, // medium, large
+  alt: PropTypes.string,
+  mode: PropTypes.string,
+  nickName: PropTypes.string,
+  id: PropTypes.string,
+  town: PropTypes.string,
+}
+export default Profile
