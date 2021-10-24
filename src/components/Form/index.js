@@ -39,6 +39,7 @@ const Form = ({ id, name, type = 'id', large, ...props }) => {
         placeholder={type === 'search' ? '검색' : type.toUpperCase()}
         className={large ? 'large' : null}
         style={{ backgroundColor: type === 'search' ? '#E8E8E8' : '#FFF' }}
+        autocomplete="off"
         {...props}
       />
     </>

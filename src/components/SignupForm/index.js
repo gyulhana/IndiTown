@@ -2,10 +2,10 @@ import Input from '../Form'
 import { useFormik } from 'formik'
 import styled from '@emotion/styled'
 import * as Yup from 'yup'
+import { useCallback, useState } from 'react'
 
 const FormContainer = styled.form`
-  width: 85%;
-  margin: 0 auto;
+  padding: 1.25rem 2rem;
 `
 
 const Label = styled.label`
@@ -25,6 +25,7 @@ const Invalid = styled.div`
 
 const invalidErrorMessage = {
   id: '6~12자 사이의 알파벳, 숫자만 가능합니다.',
+  duplicateUserId: '이미 존재하는 ID 입니다.',
   password: '8~15자 사이의 알파벳, 숫자만 가능합니다.',
   email: '올바른 이메일 형식이 아닙니다.',
 }
@@ -60,6 +61,33 @@ const SignupForm = () => {
     email: formik.touched.userEmail && formik.errors.userEmail,
   }
 
+  const [duplicationCheck, setDuplicationCheck] = useState(false)
+
+  const getUserLists = useCallback(async () => {
+    const userLists = await fetch('http://13.209.30.200/users/get-users', {
+      method: 'GET',
+    }).then((res) => res.json())
+
+    return userLists
+  }, [])
+
+  const duplicationUserId = useCallback(async () => {
+    const value = formik.values.userId
+    if (!(value.length > 5 && value.length < 13)) {
+      return
+    }
+
+    const userLists = await getUserLists()
+    userLists.forEach((user) => {
+      if (user.fullName === value) {
+        formik.setErrors({ userId: invalidErrorMessage.duplicateUserId })
+        return
+      }
+    })
+
+    setDuplicationCheck(true)
+  }, [getUserLists, formik])
+
   return (
     <FormContainer onSubmit={formik.handleSubmit}>
       <div className="form-group">
@@ -83,7 +111,9 @@ const SignupForm = () => {
         ) : (
           <Invalid />
         )}
-        <div class="valid-feedback">Looks good!</div>
+        <button type="button" onClick={duplicationUserId}>
+          중복 확인
+        </button>
       </div>
 
       <Label htmlFor="userPassword">비밀번호</Label>
