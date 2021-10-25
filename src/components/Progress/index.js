@@ -26,6 +26,7 @@ const StyledProgress = styled.div`
   height: 1rem;
   overflow: hidden;
   min-width: 7.5rem;
+  width: ${(props) => props.width};
 `
 const ProgressBar = styled.div`
   background-color: ${theme.colors.primary};
@@ -45,7 +46,7 @@ const Progress = ({
   ...props
 }) => {
   return (
-    <StyledProgress {...props} size={size} style={{ width }}>
+    <StyledProgress {...props} size={size}>
       {targetNum && resultNum && (
         <ProgressBar
           style={{ width: `${(resultNum / targetNum) * 100}%` }}

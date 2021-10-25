@@ -28,7 +28,7 @@ const Profile = ({
   threshold,
   placeholder,
   src,
-  size,
+  size = 'medium',
   alt,
   nickName,
   id,
@@ -75,7 +75,6 @@ Profile.propTypes = {
   src: PropTypes.string.isRequired,
   size: PropTypes.string, // medium, large
   alt: PropTypes.string,
-  mode: PropTypes.string,
   nickName: PropTypes.string,
   id: PropTypes.string,
   town: PropTypes.string,

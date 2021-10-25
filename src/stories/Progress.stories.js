@@ -18,14 +18,16 @@ export default {
     resultNum: {
       control: { type: 'range', min: 1, max: 100 },
     },
+    children: {
+      defaultValue: '00 : 28 : 49',
+      control: { type: 'text' },
+    },
   },
 }
 
 export const Default = (args) => (
   <div>
-    <Progress {...args} resultNum={undefined}>
-      00 : 28 : 49
-    </Progress>
-    <Progress {...args}>￦ 5,100원 남음</Progress>
+    <Progress {...args} resultNum={undefined}></Progress>
+    <Progress {...args}></Progress>
   </div>
 )
