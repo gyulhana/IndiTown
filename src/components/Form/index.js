@@ -29,14 +29,20 @@ const types = {
   search: 'text',
 }
 
-const Form = ({ id, name, type = 'id', large, ...props }) => {
+const Form = ({ id, name, type = 'id', large, placeholder, ...props }) => {
   return (
     <>
       <Input
         id={id}
         name={name}
         type={types[type]}
-        placeholder={type === 'search' ? '검색' : type.toUpperCase()}
+        placeholder={
+          placeholder
+            ? placeholder
+            : type === 'search'
+            ? '검색'
+            : type.toUpperCase()
+        }
         className={large ? 'large' : null}
         style={{ backgroundColor: type === 'search' ? '#E8E8E8' : '#FFF' }}
         autocomplete="off"
