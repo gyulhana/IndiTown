@@ -31,6 +31,10 @@ const invalidErrorMessage = {
 }
 
 const SignupForm = () => {
+  const [userTyping, setUserTyping] = useState(new Set())
+  const [duplicationCheck, setDuplicationCheck] = useState(false)
+  const API_ENDPOINT = 'http://13.209.30.200'
+
   const formik = useFormik({
     initialValues: {
       userId: '',
@@ -42,7 +46,19 @@ const SignupForm = () => {
         .min(6, invalidErrorMessage.id)
         .max(12, invalidErrorMessage.id)
         .matches(/^[a-zA-Z0-9]+$/, invalidErrorMessage.id)
-        .required(''),
+        .required('')
+        .test(
+          'is-error',
+          invalidErrorMessage.duplicateUserId,
+          function (value) {
+            for (const duplicateId of userTyping) {
+              if (value === duplicateId) {
+                return false
+              }
+            }
+            return true
+          }
+        ),
       userPassword: Yup.string()
         .min(8, invalidErrorMessage.password)
         .max(15, invalidErrorMessage.password)
@@ -51,7 +67,23 @@ const SignupForm = () => {
       userEmail: Yup.string().email(invalidErrorMessage.email).required(''),
     }),
     onSubmit: async (values) => {
-      alert(JSON.stringify(values))
+      const { userId, userPassword, userEmail } = values
+      const userInfo = {
+        team: 'Yohan1',
+        userName: userId,
+        location: 'currentLocation',
+      }
+
+      const result = await fetch(`${API_ENDPOINT}/signup`, {
+        method: 'POST',
+        body: {
+          email: userEmail,
+          fullName: JSON.stringify(userInfo),
+          password: userPassword,
+        },
+      })
+
+      console.log(result)
     },
   })
 
@@ -61,10 +93,8 @@ const SignupForm = () => {
     email: formik.touched.userEmail && formik.errors.userEmail,
   }
 
-  const [duplicationCheck, setDuplicationCheck] = useState(false)
-
   const getUserLists = useCallback(async () => {
-    const userLists = await fetch('http://13.209.30.200/users/get-users', {
+    const userLists = await fetch(`${API_ENDPOINT}/users/get-users`, {
       method: 'GET',
     }).then((res) => res.json())
 
@@ -81,12 +111,14 @@ const SignupForm = () => {
     userLists.forEach((user) => {
       if (user.fullName === value) {
         formik.setErrors({ userId: invalidErrorMessage.duplicateUserId })
+        setUserTyping(() => new Set([...userTyping, value]))
+        setDuplicationCheck(false)
         return
       }
     })
 
     setDuplicationCheck(true)
-  }, [getUserLists, formik])
+  }, [getUserLists, setUserTyping, userTyping, formik])
 
   return (
     <FormContainer onSubmit={formik.handleSubmit}>
