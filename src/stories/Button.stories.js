@@ -11,13 +11,6 @@ export default {
     primary: {
       control: { type: 'boolean' },
     },
-    large: {
-      control: { type: 'boolean' },
-    },
-    size: {
-      defaultValue: 50,
-      control: { type: 'range', min: 20, max: 100 },
-    },
   },
 }
 

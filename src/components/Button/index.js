@@ -4,7 +4,7 @@ import { darken } from 'polished'
 
 const Buttons = styled.button`
   border: none;
-  border-radius: 0.9rem;
+  border-radius: 0.7rem;
   cursor: pointer;
   box-sizing: border-box;
   font-size: 1rem;
@@ -29,7 +29,7 @@ const Buttons = styled.button`
   }
 `
 
-const Button = ({ children, large, size, color, primary = true, ...props }) => {
+const Button = ({ children, primary = true, ...props }) => {
   return (
     <Buttons primary={primary} {...props}>
       {children}
@@ -39,6 +39,7 @@ const Button = ({ children, large, size, color, primary = true, ...props }) => {
 
 Button.propTypes = {
   children: PropTypes.node.isRequired,
+  primary: PropTypes.bool,
 }
 
 export default Button
