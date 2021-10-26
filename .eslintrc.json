@@ -19,6 +19,9 @@
     ],
     "no-console": "off",
     "strict": ["error", "global"],
-    "curly": "warn"
+    "curly": "warn",
+    "import/no-anonymous-default-export": ["error", {
+      "allowObject": true
+    }]
   }
 }
