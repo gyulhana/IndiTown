@@ -31,7 +31,7 @@ const Buttons = styled.button`
 
 const Button = ({ children, primary = true, ...props }) => {
   return (
-    <Buttons primary={primary} {...props}>
+    <Buttons {...props} primary={primary}>
       {children}
     </Buttons>
   )
