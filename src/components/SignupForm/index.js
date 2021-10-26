@@ -74,16 +74,25 @@ const SignupForm = () => {
         location: 'currentLocation',
       }
 
-      const result = await fetch(`${API_ENDPOINT}/signup`, {
+      const data = {
+        email: userEmail,
+        fullName: JSON.stringify(userInfo),
+        password: userPassword,
+      }
+
+      await fetch(`${API_ENDPOINT}/signup`, {
         method: 'POST',
-        body: {
-          email: userEmail,
-          fullName: JSON.stringify(userInfo),
-          password: userPassword,
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
         },
+        body: JSON.stringify(data),
       })
 
-      console.log(result)
+      formik.setValues({
+        userId: '',
+        userPassword: '',
+        userEmail: '',
+      })
     },
   })
 
@@ -190,7 +199,7 @@ const SignupForm = () => {
       ) : (
         <Invalid />
       )}
-      <button type="submit">Sign In</button>
+      <button type="submit">회원가입</button>
     </FormContainer>
   )
 }
