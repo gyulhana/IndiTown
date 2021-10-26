@@ -3,6 +3,7 @@ import { useFormik } from 'formik'
 import styled from '@emotion/styled'
 import * as Yup from 'yup'
 import { useCallback, useState } from 'react'
+import axios from 'axios'
 
 const FormContainer = styled.form`
   padding: 1.25rem 2rem;
@@ -80,13 +81,16 @@ const SignupForm = () => {
         password: userPassword,
       }
 
-      await fetch(`${API_ENDPOINT}/signup`, {
+      const user = await axios({
+        url: `${API_ENDPOINT}/signup`,
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json;charset=utf-8',
+          'Content-Type': 'application/json;charset=UTP-8',
         },
-        body: JSON.stringify(data),
+        data: JSON.stringify(data),
       })
+
+      console.log(user)
 
       formik.setValues({
         userId: '',
@@ -103,11 +107,12 @@ const SignupForm = () => {
   }
 
   const getUserLists = useCallback(async () => {
-    const userLists = await fetch(`${API_ENDPOINT}/users/get-users`, {
+    const userLists = await axios({
+      url: `${API_ENDPOINT}/users/get-users`,
       method: 'GET',
-    }).then((res) => res.json())
+    })
 
-    return userLists
+    return userLists.data
   }, [])
 
   const duplicationUserId = useCallback(async () => {
