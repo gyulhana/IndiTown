@@ -71,7 +71,7 @@ Avatar.propTypes = {
   threshold: PropTypes.number,
   placeholder: PropTypes.string,
   src: PropTypes.string.isRequired,
-  size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  size: PropTypes.number,
   shape: PropTypes.string,
   alt: PropTypes.string,
   mode: PropTypes.string,

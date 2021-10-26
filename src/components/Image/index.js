@@ -79,8 +79,8 @@ Image.propTypes = {
   placeholder: PropTypes.string,
   src: PropTypes.string.isRequired,
   block: PropTypes.bool,
-  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  width: PropTypes.number,
+  height: PropTypes.number,
   alt: PropTypes.string,
   mode: PropTypes.string,
 }
