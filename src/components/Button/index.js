@@ -10,6 +10,7 @@ const Buttons = styled.button`
   font-size: 1rem;
   font-weight: 500;
   padding: 0.5rem 1.4rem;
+  transition: all 0.2s ease-in;
   background-color: ${({ primary }) => (primary ? '#F6B545' : '#333333')};
   color: ${({ primary }) => (primary ? '#333333' : '#FAFAFA')};
   filter: ${({ primary }) =>
