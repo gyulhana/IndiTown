@@ -15,8 +15,8 @@ export default {
       control: { type: 'boolean' },
     },
     size: {
-      defaultValue: 70,
-      control: { type: 'range', min: 50, max: 100 },
+      defaultValue: 50,
+      control: { type: 'range', min: 20, max: 100 },
     },
   },
 }
