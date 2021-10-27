@@ -18,7 +18,7 @@ const ContentsSummary = ({
   placeholder,
   size = 'medium',
   alt,
-  userImg,
+  userImg = 'https://picsum.photos/400',
   userNickName,
   userId,
   userTown,
