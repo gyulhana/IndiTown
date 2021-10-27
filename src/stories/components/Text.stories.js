@@ -22,16 +22,25 @@ export const Default = (args) => {
 export const Size = (args) => {
   return (
     <>
-      <Text size="large" {...args}>
-        large
+      <Text size="h1" {...args}>
+        h1
       </Text>
-      <Text size="normal" {...args}>
-        normal
+      <Text size="h2" {...args}>
+        h2
       </Text>
-      <Text size="small" {...args}>
-        small
+      <Text size="h3" {...args}>
+        h3
       </Text>
-      <Text size="24" {...args}>
+      <Text size="h4" {...args}>
+        h4
+      </Text>
+      <Text size="h5" {...args}>
+        h5
+      </Text>
+      <Text size="h6" {...args}>
+        h6
+      </Text>
+      <Text size="12" {...args}>
         custom
       </Text>
     </>
