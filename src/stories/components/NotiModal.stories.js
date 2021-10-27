@@ -1,4 +1,4 @@
-import NotiModal from '../components/NotiModal'
+import NotiModal from '../../components/NotiModal'
 
 export default {
   title: 'Component/NotiModal',

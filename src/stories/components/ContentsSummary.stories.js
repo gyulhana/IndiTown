@@ -1,4 +1,4 @@
-import ContentsSummary from '../components/ContentsSummary'
+import ContentsSummary from '../../components/ContentsSummary'
 
 export default {
   title: 'Component/ContentsSummary',

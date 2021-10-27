@@ -27,7 +27,7 @@ const Avatar = ({
   lazy,
   threshold,
   placeholder,
-  src,
+  src = 'https://picsum.photos/400',
   size = 70,
   shape = 'circle',
   alt,

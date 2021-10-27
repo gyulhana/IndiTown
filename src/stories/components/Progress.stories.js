@@ -1,4 +1,4 @@
-import Progress from '../components/Progress'
+import Progress from '../../components/Progress'
 
 export default {
   title: 'Component/Progress',
@@ -27,7 +27,7 @@ export default {
 
 export const Default = (args) => (
   <div>
-    <Progress {...args} resultNum={undefined}></Progress>
-    <Progress {...args}></Progress>
+    <Progress {...args} resultNum={undefined} />
+    <Progress {...args} />
   </div>
 )

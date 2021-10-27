@@ -1,4 +1,4 @@
-import CommentInput from '../components/CommentInput'
+import CommentInput from '../../components/CommentInput'
 
 export default {
   title: 'Component/CommentInput',
