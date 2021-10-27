@@ -3,6 +3,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import Input from '../Form'
 import Button from '../Button'
+import axios from 'axios'
 
 const FormContainer = styled.form`
   padding: 1.25rem 3.75rem;
@@ -45,19 +46,21 @@ const Signin = () => {
         password: values.userPassword,
       }
 
-      const result = await fetch(`${API_ENDPOINT}/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-        },
-        body: JSON.stringify(userInfo),
-      })
+      try {
+        const result = await axios({
+          url: `${API_ENDPOINT}/login`,
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+          },
+          data: JSON.stringify(userInfo),
+        })
 
-      if (!result.ok) {
-        return formik.setErrors({ userEmail: invalidErrorMessage.notCorrect })
+        console.log(result)
+      } catch (error) {
+        console.log(error)
+        formik.setErrors({ userEmail: invalidErrorMessage.notCorrect })
       }
-
-      console.log(result)
     },
   })
 
