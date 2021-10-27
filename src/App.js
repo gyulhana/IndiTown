@@ -1,11 +1,5 @@
-import ContentsSummary from './pages/Posts'
-
 function App() {
-  return (
-    <div>
-      <ContentsSummary />
-    </div>
-  )
+  return <div />
 }
 
 export default App

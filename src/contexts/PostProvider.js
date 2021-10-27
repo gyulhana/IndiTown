@@ -37,8 +37,8 @@ const PostProvider = ({
   const [posts, dispatch] = useReducer(reducer, initialPosts || [])
 
   useEffect(() => {
-    dispatch({ type: 'INIT_POSTS', payload: initialPosts || [] }) // 사용자가 마음대로 정의해서 사용가능
-  }, [initialPosts]) // 감시해서 값 업데이트
+    dispatch({ type: 'INIT_POSTS', payload: initialPosts || [] })
+  }, [initialPosts])
 
   const onAddPost = useCallback(
     async (post) => {

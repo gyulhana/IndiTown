@@ -1,4 +1,4 @@
-import EditModal from '../components/EditModal'
+import EditModal from '../../components/EditModal'
 
 export default {
   title: 'Component/EditModal',
