@@ -94,7 +94,7 @@ const Signin = () => {
         <Button
           style={{
             backgroundColor: 'initial',
-            margin: '0 auto',
+            margin: '1rem 0',
           }}
           type="button"
         >
