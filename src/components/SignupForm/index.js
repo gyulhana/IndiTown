@@ -86,27 +86,32 @@ const SignupForm = () => {
       }
 
       const data = {
-        email: userEmail,
+        email: JSON.stringify(userEmail),
         fullName: JSON.stringify(userInfo),
-        password: userPassword,
+        password: JSON.stringify(userPassword),
       }
 
-      const user = await axios({
-        url: `${API_ENDPOINT}/signup`,
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=UTP-8',
-        },
-        data: JSON.stringify(data),
-      })
+      console.log(data)
+      try {
+        const user = await axios({
+          url: `${API_ENDPOINT}/signup`,
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json;charset=UTP-8',
+          },
+          data: JSON.stringify(data),
+        })
 
-      console.log(user)
+        console.log(user.data)
 
-      formik.setValues({
-        userId: '',
-        userPassword: '',
-        userEmail: '',
-      })
+        formik.setValues({
+          userId: '',
+          userPassword: '',
+          userEmail: '',
+        })
+      } catch (error) {
+        console.log(error)
+      }
     },
   })
 
@@ -165,11 +170,6 @@ const SignupForm = () => {
             }
             required
           />
-          {checkValidation.id ? (
-            <Invalid>{formik.errors.userId}</Invalid>
-          ) : (
-            <Invalid />
-          )}
           <Button
             style={{ fontSize: '0.875rem', padding: '0.313rem 0.625rem' }}
             primary={false}
@@ -179,6 +179,11 @@ const SignupForm = () => {
             중복확인
           </Button>
         </Flexbox>
+        {checkValidation.id ? (
+          <Invalid>{formik.errors.userId}</Invalid>
+        ) : (
+          <Invalid />
+        )}
       </div>
 
       <Label htmlFor="userPassword">비밀번호</Label>
