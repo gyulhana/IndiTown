@@ -10,7 +10,6 @@ const PostContext = createContext()
 export const usePostContext = () => useContext(PostContext)
 
 const reducer = (state, action) => {
-  // reducer 내부에서는 async 불가능 (순수하게 상태만 관리)
   switch (action.type) {
     case 'INIT_POSTS': {
       return action.payload
