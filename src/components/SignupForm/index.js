@@ -4,9 +4,14 @@ import styled from '@emotion/styled'
 import * as Yup from 'yup'
 import { useCallback, useState } from 'react'
 import axios from 'axios'
+import Button from '../Button'
 
 const FormContainer = styled.form`
   padding: 1.25rem 2rem;
+`
+const Flexbox = styled.div`
+  display: flex;
+  justify-content: space-between;
 `
 
 const Label = styled.label`
@@ -29,6 +34,7 @@ const invalidErrorMessage = {
   duplicateUserId: '이미 존재하는 ID 입니다.',
   password: '8~15자 사이의 알파벳, 숫자만 가능합니다.',
   email: '올바른 이메일 형식이 아닙니다.',
+  duplication: '아이디 중복을 확인해주세요.',
 }
 
 const SignupForm = () => {
@@ -68,6 +74,10 @@ const SignupForm = () => {
       userEmail: Yup.string().email(invalidErrorMessage.email).required(''),
     }),
     onSubmit: async (values) => {
+      if (!duplicationCheck) {
+        formik.setErrors({ userId: invalidErrorMessage.duplication })
+        return
+      }
       const { userId, userPassword, userEmail } = values
       const userInfo = {
         team: 'Yohan1',
@@ -138,28 +148,37 @@ const SignupForm = () => {
     <FormContainer onSubmit={formik.handleSubmit}>
       <div className="form-group">
         <Label htmlFor="userId">아이디</Label>
-        <Input
-          id="userId"
-          name="userId"
-          type="id"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.userId}
-          style={{
-            width: '70%',
-            border: checkValidation.id ? '1px solid #dc3545' : 'none',
-          }}
-          className={'form-control' + (checkValidation.id ? ' is-invalid' : '')}
-          required
-        />
-        {checkValidation.id ? (
-          <Invalid>{formik.errors.userId}</Invalid>
-        ) : (
-          <Invalid />
-        )}
-        <button type="button" onClick={duplicationUserId}>
-          중복 확인
-        </button>
+        <Flexbox>
+          <Input
+            id="userId"
+            name="userId"
+            type="id"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.userId}
+            style={{
+              width: '70%',
+              border: checkValidation.id ? '1px solid #dc3545' : 'none',
+            }}
+            className={
+              'form-control' + (checkValidation.id ? ' is-invalid' : '')
+            }
+            required
+          />
+          {checkValidation.id ? (
+            <Invalid>{formik.errors.userId}</Invalid>
+          ) : (
+            <Invalid />
+          )}
+          <Button
+            style={{ fontSize: '0.875rem', padding: '0.313rem 0.625rem' }}
+            primary={false}
+            type="button"
+            onClick={duplicationUserId}
+          >
+            중복확인
+          </Button>
+        </Flexbox>
       </div>
 
       <Label htmlFor="userPassword">비밀번호</Label>
@@ -204,7 +223,9 @@ const SignupForm = () => {
       ) : (
         <Invalid />
       )}
-      <button type="submit">회원가입</button>
+      <Button style={{ width: '100%' }} type="submit">
+        회원가입
+      </Button>
     </FormContainer>
   )
 }
