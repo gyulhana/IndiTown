@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import { Fragment } from 'react'
 
 const Input = styled.input`
   display: block;
@@ -31,7 +32,7 @@ const types = {
 
 const Form = ({ id, name, type = 'id', large, placeholder, ...props }) => {
   return (
-    <>
+    <Fragment>
       <Input
         id={id}
         name={name}
@@ -48,7 +49,7 @@ const Form = ({ id, name, type = 'id', large, placeholder, ...props }) => {
         autocomplete="off"
         {...props}
       />
-    </>
+    </Fragment>
   )
 }
 
