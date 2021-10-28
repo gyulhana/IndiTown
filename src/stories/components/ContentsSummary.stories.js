@@ -27,8 +27,8 @@ export default {
       defaultValue: '가양동식충벌레',
       control: { type: 'text' },
     },
-    userId: {
-      defaultValue: 'correctid123',
+    userEmail: {
+      defaultValue: 'correctid@naver.com',
       control: { type: 'text' },
     },
     userTown: {
@@ -36,10 +36,6 @@ export default {
       control: { type: 'text' },
     },
     title: {
-      defaultValue: '맥날 같이 시키실분 여기여기',
-      control: { type: 'text' },
-    },
-    contents: {
       defaultValue:
         '배구파요 같이시켜요.....배구파요 같이시켜요.....배구파요 같이시켜요.....배구파요 같이시켜요.....',
       control: { type: 'text' },
