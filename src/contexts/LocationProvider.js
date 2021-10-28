@@ -1,7 +1,6 @@
 import { createContext, useContext, useState } from 'react'
 
 const LocationContext = createContext()
-
 export const useLocation = () => useContext(LocationContext)
 
 const LocationProvider = ({ children }) => {
