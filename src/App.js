@@ -1,6 +1,6 @@
 import { Route, Switch } from 'react-router'
 import LocationProvider from './contexts/LocationProvider'
-import { CheckLocation, MainPage, SigninPage, SignupPage } from './pages'
+import { CheckLocationPage, MainPage, SigninPage, SignupPage } from './pages'
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
         </Route>
         <Route path="/location" exact>
           <LocationProvider>
-            <CheckLocation />
+            <CheckLocationPage />
           </LocationProvider>
         </Route>
         <Route path="/signup">
