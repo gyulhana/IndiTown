@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
-import Modal from './Modal'
-import Button from './Button'
+import Modal from '../Modal'
+import Button from '../Button'
 import { useState } from 'react'
 
 const Header = styled.h4`
@@ -11,6 +11,7 @@ const Header = styled.h4`
 
 const Text = styled.div`
   font-size: 0.9rem;
+  line-height: 1.4rem;
 `
 
 const ButtonContainer = styled.div`
@@ -28,12 +29,8 @@ const NotiModal = () => {
     setShow(false)
   }
 
-  const ModalStyle = {
-    visibility: show ? 'visibile' : 'hidden',
-  }
-
   return (
-    <Modal style={{ ModalStyle }}>
+    <Modal show={show} onClose={() => setShow(false)}>
       <Header>참여하기</Header>
       <Text style={{ color: '#737373' }}>
         [안내] 현재 참여 후 취소 시 모집자와 채팅으로만 환불이 가능합니다.
@@ -42,7 +39,7 @@ const NotiModal = () => {
       <ButtonContainer>
         <Button>참여하기</Button>
         <Button
-          style={{ backgroundColor: 'white', width: '50%' }}
+          style={{ backgroundColor: 'white', width: '44%' }}
           onClick={(e) => closeModal(e)}
         >
           닫기
