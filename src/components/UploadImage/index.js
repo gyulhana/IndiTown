@@ -5,8 +5,8 @@ import theme from '../../themes'
 const UploadContainer = styled.div`
   display: inline-flex;
   cursor: pointer;
-  background-color: #e8e8e8;
-  color: ${theme.colors.gray_5};
+  background-color: ${theme.colors.gray_1};
+  color: ${theme.colors.gray_4};
   border-radius: 0.7rem;
   font-size: 0.8rem;
   text-align: center;
