@@ -31,7 +31,7 @@ const Profile = ({
   size = 'medium',
   alt,
   nickName,
-  id,
+  email,
   town,
   ...props
 }) => {
@@ -55,7 +55,7 @@ const Profile = ({
           size={sizeStyles[size].fontsize_1}
           style={{ marginLeft: '0.4rem' }}
         >
-          @{id}
+          {email}
         </Text>
         <Text
           block
@@ -76,7 +76,7 @@ Profile.propTypes = {
   size: PropTypes.string, // medium, large
   alt: PropTypes.string,
   nickName: PropTypes.string,
-  id: PropTypes.string,
+  email: PropTypes.string,
   town: PropTypes.string,
 }
 export default Profile

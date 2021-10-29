@@ -46,7 +46,7 @@ const Progress = ({
   ...props
 }) => {
   return (
-    <StyledProgress {...props} size={size}>
+    <StyledProgress {...props} size={size} width={width}>
       {targetNum && resultNum && (
         <ProgressBar
           style={{ width: `${(resultNum / targetNum) * 100}%` }}

@@ -20,10 +20,9 @@ const ContentsSummary = ({
   alt,
   userImg = 'https://picsum.photos/400',
   userNickName,
-  userId,
+  userEmail,
   userTown,
   title,
-  contents,
   progressTargetNum,
   progressResultNum,
   progressTime,
@@ -40,15 +39,14 @@ const ContentsSummary = ({
         placeholder={placeholder}
         alt={alt}
         nickName={userNickName}
-        id={userId}
+        email={userEmail}
         town={userTown}
         style={{ marginBottom: '1rem' }}
       />
-      <Text children={title} size={'h6'} strong block />
       <Text
-        children={contents}
+        children={title}
         size={'h6'}
-        color={theme.colors.gray_5}
+        color={theme.colors.gray_6}
         style={{
           marginBottom: '1.75rem',
           whiteSpace: 'nowrap',
@@ -80,10 +78,9 @@ Progress.propTypes = {
   alt: PropTypes.string,
   userImg: PropTypes.string.isRequired,
   userNickName: PropTypes.string,
-  userId: PropTypes.string,
+  userEmail: PropTypes.string,
   userTown: PropTypes.string,
   title: PropTypes.string,
-  contents: PropTypes.string,
   progressTargetNum: PropTypes.number,
   progressResultNum: PropTypes.number,
   progressTime: PropTypes.string,

@@ -13,7 +13,6 @@ const ShapeToCssValue = {
 const StyledAvatar = styled.div`
   position: relative;
   display: inline-block;
-  border: 1px solid #f5f5f5;
   border-radius: ${({ shape }) => ShapeToCssValue[shape]};
   background-color: #f5f5f5;
   overflow: hidden;

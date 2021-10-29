@@ -14,7 +14,7 @@ export default {
       defaultValue: '가양동식충벌레',
       control: { type: 'text' },
     },
-    id: {
+    email: {
       defaultValue: 'correctid123',
       control: { type: 'text' },
     },
