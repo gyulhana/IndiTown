@@ -1,11 +1,12 @@
 import styled from '@emotion/styled'
 import { useRef, useState } from 'react'
+import theme from '../../themes'
 
 const UploadContainer = styled.div`
   display: inline-flex;
   cursor: pointer;
   background-color: #e8e8e8;
-  color: #d8d9d9;
+  color: ${theme.colors.gray_5};
   border-radius: 0.7rem;
   font-size: 0.8rem;
   text-align: center;
