@@ -21,7 +21,7 @@ const StyledInput = styled.input`
   border: 1px solid ${theme.colors.gray_4};
   outline: none;
   width: 6.6rem;
-  margin-right: 0.5rem;
+  margin-right: 0.4rem;
 
   &:disabled {
     border: 1px solid ${theme.colors.gray_3};
@@ -42,7 +42,7 @@ const StyledForm = styled.form`
     border-radius: 50%;
     outline: none;
     background: ${theme.colors.gray_1};
-    margin-left: 2rem;
+    margin-left: 1.3rem;
   }
   input[type='radio']:before {
     content: '';
@@ -96,7 +96,7 @@ const ContentsEditOption = ({ ...props }) => {
   }
 
   return (
-    <div>
+    <div {...props}>
       <div style={{ position: 'relative' }}>
         <Container>
           <StyledOption>

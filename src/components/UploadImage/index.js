@@ -1,12 +1,13 @@
 import styled from '@emotion/styled'
 import { useRef, useState } from 'react'
 import theme from '../../themes'
+import { darken } from 'polished'
 
 const UploadContainer = styled.div`
   display: inline-flex;
   cursor: pointer;
   background-color: ${theme.colors.gray_1};
-  color: ${theme.colors.gray_4};
+  color: ${darken(0.08, theme.colors.gray_3)};
   border-radius: 0.7rem;
   font-size: 0.8rem;
   text-align: center;

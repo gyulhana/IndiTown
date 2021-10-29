@@ -40,7 +40,7 @@ export default {
 
 export const Default = (args) => {
   return (
-    <div style={{ width: 375 }}>
+    <div>
       <ContentsEdit {...args} />
     </div>
   )

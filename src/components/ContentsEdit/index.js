@@ -2,6 +2,7 @@ import Profile from '../Profile'
 import UploadImage from '../UploadImage'
 import styled from '@emotion/styled'
 import theme from '../../themes'
+import ContentsEditOption from '../ContentsEditOption'
 
 const StyledTextarea = styled.textarea`
   width: 100%;
@@ -89,7 +90,7 @@ const ContentsEdit = ({
                 <g clip-path="url(#clip0_407:1064)">
                   <path
                     d="M40.1685 9.79167V37.2083H10.8993V9.79167H40.1685ZM40.1685 5.875H10.8993C8.59961 5.875 6.71802 7.6375 6.71802 9.79167V37.2083C6.71802 39.3625 8.59961 41.125 10.8993 41.125H40.1685C42.4682 41.125 44.3498 39.3625 44.3498 37.2083V9.79167C44.3498 7.6375 42.4682 5.875 40.1685 5.875ZM30.0079 23.2258L23.7359 30.8046L19.2619 25.7325L12.99 33.2917H38.0778L30.0079 23.2258Z"
-                    fill={theme.colors.gray_4}
+                    fill={theme.colors.gray_3}
                   />
                 </g>
                 <defs>
@@ -110,6 +111,7 @@ const ContentsEdit = ({
           </div>
         )}
       </UploadImage>
+      <ContentsEditOption style={{ marginTop: '2rem' }} />
     </div>
   )
 }
