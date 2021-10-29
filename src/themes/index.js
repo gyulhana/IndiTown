@@ -1,27 +1,3 @@
-const pixelToRem = (size) => `${size / 16}rem`
-
-// const fontSizes = {
-//   h1: pixelToRem(40),
-//   h2: pixelToRem(32),
-//   h3: pixelToRem(28),
-//   h4: pixelToRem(24),
-//   h5: pixelToRem(20),
-//   h6: pixelToRem(16),
-//   sm: pixelToRem(14),
-//   xs: pixelToRem(12),
-// }
-
-const fontSizes = {
-  h1: 'h1',
-  h2: 'h2',
-  h3: 'h3',
-  h4: 'h4',
-  h5: 'h5',
-  h6: 'h6',
-  sm: 'sm',
-  xs: 'xs',
-}
-
 const colors = {
   gray_1: '#F5F5F5',
   gray_2: '#E8E8E8',
@@ -36,8 +12,6 @@ const colors = {
 }
 
 const theme = {
-  pixelToRem,
-  fontSizes,
   colors,
 }
 
