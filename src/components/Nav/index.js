@@ -1,7 +1,6 @@
 import styled from '@emotion/styled'
 import React, { useState, useMemo } from 'react'
 import NavItem from '../NavItem'
-import theme from '../../themes'
 
 const childrenToArray = (children, types) => {
   return React.Children.toArray(children).filter((element) => {
@@ -21,10 +20,12 @@ const childrenToArray = (children, types) => {
 const NavItemContainer = styled.div`
   background-color: white;
   cursor: pointer;
-  width: 100vh;
+  width: 98vw;
+  display: grid;
+  filter: drop-shadow(0 8px 16px rgba(51, 51, 51, 0.12));
 `
 
-const Nav = ({ children, active, ...props }) => {
+const Nav = ({ children, active, height, ...props }) => {
   const [currentActive, setCurrentActive] = useState(() => {
     if (active) {
       return active
@@ -54,7 +55,7 @@ const Nav = ({ children, active, ...props }) => {
 
   return (
     <div>
-      <NavItemContainer>{items}</NavItemContainer>
+      <NavItemContainer style={{ ...props.style }}>{items}</NavItemContainer>
       <div>{activeItem.props.children}</div>
     </div>
   )

@@ -6,19 +6,30 @@ const NavItemWrapper = styled.div`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 140px;
   height: 60px;
-  color: ${(active) =>
-    active ? `${theme.colors.gray_7}` : `${theme.colors.gray_3}`};
-  border-bottom: 0.3rem solid
-    ${({ active }) => (active ? `${theme.colors.primary}` : 'white')};
   transition: all 0.5s ease-out;
+
+  &:nth-child(n) {
+    color: ${({ active }) =>
+      active ? `${theme.colors.gray_7}` : `${theme.colors.gray_5}`};
+    font-weight: ${({ active }) => (active ? `800` : `500`)};
+
+    &:first-child path {
+      stroke: ${({ active }) =>
+        active ? `${theme.colors.primary}` : `${theme.colors.gray_7}`};
+    }
+
+    &:not(:first-child) path {
+      fill: ${({ active }) =>
+        active ? `${theme.colors.primary}` : `${theme.colors.gray_7}`};
+    }
+  }
 `
 
-const NavItem = ({ title, index, active, ...props }) => {
+const NavItem = ({ bottom, icon, title, index, active, ...props }) => {
   return (
     <NavItemWrapper active={active} {...props}>
-      <div>{title}</div>
+      <div>{icon ? icon : title}</div>
     </NavItemWrapper>
   )
 }
