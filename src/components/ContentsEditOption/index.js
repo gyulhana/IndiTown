@@ -1,8 +1,7 @@
 import styled from '@emotion/styled'
 import theme from '../../themes'
 import Text from '../..//components/Text'
-import { useState } from 'react'
-import moment from 'moment'
+import { useContentEditContext } from '../../contexts/ContentEditProvider'
 
 const Container = styled.div`
   display: flex;
@@ -57,43 +56,14 @@ const StyledForm = styled.form`
   }
 `
 
-const ContentsEditOption = ({ ...props }) => {
-  const getTime = () => {
-    const date = moment().format('YYYY-MM-DD hh:mm')
-    return date
-  }
-
-  const [state, setState] = useState({
-    selectedDate: '30분',
-    recruitmentDate: getTime(),
-    selectedOption: '금액',
-    recruitmentOption: null,
-  })
-
-  const handleDateRadioChange = (e) => {
-    moment.defaultFormat = 'YYYY-MM-DD hh:mm'
-    if (e.target.id === '30분') {
-      const m = moment(getTime()).clone().add(30, 'minutes').format()
-      setState({ ...state, selectedDate: e.target.id, recruitmentDate: m })
-    } else if (e.target.id === '1시간') {
-      const m = moment(getTime()).clone().add(1, 'hours').format()
-      setState({ ...state, selectedDate: e.target.id, recruitmentDate: m })
-    } else if (e.target.id === '직접입력') {
-      setState({ ...state, selectedDate: e.target.id })
-    }
-  }
-
-  const handleDateInputChange = (e) => {
-    setState({ ...state, recruitmentDate: e.target.value })
-  }
-
-  const handleOptionRadioChange = (e) => {
-    setState({ ...state, selectedOption: e.target.id })
-  }
-
-  const handleOptionInputChange = (e) => {
-    setState({ ...state, recruitmentOption: e.target.value })
-  }
+const ContentsEditOption = ({ onSubmit, ...props }) => {
+  const {
+    content,
+    onDateRadioChange,
+    onDateInputChange,
+    onOptionRadioChange,
+    onOptionInputChange,
+  } = useContentEditContext()
 
   return (
     <div {...props}>
@@ -117,38 +87,41 @@ const ContentsEditOption = ({ ...props }) => {
             </Text>
           </StyledOption>
           <div>
-            <StyledForm>
+            <StyledForm onSubmit={onSubmit}>
               <input
                 name="radio"
                 id="30분"
                 type="radio"
-                onChange={handleDateRadioChange}
-                checked={state.selectedDate === '30분'}
+                onChange={onDateRadioChange}
+                checked={content.selectedDate === '30분'}
               />
               <label htmlFor="30분">30분</label>
               <input
                 name="radio"
                 id="1시간"
                 type="radio"
-                onChange={handleDateRadioChange}
+                onChange={onDateRadioChange}
               />
               <label htmlFor="1시간">1시간</label>
               <input
                 name="radio"
                 id="직접입력"
                 type="radio"
-                onChange={handleDateRadioChange}
+                onChange={onDateRadioChange}
               />
               <label htmlFor="직접입력">직접입력</label>
             </StyledForm>
           </div>
         </Container>
-        <form style={{ marginTop: '1rem', position: 'absolute', right: 0 }}>
+        <form
+          style={{ marginTop: '1rem', position: 'absolute', right: 0 }}
+          onSubmit={onSubmit}
+        >
           <StyledInput
             type="text"
-            disabled={state.selectedDate !== '직접입력'}
-            defaultValue={state.recruitmentDate}
-            onChange={handleDateInputChange}
+            disabled={content.selectedDate !== '직접입력'}
+            defaultValue={content.recruitmentDate}
+            onChange={onDateInputChange}
             onSubmit={(e) => e.preventDefault}
           />
           <Text color={theme.colors.gray_5}>까지</Text>
@@ -175,45 +148,47 @@ const ContentsEditOption = ({ ...props }) => {
             </Text>
           </StyledOption>
           <div>
-            <StyledForm>
+            <StyledForm onSubmit={onSubmit}>
               <input
                 name="radio"
                 id="금액"
                 type="radio"
-                onChange={handleOptionRadioChange}
-                checked={state.selectedOption === '금액'}
+                onChange={onOptionRadioChange}
+                checked={content.selectedOption === '금액'}
               />
               <label htmlFor="금액">금액</label>
               <input
                 name="radio"
                 id="수량"
                 type="radio"
-                onChange={handleOptionRadioChange}
+                onChange={onOptionRadioChange}
               />
               <label htmlFor="수량">수량</label>
               <input
                 name="radio"
                 id="인원"
                 type="radio"
-                onChange={handleOptionRadioChange}
+                onChange={onOptionRadioChange}
               />
               <label htmlFor="인원">인원</label>
             </StyledForm>
           </div>
         </Container>
-        <form style={{ marginTop: '1rem', position: 'absolute', right: 0 }}>
+        <form
+          style={{ marginTop: '1rem', position: 'absolute', right: 0 }}
+          onSubmit={onSubmit}
+        >
           <StyledInput
             type="text"
-            onChange={handleOptionInputChange}
-            onSubmit={(e) => e.preventDefault}
+            onChange={onOptionInputChange}
             style={{ textAlign: 'right' }}
           />
           <Text color={theme.colors.gray_5}>
-            {state.selectedOption === '금액'
+            {content.selectedOption === '금액'
               ? '원'
-              : state.selectedOption === '수량'
+              : content.selectedOption === '수량'
               ? '개'
-              : state.selectedOption === '인원'
+              : content.selectedOption === '인원'
               ? '명'
               : ''}
           </Text>
