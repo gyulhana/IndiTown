@@ -11,9 +11,20 @@ export default {
     primary: {
       control: { type: 'boolean' },
     },
+    size: {
+      defaultValue: 'medium',
+      options: ['small', 'medium', 'large'],
+      control: { type: 'inline-radio' },
+    },
   },
 }
 
 export const Default = (args) => {
-  return <Button {...args} />
+  return (
+    <div>
+      <Button {...args} size="small" />
+      <Button {...args} size="medium" />
+      <Button {...args} size="large" />
+    </div>
+  )
 }

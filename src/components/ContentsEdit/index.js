@@ -3,6 +3,7 @@ import UploadImage from '../UploadImage'
 import styled from '@emotion/styled'
 import theme from '../../themes'
 import ContentsEditOption from '../ContentsEditOption'
+import Button from '../Button'
 
 const StyledTextarea = styled.textarea`
   width: 100%;
@@ -112,6 +113,9 @@ const ContentsEdit = ({
         )}
       </UploadImage>
       <ContentsEditOption style={{ marginTop: '2rem' }} />
+      <Button style={{ width: '100%', marginTop: '6rem' }} size="large">
+        작성하기
+      </Button>
     </div>
   )
 }

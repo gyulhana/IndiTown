@@ -12,14 +12,14 @@ const pixelToRem = (size) => `${size / 16}rem`
 // }
 
 const fontSizes = {
-  h1: 'h1',
-  h2: 'h2',
-  h3: 'h3',
-  h4: 'h4',
-  h5: 'h5',
-  h6: 'h6',
-  sm: 'sm',
-  xs: 'xs',
+  h1: '2.5rem',
+  h2: '2rem',
+  h3: '1.75rem',
+  h4: '1.5rem',
+  h5: '1.25rem',
+  h6: '1rem',
+  sm: '0.875rem',
+  xs: '0.75rem',
 }
 
 const colors = {
