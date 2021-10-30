@@ -30,6 +30,8 @@ const Buttons = styled.button`
   transition: all 0.2s ease-in;
   background-color: ${({ primary }) => (primary ? '#F6B545' : '#333333')};
   color: ${({ primary }) => (primary ? '#333333' : '#FAFAFA')};
+  font-family: 'Noto Sans KR', sans-serif;
+  line-height: 1.4;
   filter: ${({ primary }) =>
     primary
       ? 'drop-shadow(0 8px 16px rgba(229, 125, 8, 0.12))'
