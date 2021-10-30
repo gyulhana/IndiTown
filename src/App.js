@@ -26,7 +26,7 @@ function App() {
           </LocationProvider>
         </Route>
         <Route path="/signin" component={SigninPage}></Route>
-        <Route path="/contents/edit">
+        <Route path="/content/food/edit">
           <ContentsEditPage />
         </Route>
       </Switch>

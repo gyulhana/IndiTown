@@ -12,6 +12,7 @@ const ContentEditProvider = ({ children, handleSubmitContent }) => {
 
   const [content, setContent] = useState({
     title: '',
+    type: 'food', // food or package
     selectedDate: '30분',
     recruitmentDate: getTime(),
     selectedOption: '금액',
