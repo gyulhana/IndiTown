@@ -17,11 +17,13 @@ const NavItemWrapper = styled.div`
     &:first-child path {
       stroke: ${({ active }) =>
         active ? `${theme.colors.primary}` : `${theme.colors.gray_7}`};
+      transition: all 0.5s ease-out;
     }
 
     &:not(:first-child) path {
       fill: ${({ active }) =>
         active ? `${theme.colors.primary}` : `${theme.colors.gray_7}`};
+      transition: all 0.5s ease-out;
     }
   }
 `
