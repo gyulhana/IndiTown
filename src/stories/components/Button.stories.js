@@ -22,6 +22,14 @@ export default {
 export const Default = (args) => {
   return (
     <div>
+      <Button {...args} />
+    </div>
+  )
+}
+
+export const Sizes = (args) => {
+  return (
+    <div>
       <Button {...args} size="small" />
       <Button {...args} size="medium" />
       <Button {...args} size="large" />
