@@ -1,6 +1,12 @@
 import { Route, Switch } from 'react-router'
 import LocationProvider from './contexts/LocationProvider'
-import { CheckLocationPage, MainPage, SigninPage, SignupPage } from './pages'
+import {
+  CheckLocationPage,
+  MainPage,
+  SigninPage,
+  SignupPage,
+  ContentsEditPage,
+} from './pages'
 
 function App() {
   return (
@@ -20,6 +26,9 @@ function App() {
           </LocationProvider>
         </Route>
         <Route path="/signin" component={SigninPage}></Route>
+        <Route path="/contents/edit">
+          <ContentsEditPage />
+        </Route>
       </Switch>
     </div>
   )

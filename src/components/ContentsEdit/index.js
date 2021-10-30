@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import Profile from '../Profile'
 import UploadImage from '../UploadImage'
 import styled from '@emotion/styled'
@@ -34,29 +35,21 @@ const StyledTextarea = styled.textarea`
 `
 
 const ContentsEdit = ({
-  lazy,
   threshold,
   placeholder,
-  size = 'medium',
   alt,
   userImg = 'https://picsum.photos/400',
   userNickName,
   userEmail,
   userTown,
-  title,
-  contents,
-  progressTargetNum,
-  progressResultNum,
-  progressTime,
-  progressAmount,
   ...props
 }) => {
   return (
-    <div>
+    <div {...props}>
       <Profile
-        lazy={lazy}
-        threshold={threshold}
-        size={size}
+        lazy
+        threshold={0.5}
+        size="medium"
         src={userImg}
         placeholder={placeholder}
         alt={alt}
@@ -118,6 +111,15 @@ const ContentsEdit = ({
       </Button>
     </div>
   )
+}
+
+Profile.propTypes = {
+  placeholder: PropTypes.string,
+  alt: PropTypes.string,
+  userImg: PropTypes.string.isRequired,
+  userNickName: PropTypes.string,
+  userEmail: PropTypes.string,
+  userTown: PropTypes.string,
 }
 
 export default ContentsEdit

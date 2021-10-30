@@ -68,6 +68,7 @@ const Profile = ({
     </StyledProfile>
   )
 }
+
 Profile.propTypes = {
   lazy: PropTypes.bool,
   threshold: PropTypes.number,
@@ -79,4 +80,5 @@ Profile.propTypes = {
   email: PropTypes.string,
   town: PropTypes.string,
 }
+
 export default Profile
