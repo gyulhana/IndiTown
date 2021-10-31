@@ -82,7 +82,7 @@ const SignupPage = () => {
         .min(6, invalidErrorMessage.id)
         .max(12, invalidErrorMessage.id)
         .matches(/^[a-zA-Z0-9]+$/, invalidErrorMessage.id)
-        .required('')
+        .required(invalidErrorMessage.id)
         .test(
           'is-error',
           invalidErrorMessage.duplicateUserEmail,
@@ -99,8 +99,10 @@ const SignupPage = () => {
         .min(8, invalidErrorMessage.password)
         .max(15, invalidErrorMessage.password)
         .matches(/^[a-zA-Z0-9]+$/, invalidErrorMessage.password)
-        .required(''),
-      userEmail: Yup.string().email(invalidErrorMessage.email).required(''),
+        .required(invalidErrorMessage.password),
+      userEmail: Yup.string()
+        .email(invalidErrorMessage.email)
+        .required(invalidErrorMessage.email),
     }),
     onSubmit: async (values) => {
       if (!duplicationCheck) {
@@ -128,12 +130,6 @@ const SignupPage = () => {
             'Content-Type': 'application/json;charset=UTP-8',
           },
           data: JSON.stringify(data),
-        })
-
-        formik.setValues({
-          userId: '',
-          userPassword: '',
-          userEmail: '',
         })
 
         setIsSignup(true)
@@ -307,11 +303,7 @@ const SignupPage = () => {
           <Invalid />
         )}
 
-        <Button
-          style={SignupButtonStyle}
-          type="submit"
-          onClick={() => setIsSignup(true)}
-        >
+        <Button style={SignupButtonStyle} type="submit">
           회원가입
         </Button>
       </form>
