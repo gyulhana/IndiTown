@@ -2,6 +2,7 @@ import { Fragment } from 'react'
 import { Route, Switch } from 'react-router'
 import { Link } from 'react-router-dom'
 import LocationProvider from './contexts/LocationProvider'
+import DefaultTemplate from './components/template/DefaultTemplate'
 import {
   CheckLocationPage,
   MainPage,
@@ -9,13 +10,14 @@ import {
   SignupPage,
   ContentEditPage,
   ContentsPage,
+  ContentPage,
 } from './pages'
 
 function App() {
   return (
     <div>
-      <Switch>
-        <Fragment>
+      <DefaultTemplate>
+        <Switch>
           <Route path="/" exact>
             <MainPage />
           </Route>
@@ -30,28 +32,18 @@ function App() {
             </LocationProvider>
           </Route>
           <Route path="/signin" component={SigninPage}></Route>
-          <main>
-            <nav>
-              <ul>
-                <li>
-                  <Link to="/content/food">배달</Link>
-                </li>
-                <li>
-                  <Link to="/content/package">택배</Link>
-                </li>
-              </ul>
-            </nav>
-
-            <Route exact path="/content/food">
-              <ContentsPage subMenu="food" />
-            </Route>
-            <Route exact path="/content/package">
-              <ContentsPage subMenu="package" />
-            </Route>
-            <Route path="/content/:subMenu/edit" component={ContentEditPage} />
-          </main>
-        </Fragment>
-      </Switch>
+          <Route exact path="/content/food">
+            <ContentsPage subMenu="food" />
+          </Route>
+          <Route exact path="/content/package">
+            <ContentsPage subMenu="package" />
+          </Route>
+          <Route path="/content/:subMenu/edit" component={ContentEditPage} />
+          <Route exact path="/content/:contentId">
+            <ContentPage />
+          </Route>
+        </Switch>
+      </DefaultTemplate>
     </div>
   )
 }

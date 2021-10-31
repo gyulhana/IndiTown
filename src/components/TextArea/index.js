@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 import theme from '../../themes'
 import { darken } from 'polished'
 
-const TextAreaWrapper = styled.div`
+const StyledForm = styled.form`
   display: flex;
   align-items: center;
   background-color: ${theme.colors.gray_2};
@@ -44,11 +44,12 @@ const TextArea = ({ placeholder = 'Text...', width = '100%', ...props }) => {
   }
 
   return (
-    <TextAreaWrapper {...props} style={{ width }}>
+    <StyledForm {...props} style={{ width }} id="commentForm">
       <StyledTextArea
         placeholder={placeholder}
         onKeyUp={(event) => resize(event.target)}
         spellcheck="false"
+        form="commentForm"
       ></StyledTextArea>
       <StyledButton>
         <svg
@@ -65,7 +66,7 @@ const TextArea = ({ placeholder = 'Text...', width = '100%', ...props }) => {
           />
         </svg>
       </StyledButton>
-    </TextAreaWrapper>
+    </StyledForm>
   )
 }
 

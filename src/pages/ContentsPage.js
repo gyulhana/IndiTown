@@ -91,7 +91,7 @@ const ContentsPage = ({ subMenu }) => {
                 width="100"
                 height="100"
                 filterUnits="userSpaceOnUse"
-                color-interpolation-filters="sRGB"
+                colorInterpolationFilters="sRGB"
               >
                 <feFlood floodOpacity="0" result="BackgroundImageFix" />
                 <feColorMatrix

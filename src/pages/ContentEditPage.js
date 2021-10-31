@@ -7,7 +7,7 @@ import theme from '../themes'
 import ContentEditProvider from '../contexts/ContentEditProvider'
 
 const Container = styled.div`
-  margin: 1rem;
+  margin: 5rem 1rem 0 1rem;
   background-color: white;
   border-radius: 0.8rem;
 `
@@ -34,21 +34,21 @@ const ContentEditPage = ({ subMenu, match }) => {
     },
     [TOKEN]
   )
-  console.log(match.params.subMenu)
+
   return (
-    <ContentEditProvider
-      handleSubmitContent={handleSubmitContent}
-      subMenu={match.params.subMenu}
-    >
-      <Container>
+    <Container>
+      <ContentEditProvider
+        handleSubmitContent={handleSubmitContent}
+        subMenu={match.params.subMenu}
+      >
         <Header>
           <Text strong block size="h5">
             게시물 만들기
           </Text>
         </Header>
         <ContentsEdit style={{ padding: '1rem' }} />
-      </Container>
-    </ContentEditProvider>
+      </ContentEditProvider>
+    </Container>
   )
 }
 

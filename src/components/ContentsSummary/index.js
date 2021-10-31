@@ -12,8 +12,12 @@ const StyledContentsSummary = styled.div`
   border-radius: 0.8rem;
   line-height: 1.4;
   max-width: 25rem;
-  margin-bottom: 1rem;
 `
+const selectedOptions = {
+  금액: '원',
+  수량: '개',
+  인원: '명',
+}
 const ContentsSummary = ({
   lazy,
   threshold,
@@ -29,6 +33,7 @@ const ContentsSummary = ({
   progressResultNum,
   progressTime,
   progressAmount,
+  selectedOption,
   ...props
 }) => {
   useEffect(() => {
@@ -70,7 +75,7 @@ const ContentsSummary = ({
         size={size}
         targetNum={progressTargetNum}
         resultNum={progressResultNum}
-        children={progressAmount}
+        children={`${progressAmount}${selectedOptions[selectedOption]} 남음`}
       />
     </StyledContentsSummary>
   )
