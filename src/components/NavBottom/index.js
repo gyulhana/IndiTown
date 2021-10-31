@@ -2,7 +2,14 @@ import Nav from '../Nav'
 
 export const NavBottom = () => {
   return (
-    <Nav style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
+    <Nav
+      style={{
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        position: 'fixed',
+        bottom: 0,
+        zIndex: 20,
+      }}
+    >
       <Nav.Item
         icon={
           <svg
@@ -19,7 +26,7 @@ export const NavBottom = () => {
             />
           </svg>
         }
-        index="home"
+        index="food"
       >
         홈
       </Nav.Item>

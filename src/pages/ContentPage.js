@@ -1,11 +1,12 @@
 import styled from '@emotion/styled'
 import axios from 'axios'
-import { Fragment, useCallback, useEffect, useState } from 'react'
+import { Fragment, useCallback } from 'react'
 import { useParams } from 'react-router'
 import { useAsync } from '../hooks'
 import ContentsDescription from '../components/ContentsDescription'
 import CommentInput from '../components/CommentInput'
 import CommentList from '../components/CommentList'
+import Spinner from '../components/Spinner'
 import moment from 'moment'
 import theme from '../themes'
 
@@ -92,7 +93,19 @@ const ContentPage = () => {
       </Container>
     )
   } else {
-    return <div>...loading</div>
+    return (
+      <div
+        style={{
+          width: '100%',
+          height: '80vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Spinner />
+      </div>
+    )
   }
 }
 

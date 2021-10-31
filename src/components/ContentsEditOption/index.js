@@ -41,7 +41,7 @@ const StyledForm = styled.form`
     border-radius: 50%;
     outline: none;
     background: ${theme.colors.gray_1};
-    margin-left: 1.3rem;
+    margin-left: 1rem;
   }
   input[type='radio']:before {
     content: '';

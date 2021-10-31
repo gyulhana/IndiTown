@@ -7,7 +7,10 @@ html {
 a {
   color: #333333;
   text-decoration: none;
+  width: 100%;
+  padding: 1rem 0;
+  text-align: center;
 }
 main {
-  margin-top: 4rem;
+  margin: 4rem 0 2rem 0;
 }

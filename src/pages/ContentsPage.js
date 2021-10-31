@@ -1,10 +1,11 @@
 import axios from 'axios'
 import { useCallback } from 'react'
 import { useAsync } from '../hooks'
+import { Link } from 'react-router-dom'
 import ContentsProvider from '../contexts/ContentsProvider'
 import ContentsSummaryList from '../components/ContentsSummaryList'
+import Spinner from '../components/Spinner'
 import styled from '@emotion/styled'
-import { Link } from 'react-router-dom'
 
 const ButtonWrapper = styled.div`
   position: fixed;
@@ -52,6 +53,7 @@ const ContentsPage = ({ subMenu }) => {
     [TOKEN]
   )
   console.log(initialContents.value)
+
   return (
     <ContentsProvider
       initialContents={initialContents.value?.filter(
@@ -62,7 +64,17 @@ const ContentsPage = ({ subMenu }) => {
     >
       <div>
         {initialContents.isLoading ? (
-          <div>Loading...</div>
+          <div
+            style={{
+              width: '100%',
+              height: '80vh',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Spinner />
+          </div>
         ) : (
           <ContentsSummaryList />
         )}
