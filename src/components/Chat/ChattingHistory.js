@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 import SendMessage from './SendMessage'
 import ReceiveMessage from './ReceiveMessage'
 
-const ChattingList = ({ message, id }) => {
+const ChattingHistory = ({ message, id }) => {
   return (
     <Fragment>
       {message.map((msg) =>
@@ -18,4 +18,4 @@ const ChattingList = ({ message, id }) => {
   )
 }
 
-export default ChattingList
+export default ChattingHistory
