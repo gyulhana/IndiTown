@@ -48,5 +48,9 @@ export default {
 }
 
 export const Default = (arg) => {
-  return <ContentsDescription {...arg} />
+  return (
+    <div style={{ width: 375 }}>
+      <ContentsDescription {...arg} />
+    </div>
+  )
 }

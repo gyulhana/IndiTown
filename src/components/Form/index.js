@@ -4,7 +4,7 @@ import { Fragment } from 'react'
 const Input = styled.input`
   display: block;
   width: 100%;
-  padding: 0.5rem 1rem;
+  padding: 0.7rem 1rem;
   font-size: 1rem;
   border-radius: 0.8rem;
   box-sizing: border-box;

@@ -228,7 +228,7 @@ const SignupForm = () => {
       ) : (
         <Invalid />
       )}
-      <Button style={{ width: '100%' }} type="submit">
+      <Button style={{ width: '100%' }} size="large" type="submit">
         회원가입
       </Button>
     </FormContainer>

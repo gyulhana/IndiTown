@@ -4,3 +4,13 @@ html {
   font-family: 'Noto Sans KR', sans-serif;
   line-height: 1.4;
 }
+a {
+  color: #333333;
+  text-decoration: none;
+  width: 100%;
+  padding: 1rem 0;
+  text-align: center;
+}
+main {
+  margin: 4rem 0 2rem 0;
+}

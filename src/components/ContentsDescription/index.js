@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import Profile from '../Profile'
 import Text from '../Text'
 import Image from '../Image'
@@ -21,7 +22,6 @@ const ImgWrapper = styled.div`
 `
 
 const ContentsDescription = ({
-  lazy,
   threshold,
   placeholder,
   alt,
@@ -44,11 +44,11 @@ const ContentsDescription = ({
         style={{ marginBottom: '1rem', justifyContent: 'space-between' }}
       >
         <Profile
-          lazy={lazy}
-          threshold={threshold}
+          lazy
+          threshold={0.5}
           size="medium"
           src={userImg}
-          placeholder={placeholder}
+          placeholder="https://via.placeholder.com/200"
           alt={alt}
           nickName={userNickName}
           email={userEmail}
@@ -85,7 +85,7 @@ const ContentsDescription = ({
           marginBottom: '0.5rem',
         }}
       >
-        <Progress width="9rem" size="large" children={progressTime} />
+        <Progress width="11rem" size="large" children={progressTime} />
         <Text size={14} block strong style={{ marginLeft: '0.6rem' }}>
           남음
         </Text>
@@ -108,6 +108,21 @@ const ContentsDescription = ({
       </Text>
     </div>
   )
+}
+
+Progress.propTypes = {
+  alt: PropTypes.string,
+  userImg: PropTypes.string,
+  userNickName: PropTypes.string,
+  userEmail: PropTypes.string,
+  userTown: PropTypes.string,
+  title: PropTypes.string,
+  progressTargetNum: PropTypes.number,
+  progressResultNum: PropTypes.number,
+  progressTime: PropTypes.string,
+  progressAmount: PropTypes.string,
+  imgSrc: PropTypes.string,
+  createdAt: PropTypes.string,
 }
 
 export default ContentsDescription

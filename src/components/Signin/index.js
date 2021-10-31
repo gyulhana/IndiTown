@@ -96,11 +96,12 @@ const Signin = () => {
             backgroundColor: 'initial',
             margin: '1rem 0',
           }}
+          size="large"
           type="button"
         >
           회원가입
         </Button>
-        <Button style={{ fontSize: '1.25rem', width: '100%' }} type="submit">
+        <Button style={{ width: '100%' }} size="large" type="submit">
           로그인
         </Button>
       </ButtonContainer>
