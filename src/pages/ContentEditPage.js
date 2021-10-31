@@ -7,7 +7,7 @@ import theme from '../themes'
 import ContentEditProvider from '../contexts/ContentEditProvider'
 
 const Container = styled.div`
-  margin: 5rem 1rem 0 1rem;
+  margin: 5rem 1rem 4rem 1rem;
   background-color: white;
   border-radius: 0.8rem;
 `

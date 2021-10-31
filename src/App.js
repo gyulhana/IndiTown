@@ -1,6 +1,4 @@
-import { Fragment } from 'react'
 import { Route, Switch } from 'react-router'
-import { Link } from 'react-router-dom'
 import LocationProvider from './contexts/LocationProvider'
 import DefaultTemplate from './components/template/DefaultTemplate'
 import {
