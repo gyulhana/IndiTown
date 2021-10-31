@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation } from '../../contexts/LocationProvider'
 import Button from '../Button'
+import Text from '../Text'
 
 const MapContainer = styled.div`
   padding: 1.25rem 2rem;
@@ -125,6 +126,7 @@ const CheckLocation = ({ loaded = false, ...props }) => {
       <Button
         primary={false}
         style={{ width: '100%' }}
+        siz="large"
         onClick={getCurrentPosition}
       >
         <svg
@@ -142,12 +144,7 @@ const CheckLocation = ({ loaded = false, ...props }) => {
         <FindButtonText>나의 타운 찾기</FindButtonText>
       </Button>
       <NextStep className={isCheck ? 'checked' : ''}>
-        <Button
-          primary={true}
-          style={{ marginTop: 1, width: '100%', padding: '0.313rem 0.625rem' }}
-        >
-          넘어가기
-        </Button>
+        <Text>넘어가기</Text>
       </NextStep>
     </MapContainer>
   )

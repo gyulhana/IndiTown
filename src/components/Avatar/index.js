@@ -69,7 +69,7 @@ Avatar.propTypes = {
   lazy: PropTypes.bool,
   threshold: PropTypes.number,
   placeholder: PropTypes.string,
-  src: PropTypes.string.isRequired,
+  src: PropTypes.string,
   size: PropTypes.number,
   shape: PropTypes.string,
   alt: PropTypes.string,

@@ -14,9 +14,10 @@ const CommentInput = ({
   imgPlaceholder,
   imgAlt,
   textPlaceholder,
+  ...props
 }) => {
   return (
-    <StyledCommentInput>
+    <StyledCommentInput {...props}>
       <Avatar
         lazy={lazy}
         threshold={threshold}
@@ -26,7 +27,7 @@ const CommentInput = ({
         alt={imgAlt}
         style={{ marginRight: '1rem', flexShrink: 0 }}
       />
-      <TextArea placeholder={textPlaceholder} />
+      <TextArea placeholder={textPlaceholder} name="comment" />
     </StyledCommentInput>
   )
 }

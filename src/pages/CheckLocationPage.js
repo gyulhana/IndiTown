@@ -4,6 +4,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Button from '../components/Button'
 import { useLocation } from '../contexts/LocationProvider'
+import Text from '../components/Text'
+import theme from '../themes'
 
 const CheckLocationContainer = styled.div`
   padding: 1.25rem 2rem;
@@ -144,16 +146,15 @@ const CheckLocation = ({ loaded = false, ...props }) => {
       </Button>
       <NextStep className={isCheck ? 'checked' : ''}>
         <Link to={'/signup'}>
-          <Button
-            primary={true}
-            style={{
-              marginTop: 1,
-              width: '100%',
-              padding: '0.313rem 0.625rem',
-            }}
+          <Text
+            strong
+            block
+            size="h6"
+            color={theme.colors.gray_5}
+            style={{ marginTop: '1rem' }}
           >
             넘어가기
-          </Button>
+          </Text>
         </Link>
       </NextStep>
     </CheckLocationContainer>

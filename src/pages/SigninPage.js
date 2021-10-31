@@ -7,6 +7,7 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router'
 import useSessionStorage from '../hooks/useSessionStorage'
+import theme from '../themes'
 
 const FormContainer = styled.form`
   padding: 2rem;
@@ -172,6 +173,7 @@ const SigninPage = () => {
         <Link to="/location">
           <Button
             style={{
+              color: theme.colors.gray_5,
               backgroundColor: 'initial',
               margin: '1rem 0',
               padding: 0,
