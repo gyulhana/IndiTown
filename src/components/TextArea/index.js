@@ -37,7 +37,15 @@ const StyledButton = styled.button`
   }
 `
 
-const TextArea = ({ placeholder = 'Text...', width = '100%', ...props }) => {
+const TextArea = ({
+  placeholder = 'Text...',
+  width = '100%',
+  onChange,
+  value,
+  id,
+  name,
+  ...props
+}) => {
   function resize(element) {
     element.style.height = '1px'
     element.style.height = element.scrollHeight + 'px'
@@ -49,6 +57,10 @@ const TextArea = ({ placeholder = 'Text...', width = '100%', ...props }) => {
         placeholder={placeholder}
         onKeyUp={(event) => resize(event.target)}
         spellcheck="false"
+        onChange={onChange}
+        value={value}
+        id={id}
+        name={name}
         form="commentForm"
       ></StyledTextArea>
       <StyledButton>

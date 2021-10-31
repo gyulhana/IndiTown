@@ -9,6 +9,8 @@ import {
   ContentEditPage,
   ContentsPage,
   ContentPage,
+  ChattingListPage,
+  ChattingRoomPage,
 } from './pages'
 
 function App() {
@@ -29,7 +31,6 @@ function App() {
           </LocationProvider>
         </Route>
         <Route path="/signin" component={SigninPage}></Route>
-
         <DefaultTemplate>
           <Switch>
             <Route exact path="/content/food">
@@ -41,6 +42,12 @@ function App() {
             <Route path="/content/:subMenu/edit" component={ContentEditPage} />
             <Route exact path="/content/:contentId">
               <ContentPage />
+            </Route>
+            <Route path="/chat">
+              <ChattingListPage />
+            </Route>
+            <Route path="/chatting/:user">
+              <ChattingRoomPage />
             </Route>
           </Switch>
         </DefaultTemplate>
