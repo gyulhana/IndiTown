@@ -20,7 +20,7 @@ const childrenToArray = (children, types) => {
 const NavItemContainer = styled.div`
   background-color: white;
   cursor: pointer;
-  width: 98vw;
+  width: 100%;
   display: grid;
   filter: drop-shadow(0 8px 16px rgba(51, 51, 51, 0.12));
 `

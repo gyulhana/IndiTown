@@ -125,6 +125,7 @@ const CheckLocation = ({ loaded = false, ...props }) => {
       <Button
         primary={false}
         style={{ width: '100%' }}
+        siz="large"
         onClick={getCurrentPosition}
       >
         <svg

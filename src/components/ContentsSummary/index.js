@@ -4,6 +4,7 @@ import Profile from '../Profile'
 import Progress from '../Progress'
 import Text from '../Text'
 import theme from '../../themes'
+import { useEffect } from 'react'
 
 const StyledContentsSummary = styled.div`
   background-color: #fff;
@@ -12,6 +13,11 @@ const StyledContentsSummary = styled.div`
   line-height: 1.4;
   max-width: 25rem;
 `
+const selectedOptions = {
+  금액: '원',
+  수량: '개',
+  인원: '명',
+}
 const ContentsSummary = ({
   lazy,
   threshold,
@@ -27,15 +33,20 @@ const ContentsSummary = ({
   progressResultNum,
   progressTime,
   progressAmount,
+  selectedOption,
   ...props
 }) => {
+  useEffect(() => {
+    return () => {} // cleanup function을 이용
+  }, [])
+
   return (
     <StyledContentsSummary {...props}>
       <Profile
-        lazy={lazy}
-        threshold={threshold}
+        lazy
+        threshold={0.5}
         size={size}
-        src={userImg}
+        src={userImg || 'https://picsum.photos/400'}
         placeholder={placeholder}
         alt={alt}
         nickName={userNickName}
@@ -64,7 +75,7 @@ const ContentsSummary = ({
         size={size}
         targetNum={progressTargetNum}
         resultNum={progressResultNum}
-        children={progressAmount}
+        children={`${progressAmount}${selectedOptions[selectedOption]} 남음`}
       />
     </StyledContentsSummary>
   )
@@ -76,7 +87,7 @@ Progress.propTypes = {
   placeholder: PropTypes.string,
   size: PropTypes.string, // medium, large
   alt: PropTypes.string,
-  userImg: PropTypes.string.isRequired,
+  userImg: PropTypes.string,
   userNickName: PropTypes.string,
   userEmail: PropTypes.string,
   userTown: PropTypes.string,

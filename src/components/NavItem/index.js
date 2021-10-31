@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
 import theme from '../../themes'
+import { Link } from 'react-router-dom'
 
 const NavItemWrapper = styled.div`
   display: inline-flex;
@@ -31,7 +32,12 @@ const NavItemWrapper = styled.div`
 const NavItem = ({ bottom, icon, title, index, active, ...props }) => {
   return (
     <NavItemWrapper active={active} {...props}>
-      <div>{icon ? icon : title}</div>
+      <Link
+        to={`/content/${index}`}
+        style={{ width: '100%', padding: '1.4rem 4rem' }}
+      >
+        <div style={{ textAlign: 'center' }}>{icon ? icon : title}</div>
+      </Link>
     </NavItemWrapper>
   )
 }
