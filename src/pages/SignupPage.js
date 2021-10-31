@@ -56,35 +56,6 @@ const SignupButtonStyle = {
   marginTop: '3.5rem',
 }
 
-const ModalContainer = styled.div`
-  display: none;
-  opacity: 0;
-
-  &.active {
-    display: block;
-    opacity: 1;
-    animation: fade-in 0.8s;
-  }
-
-  @keyframes fade-in {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-`
-
-const CompleteSignupModalStyle = {
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  width: '100vw',
-  height: '100vh',
-  backgroundColor: rgba(51, 51, 51, 0.6),
-}
-
 const invalidErrorMessage = {
   id: '6~12자 사이의 알파벳, 숫자만 가능합니다.',
   duplicateUserEmail: '이미 존재하는 이메일 입니다.',
@@ -111,7 +82,7 @@ const SignupPage = () => {
         .min(6, invalidErrorMessage.id)
         .max(12, invalidErrorMessage.id)
         .matches(/^[a-zA-Z0-9]+$/, invalidErrorMessage.id)
-        .required('')
+        .required(invalidErrorMessage.id)
         .test(
           'is-error',
           invalidErrorMessage.duplicateUserEmail,
@@ -128,8 +99,10 @@ const SignupPage = () => {
         .min(8, invalidErrorMessage.password)
         .max(15, invalidErrorMessage.password)
         .matches(/^[a-zA-Z0-9]+$/, invalidErrorMessage.password)
-        .required(''),
-      userEmail: Yup.string().email(invalidErrorMessage.email).required(''),
+        .required(invalidErrorMessage.password),
+      userEmail: Yup.string()
+        .email(invalidErrorMessage.email)
+        .required(invalidErrorMessage.email),
     }),
     onSubmit: async (values) => {
       if (!duplicationCheck) {
@@ -157,12 +130,6 @@ const SignupPage = () => {
             'Content-Type': 'application/json;charset=UTP-8',
           },
           data: JSON.stringify(data),
-        })
-
-        formik.setValues({
-          userId: '',
-          userPassword: '',
-          userEmail: '',
         })
 
         setIsSignup(true)
@@ -340,16 +307,14 @@ const SignupPage = () => {
           회원가입
         </Button>
       </form>
-      <ModalContainer className={isSignup ? 'active' : ''}>
-        <Modal style={CompleteSignupModalStyle}>
-          <span>회원가입이 완료 되었습니다.</span>
-          <Link to="/signin" style={{ justifySelf: 'center' }}>
-            <Button style={{ marginTop: '1rem' }} primary={false}>
-              로그인 하기
-            </Button>
-          </Link>
-        </Modal>
-      </ModalContainer>
+      <Modal show={isSignup}>
+        <span>회원가입이 완료 되었습니다.</span>
+        <Link to="/signin" style={{ justifySelf: 'center' }}>
+          <Button style={{ marginTop: '1rem' }} primary={false}>
+            로그인 하기
+          </Button>
+        </Link>
+      </Modal>
     </SignupContainer>
   )
 }
