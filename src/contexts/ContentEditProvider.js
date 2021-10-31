@@ -4,17 +4,18 @@ import moment from 'moment'
 const ContentEditContext = createContext()
 export const useContentEditContext = () => useContext(ContentEditContext)
 
-const ContentEditProvider = ({ children, handleSubmitContent }) => {
+const ContentEditProvider = ({ children, handleSubmitContent, subMenu }) => {
+  moment.defaultFormat = 'YYYY-MM-DD HH:mm'
   const getTime = () => {
-    const date = moment().format('YYYY-MM-DD hh:mm')
+    const date = moment()
     return date
   }
 
   const [content, setContent] = useState({
     title: '',
-    type: 'food', // food or package
+    type: subMenu, // food or package
     selectedDate: '30분',
-    recruitmentDate: getTime(),
+    recruitmentDate: moment(getTime()).clone().add(30, 'minutes').format(),
     selectedOption: '금액',
     recruitmentOption: null,
   })
@@ -33,13 +34,15 @@ const ContentEditProvider = ({ children, handleSubmitContent }) => {
   console.log(content, data)
 
   const onDateRadioChange = (e) => {
-    moment.defaultFormat = 'YYYY-MM-DD hh:mm'
+    const m = moment(getTime())
+    console.log(m)
     if (e.target.id === '30분') {
-      const m = moment(getTime()).clone().add(30, 'minutes').format()
-      setContent({ ...content, selectedDate: e.target.id, recruitmentDate: m })
+      const recruitmentDate = m.clone().add(30, 'minutes').format()
+      console.log(m)
+      setContent({ ...content, selectedDate: e.target.id, recruitmentDate })
     } else if (e.target.id === '1시간') {
-      const m = moment(getTime()).clone().add(1, 'hours').format()
-      setContent({ ...content, selectedDate: e.target.id, recruitmentDate: m })
+      const recruitmentDate = m.clone().add(1, 'hours').format()
+      setContent({ ...content, selectedDate: e.target.id, recruitmentDate })
     } else if (e.target.id === '직접입력') {
       setContent({ ...content, selectedDate: e.target.id })
     }

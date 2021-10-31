@@ -18,10 +18,9 @@ const Header = styled.div`
   padding: 1rem;
 `
 
-const ContentEditPage = () => {
+const ContentEditPage = ({ subMenu, match }) => {
   const API_END_POINT = 'http://13.209.30.200'
   const TOKEN = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYxNzc5OTliNDdlYzMzMjlkNDM0YjkwYyIsImVtYWlsIjoiYUBhLmEifSwiaWF0IjoxNjM1MzE2OTY1fQ._m_M1OchkSKUL88dxYwFlNITRgYDjodN9cQdL3RHyWY`
-
   const handleSubmitContent = useCallback(
     async (data) => {
       return await axios({
@@ -35,9 +34,12 @@ const ContentEditPage = () => {
     },
     [TOKEN]
   )
-
+  console.log(match.params.subMenu)
   return (
-    <ContentEditProvider handleSubmitContent={handleSubmitContent}>
+    <ContentEditProvider
+      handleSubmitContent={handleSubmitContent}
+      subMenu={match.params.subMenu}
+    >
       <Container>
         <Header>
           <Text strong block size="h5">

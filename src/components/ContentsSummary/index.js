@@ -4,6 +4,7 @@ import Profile from '../Profile'
 import Progress from '../Progress'
 import Text from '../Text'
 import theme from '../../themes'
+import { useEffect } from 'react'
 
 const StyledContentsSummary = styled.div`
   background-color: #fff;
@@ -11,6 +12,7 @@ const StyledContentsSummary = styled.div`
   border-radius: 0.8rem;
   line-height: 1.4;
   max-width: 25rem;
+  margin-bottom: 1rem;
 `
 const ContentsSummary = ({
   lazy,
@@ -29,13 +31,17 @@ const ContentsSummary = ({
   progressAmount,
   ...props
 }) => {
+  useEffect(() => {
+    return () => {} // cleanup function을 이용
+  }, [])
+
   return (
     <StyledContentsSummary {...props}>
       <Profile
-        lazy={lazy}
-        threshold={threshold}
+        lazy
+        threshold={0.5}
         size={size}
-        src={userImg}
+        src={userImg || 'https://picsum.photos/400'}
         placeholder={placeholder}
         alt={alt}
         nickName={userNickName}
@@ -76,7 +82,7 @@ Progress.propTypes = {
   placeholder: PropTypes.string,
   size: PropTypes.string, // medium, large
   alt: PropTypes.string,
-  userImg: PropTypes.string.isRequired,
+  userImg: PropTypes.string,
   userNickName: PropTypes.string,
   userEmail: PropTypes.string,
   userTown: PropTypes.string,

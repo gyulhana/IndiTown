@@ -73,7 +73,7 @@ Profile.propTypes = {
   lazy: PropTypes.bool,
   threshold: PropTypes.number,
   placeholder: PropTypes.string,
-  src: PropTypes.string.isRequired,
+  src: PropTypes.string,
   size: PropTypes.string, // medium, large
   alt: PropTypes.string,
   nickName: PropTypes.string,
