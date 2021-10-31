@@ -52,6 +52,7 @@ const ContentsPage = ({ subMenu }) => {
     [TOKEN]
   )
   console.log(initialContents.value)
+
   return (
     <ContentsProvider
       initialContents={initialContents.value?.filter(

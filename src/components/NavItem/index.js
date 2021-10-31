@@ -32,10 +32,7 @@ const NavItemWrapper = styled.div`
 const NavItem = ({ bottom, icon, title, index, active, ...props }) => {
   return (
     <NavItemWrapper active={active} {...props}>
-      <Link
-        to={`/content/${index}`}
-        style={{ width: '100%', padding: '1.4rem 4rem' }}
-      >
+      <Link to={`/content/${index}`}>
         <div style={{ textAlign: 'center' }}>{icon ? icon : title}</div>
       </Link>
     </NavItemWrapper>
