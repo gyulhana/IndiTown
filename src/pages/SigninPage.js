@@ -5,6 +5,8 @@ import Input from '../components/Form'
 import Button from '../components/Button'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router'
+import useSessionStorage from '../hooks/useSessionStorage'
 
 const FormContainer = styled.form`
   padding: 2rem;
@@ -34,6 +36,8 @@ const invalidErrorMessage = {
 
 const SigninPage = () => {
   const API_ENDPOINT = 'http://13.209.30.200'
+  const [, setUserInfo] = useSessionStorage('IndiTown', '')
+  const history = useHistory()
 
   const formik = useFormik({
     initialValues: {
@@ -62,7 +66,18 @@ const SigninPage = () => {
           data: JSON.stringify(userInfo),
         })
 
-        console.log(result)
+        const token = result.data.token
+        const _id = result.data.user._id
+        const user = { token, _id, user: result.data.user }
+
+        setUserInfo({
+          token: '',
+          _id: '',
+          user: {},
+        })
+        setUserInfo(user)
+
+        history.push('/chat')
       } catch (error) {
         console.log(error)
         formik.setErrors({ userEmail: invalidErrorMessage.notCorrect })

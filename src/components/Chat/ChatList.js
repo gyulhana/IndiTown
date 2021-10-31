@@ -2,6 +2,7 @@ import styled from '@emotion/styled'
 import axios from 'axios'
 import { Fragment, useEffect, useState } from 'react'
 import theme from '../../themes'
+import Avatar from '../Avatar'
 import LastChattingDate from './LastChattingDate'
 
 const ChattingContainer = styled.div`
@@ -27,15 +28,15 @@ const Conversation = styled.span`
   color: ${theme.colors.gray_5};
 `
 
-const ChatList = () => {
+const ChatList = ({ src, onClick }) => {
   const [chatList, setChatList] = useState([])
   const [userList, setUserList] = useState([])
+  const [idList, setIdList] = useState([])
 
   const tokenMe =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYxNzc5OTliNDdlYzMzMjlkNDM0YjkwYyIsImVtYWlsIjoiYUBhLmEifSwiaWF0IjoxNjM1NDkzNjc1fQ.etCO-YoKpVjszZ0zEslgDWL4ROmIetF50YkRVXHPxz8'
 
   const me = '6177999b47ec3329d434b90c'
-  const you = '617ab9d900d8ad1f2a94c1c7'
 
   useEffect(() => {
     const getMessageList = async () => {
@@ -52,7 +53,7 @@ const ChatList = () => {
     }
 
     const getContactUserList = async () => {
-      const idList = await axios({
+      const userIdList = await axios({
         url: `http://13.209.30.200/users/${me}`,
         method: 'GET',
         headers: {
@@ -60,27 +61,42 @@ const ChatList = () => {
         },
       })
 
-      for (const id of idList.data.messages) {
-        const opponent = await axios({
-          url: `http://13.209.30.200/users/${id}`,
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-          },
-        })
-        setUserList([...userList, opponent.data])
+      for (const id of userIdList.data.messages) {
+        if (!idList.includes(id)) {
+          setIdList([...idList, id])
+          const opponent = await axios({
+            url: `http://13.209.30.200/users/${id}`,
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json;charset=utf-8',
+            },
+          })
+
+          setUserList([...userList, opponent.data])
+        }
       }
     }
 
     getContactUserList()
     getMessageList()
     console.log(chatList)
+    console.log(userList)
   }, [])
 
   return (
     <Fragment>
       {chatList.map((chat, index) => (
         <ChattingContainer>
+          <Avatar
+            style={{
+              alignSelf: 'flex-start',
+              flexShrink: 0,
+              marginRight: '0.875rem',
+            }}
+            size={40}
+            src={src}
+            onClick={onClick}
+          />
           <Chat>
             <Id>
               {userList.length > 0

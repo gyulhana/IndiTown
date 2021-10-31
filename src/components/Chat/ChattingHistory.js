@@ -7,9 +7,7 @@ const ChattingHistory = ({ message, id }) => {
     <Fragment>
       {message.map((msg) =>
         msg.sender._id === id ? (
-          <div>
-            <SendMessage time={msg.createdAt}>{msg.message}</SendMessage>
-          </div>
+          <SendMessage time={msg.createdAt}>{msg.message}</SendMessage>
         ) : (
           <ReceiveMessage time={msg.createdAt}>{msg.message}</ReceiveMessage>
         )

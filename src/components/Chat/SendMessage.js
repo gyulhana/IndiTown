@@ -1,5 +1,6 @@
 import styled from '@emotion/styled'
 import theme from '../../themes'
+import Avatar from '../Avatar'
 
 const MessageContainer = styled.div`
   display: flex;
@@ -19,15 +20,22 @@ const Send = styled.div`
   width: fit-content;
   position: relative;
   right: 0;
+  margin-top: 0.75rem;
 `
 
 const Time = styled.span`
   color: ${theme.colors.gray_5};
   font-size: 0.75rem;
   white-space: nowrap;
+  flex-shrink: 0;
 `
 
-const SendMessage = ({ children, time = '2021-10-29T15:59:22.118Z' }) => {
+const SendMessage = ({
+  children,
+  time = '2021-10-29T15:59:22.118Z',
+  src,
+  onClick,
+}) => {
   const date = new Date(time)
   const dt = date.toLocaleString().substr(date.toLocaleString().search('오'), 2)
   let hour = date.getHours()
@@ -44,6 +52,15 @@ const SendMessage = ({ children, time = '2021-10-29T15:59:22.118Z' }) => {
     <MessageContainer>
       <Time>{`${dt} ${hour}:${minute}`}</Time>
       <Send>{children}</Send>
+      <Avatar
+        style={{
+          alignSelf: 'flex-start',
+          flexShrink: 0,
+        }}
+        size={40}
+        src={src}
+        onClick={onClick}
+      />
     </MessageContainer>
   )
 }
