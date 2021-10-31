@@ -79,7 +79,7 @@ const ChattingRoomPage = () => {
         receiver: contactUserId,
       }
       try {
-        const message = await axios({
+        await axios({
           url: 'http://13.209.30.200/messages/create',
           method: 'POST',
           headers: {

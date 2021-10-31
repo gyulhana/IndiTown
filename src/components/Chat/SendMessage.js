@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 import theme from '../../themes'
 import Avatar from '../Avatar'
 
-const MessageContainer = styled.div`
+const MessageContainer = styled.li`
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;

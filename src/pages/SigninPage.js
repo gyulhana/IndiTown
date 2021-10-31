@@ -76,8 +76,6 @@ const SigninPage = () => {
           user: {},
         })
         setUserInfo(user)
-
-        history.push('/chat')
       } catch (error) {
         console.log(error)
         formik.setErrors({ userEmail: invalidErrorMessage.notCorrect })

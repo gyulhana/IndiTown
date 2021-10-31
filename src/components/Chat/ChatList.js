@@ -79,8 +79,6 @@ const ChatList = ({ src, onClick }) => {
 
     getContactUserList()
     getMessageList()
-    console.log(chatList)
-    console.log(userList)
   }, [])
 
   return (

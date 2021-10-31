@@ -58,41 +58,48 @@ const ChattingListPage = ({ src, onClick }) => {
 
   useEffect(() => {
     const getMessageList = async () => {
-      const messages = await axios({
-        url: 'http://13.209.30.200/messages/conversations',
-        method: 'GET',
-        headers: {
-          Authorization: `bearer ${token}`,
-          'Content-Type': 'application/json;charset=utf-8',
-        },
-      })
+      try {
+        const messageList = await axios({
+          url: 'http://13.209.30.200/messages/conversations',
+          method: 'GET',
+          headers: {
+            Authorization: `bearer ${token}`,
+            'Content-Type': 'application/json;charset=utf-8',
+          },
+        })
 
-      setChatList(messages.data)
+        setChatList(messageList.data)
+      } catch (error) {
+        console.log(error)
+      }
     }
 
     const getContactUserList = async () => {
-      alert(_id)
-      const userIdList = await axios({
-        url: `http://13.209.30.200/users/${_id}`,
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-        },
-      })
+      try {
+        const userIdList = await axios({
+          url: `http://13.209.30.200/users/${_id}`,
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+          },
+        })
 
-      for (const id of userIdList.data.messages) {
-        if (!idList.includes(id)) {
-          setIdList([...idList, id])
-          const opponent = await axios({
-            url: `http://13.209.30.200/users/${id}`,
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json;charset=utf-8',
-            },
-          })
+        for (const id of userIdList.data.messages) {
+          if (!idList.includes(id)) {
+            setIdList([...idList, id])
+            const opponent = await axios({
+              url: `http://13.209.30.200/users/${id}`,
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+              },
+            })
 
-          setUserList([...userList, opponent.data])
+            setUserList([...userList, opponent.data])
+          }
         }
+      } catch (error) {
+        console.error(error)
       }
     }
 
@@ -101,14 +108,33 @@ const ChattingListPage = ({ src, onClick }) => {
   }, [])
 
   const moveChattingPage = (value) => {
-    const contactUserId = value._id[0]
-    const contactUser = value.sender.fullName.split('"')[7]
+    let contactUserId = ''
+    let contactUserName = ''
+    if (value.receiver._id === _id) {
+      contactUserId = value.sender._id
+      contactUserName = JSON.parse(value.sender.fullName).userName
+    } else {
+      contactUserId = value.receiver._id
+      contactUserName = JSON.parse(value.receiver.fullName).userName
+    }
+
     setUserInfo({
       ...userInfo,
       contactUserId,
     })
 
-    history.push(`/chatting/${contactUser}`)
+    history.push(`/chatting/${contactUserName}`)
+  }
+
+  const displayUserName = (chat) => {
+    let userName = ''
+    if (chat.receiver._id === _id) {
+      userName = JSON.parse(chat.sender.fullName).userName
+    } else {
+      userName = JSON.parse(chat.receiver.fullName).userName
+    }
+
+    return userName
   }
 
   return (
@@ -167,11 +193,7 @@ const ChattingListPage = ({ src, onClick }) => {
               onClick={onClick}
             />
             <Chat>
-              <Id>
-                {userList.length > 0
-                  ? userList[index].fullName.split(':')[2].split('"')[1]
-                  : ''}
-              </Id>
+              <Id>{userList.length > 0 ? `${displayUserName(chat)}` : null}</Id>
               <Conversation>{chat.message}</Conversation>
             </Chat>
             <div>
