@@ -28,22 +28,21 @@ const Time = styled.span`
 `
 
 const SendMessage = ({ children, time = '2021-10-29T15:59:22.118Z' }) => {
-  const timeArray = time.split('T')[1].split(':')
-  let hour = parseInt(timeArray[0], 10) + 9
-  let minute = parseInt(timeArray[1], 10)
+  const date = new Date(time)
+  const dt = date.toLocaleString().substr(date.toLocaleString().search('오'), 2)
+  let hour = date.getHours()
+  let minute = date.getMinutes()
 
-  if (hour >= 24) {
-    hour -= 24
+  if (hour > 12) {
+    hour -= 12
   }
   if (minute < 10) {
-    minute = `0${minute}`
+    minute = '0' + minute
   }
 
   return (
     <MessageContainer>
-      <Time>
-        {hour < 12 ? `오전 ${hour}:${minute}` : `오후 ${hour - 12}:${minute}`}
-      </Time>
+      <Time>{`${dt} ${hour}:${minute}`}</Time>
       <Send>{children}</Send>
     </MessageContainer>
   )
