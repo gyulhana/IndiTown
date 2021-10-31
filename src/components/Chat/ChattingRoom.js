@@ -1,9 +1,9 @@
 import styled from '@emotion/styled'
 import axios from 'axios'
 import { useFormik } from 'formik'
-import { Component, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import TextArea from '../TextArea'
-import ChattingList from './ChattingList'
+import ChattingHistory from './ChattingHistory'
 
 const ChattingContainer = styled.div`
   background-color: #fff;
@@ -120,7 +120,7 @@ const ChattingRoom = () => {
   return (
     <ChattingContainer>
       <MessageArea ref={messageRef}>
-        <ChattingList message={messages} id="6177999b47ec3329d434b90c" />
+        <ChattingHistory message={messages} id="6177999b47ec3329d434b90c" />
       </MessageArea>
       <InputTextArea>
         <form onSubmit={formik.handleSubmit}>

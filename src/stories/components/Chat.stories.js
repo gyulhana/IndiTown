@@ -37,3 +37,18 @@ export const ChattingRoom = () => {
     </div>
   )
 }
+
+export const ChatList = () => {
+  return (
+    <div style={{ width: 375, height: 600, border: '2px solid' }}>
+      <Chat.ChatList />
+    </div>
+  )
+}
+export const LastChattingDate = () => {
+  return (
+    <div>
+      <Chat.LastChattingDate />
+    </div>
+  )
+}
