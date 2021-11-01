@@ -45,11 +45,12 @@ const ContentEditProvider = ({
     } else {
       setContent({ ...content, [name]: id })
     }
+    setData({ ...data, title: JSON.stringify(content) })
   }
 
   const onInputChange = ({ target }) => {
     setContent({ ...content, [target.name]: target.value })
-    console.log(content)
+    setData({ ...data, title: JSON.stringify(content) })
   }
 
   const onImgChange = (file, url) => {
@@ -65,13 +66,13 @@ const ContentEditProvider = ({
   const onSubmitContent = async (e) => {
     const formData = new FormData()
     setIsLoading(true)
+
     e.preventDefault()
 
     const newErrors = validate ? validate(content) : {}
 
     if (Object.keys(newErrors).length === 0) {
       formData.append('image', data.image)
-      setData({ ...data, title: JSON.stringify(content) })
       formData.append('channelId', data.channelId)
       formData.append('title', data.title)
 
