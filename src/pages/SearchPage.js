@@ -45,7 +45,7 @@ const Container = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  padding: 1.5rem 1rem 4rem 1.5rem;
+  padding: 1.5rem 1rem 8rem 1.5rem;
   box-sizing: border-box;
   background-color: ${theme.colors.gray_1};
   overflow: scroll;
@@ -145,8 +145,8 @@ export const SearchPage = () => {
                 )
 
                 return (
-                  <PostContainer alt={JSON.parse(content.title).title}>
-                    <Link to={`/content/${content._id}`}>
+                  <Link to={`/content/${content._id}`}>
+                    <PostContainer alt={JSON.parse(content.title).title}>
                       <Avatar
                         key={content._id}
                         lazy
@@ -184,8 +184,8 @@ export const SearchPage = () => {
                             : '모집 기한 종료'}
                         </div>
                       </div>
-                    </Link>
-                  </PostContainer>
+                    </PostContainer>
+                  </Link>
                 )
               })}
           </div>
