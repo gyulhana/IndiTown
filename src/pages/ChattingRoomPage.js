@@ -102,6 +102,7 @@ const ChattingRoomPage = () => {
 
   useEffect(() => {
     getMessages()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const historyBack = () => {

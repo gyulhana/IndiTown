@@ -47,7 +47,6 @@ const ContentsPage = ({ subMenu }) => {
     },
     [TOKEN]
   )
-  console.log(initialContents.value)
 
   const SpinnerWrapper = styled.div`
     width: 100%;
@@ -74,7 +73,7 @@ const ContentsPage = ({ subMenu }) => {
           <ContentsSummaryList />
         )}
       </div>
-      <Link to={`/content/${subMenu}/edit`}>
+      <Link to={`/${subMenu}/edit`}>
         <WriteButton />
       </Link>
     </ContentsProvider>

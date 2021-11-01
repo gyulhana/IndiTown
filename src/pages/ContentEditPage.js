@@ -5,6 +5,7 @@ import ContentsEdit from '../components/ContentsEdit'
 import Text from '../components/Text'
 import theme from '../themes'
 import ContentEditProvider from '../contexts/ContentEditProvider'
+import useSessionStorage from '../hooks/useSessionStorage'
 
 const Container = styled.div`
   margin: 5rem 1rem 4rem 1rem;
@@ -20,7 +21,8 @@ const Header = styled.div`
 
 const ContentEditPage = ({ subMenu, match }) => {
   const API_END_POINT = 'http://13.209.30.200'
-  const TOKEN = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYxNzc5OTliNDdlYzMzMjlkNDM0YjkwYyIsImVtYWlsIjoiYUBhLmEifSwiaWF0IjoxNjM1MzE2OTY1fQ._m_M1OchkSKUL88dxYwFlNITRgYDjodN9cQdL3RHyWY`
+  const [userInfo] = useSessionStorage('IndiTown')
+  const { token } = userInfo
 
   const handleSubmitContent = useCallback(
     async (data) => {
@@ -28,12 +30,12 @@ const ContentEditPage = ({ subMenu, match }) => {
         method: 'post',
         url: `${API_END_POINT}/posts/create`,
         headers: {
-          authorization: `Bearer ${TOKEN}`,
+          authorization: `Bearer ${token}`,
         },
         data,
       }).then((response) => response.data)
     },
-    [TOKEN]
+    [token]
   )
 
   return (

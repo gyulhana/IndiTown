@@ -1,82 +1,84 @@
 import Profile from '../components/Profile'
 import Nav from '../components/Nav'
-import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { useEffect, useState } from 'react'
 import { ApiUtils } from '../utils/api'
+import useSessionStorage from '../hooks/useSessionStorage'
+import theme from '../themes'
+import ContentsSummaryList from '../components/ContentsSummaryList'
+import ContentsProvider from '../contexts/ContentsProvider'
 
-const StyledNav = styled.nav`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+const ProfileContainer = styled.div`
+  margin: 1rem;
+  margin-top: 5rem;
+  border-radius: 12.8px;
+`
+
+const ProfileWrapper = styled.div`
   background-color: #fff;
-  text-align: center;
-  font-weight: 500;
 `
 
 const ProfilePage = () => {
-  const [userData, setUserData] = useState({
-    _id: '',
-    image: '',
-    followers: [],
-    following: [],
-    likes: [],
-    posts: [],
-  })
+  const [userInfo] = useSessionStorage('IndiTown')
+  const { _id } = userInfo
+  const [userData, setUserData] = useState({})
+  const [myPostsList, setMyPostsList] = useState([])
 
   const getUserInfoAsync = async (userId) => {
     const data = await ApiUtils.getUsersInfo(userId)
-    if (data) {
-      console.log(data)
-      setUserData({ ...data })
-    }
-    console.log(userData)
+    setUserData({
+      ...data,
+      userName: JSON.parse(data.fullName).userName,
+      location: JSON.parse(data.fullName).location,
+    })
     return data
   }
 
+  const getPostsListsAsync = async () => {
+    const posts = await ApiUtils.getPostsList()
+    const myPosts = posts.filter((post) => post.author._id === _id)
+    setMyPostsList(myPosts)
+  }
+
   useEffect(() => {
-    getUserInfoAsync('617f8a69188c7c785b197411')
+    getUserInfoAsync(_id)
+    getPostsListsAsync()
   }, [])
 
-  const SpinnerWrapper = styled.div`
-    width: 100%;
-    height: 80vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `
-  const StyledNav = styled.nav`
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    background-color: #fff;
-    text-align: center;
-    font-weight: 500;
-  `
-
   return (
-    <div>
-      <Profile size="large" />
-      <StyledNav>
-        <Link to="/profile/writes">모집내역</Link>
-        <Link to="/profile/participant">참여내역</Link>
-        <Link to="/profile/likes">관심내역</Link>
-      </StyledNav>
-      <Nav style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
-        <Nav.Item title="모집내역" index="writes">
-          <Profile></Profile>
+    <ProfileContainer>
+      <ProfileWrapper>
+        <Profile
+          lazy
+          threshold={0.5}
+          size="large"
+          nickName={userData.userName}
+          email={userData.email}
+          town={userData.location}
+          style={{ margin: '1rem 1rem 0 1rem', padding: '1.75rem 0 1.75rem' }}
+        />
+      </ProfileWrapper>
+      <Nav
+        style={{
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          filter: 'none',
+          borderBottom: `1px solid ${theme.colors.gray_2}`,
+        }}
+      >
+        <Nav.Item title="모집내역" index="profile/writes">
+          <ContentsProvider initialContents={myPostsList}>
+            <ContentsSummaryList style={{ padding: '1rem 0 0' }} />
+          </ContentsProvider>
         </Nav.Item>
-        <Nav.Item title="참여내역" index="participant">
+        <Nav.Item title="참여내역" index="profile/participant">
           참여
         </Nav.Item>
-        <Nav.Item title="관심내역" index="likes">
+        <Nav.Item title="관심내역" index="profile/likes">
           관심
         </Nav.Item>
       </Nav>
-    </div>
+    </ProfileContainer>
   )
 }
-/*<StyledNav>
-        <Link to="/profile/writes">모집내역</Link>
-        <Link to="/profile/participant">참여내역</Link>
-        <Link to="/profile/likes">관심내역</Link>
-      </StyledNav> */
+
 export default ProfilePage

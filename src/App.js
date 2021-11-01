@@ -40,7 +40,7 @@ function App() {
             <Route exact path="/package">
               <ContentsPage subMenu="package" />
             </Route>
-            <Route path="content/:subMenu/edit" component={ContentEditPage} />
+            <Route path="/:subMenu/edit" component={ContentEditPage} />
             <Route exact path="/content/:contentId">
               <ContentPage />
             </Route>

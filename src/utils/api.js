@@ -17,6 +17,18 @@ const getUsersInfo = async (userId) => {
     })
 }
 
+const getPostsList = async () => {
+  return await axiosInstance({
+    method: 'get',
+    url: `/posts/channel/${process.env.REACT_APP_SNS_CHANNEL_ID}`,
+  })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.log(error.response)
+    })
+}
+
 export const ApiUtils = {
   getUsersInfo,
+  getPostsList,
 }

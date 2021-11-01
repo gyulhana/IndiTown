@@ -1,5 +1,6 @@
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import theme from '../../themes'
 
 const NavItemWrapper = styled.div`
@@ -31,7 +32,9 @@ const NavItemWrapper = styled.div`
 const NavItem = ({ bottom, icon, title, index, active, ...props }) => {
   return (
     <NavItemWrapper active={active} {...props}>
-      <div style={{ textAlign: 'center' }}>{icon ? icon : title}</div>
+      <Link to={`/${index}`}>
+        <div style={{ textAlign: 'center' }}>{icon ? icon : title}</div>
+      </Link>
     </NavItemWrapper>
   )
 }
