@@ -1,16 +1,3 @@
-const pixelToRem = (size) => `${size / 16}rem`
-
-// const fontSizes = {
-//   h1: pixelToRem(40),
-//   h2: pixelToRem(32),
-//   h3: pixelToRem(28),
-//   h4: pixelToRem(24),
-//   h5: pixelToRem(20),
-//   h6: pixelToRem(16),
-//   sm: pixelToRem(14),
-//   xs: pixelToRem(12),
-// }
-
 const fontSizes = {
   h1: '2.5rem',
   h2: '2rem',
@@ -36,9 +23,8 @@ const colors = {
 }
 
 const theme = {
-  pixelToRem,
-  fontSizes,
   colors,
+  fontSizes,
 }
 
 export default theme

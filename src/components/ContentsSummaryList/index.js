@@ -33,8 +33,6 @@ const ContentsSummaryList = ({ ...props }) => {
       .padStart(2, '0')}분`
   }
 
-  contents.forEach((content) => console.log(content))
-
   return (
     <Container {...props}>
       {contents.map((content) =>

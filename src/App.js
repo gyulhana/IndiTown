@@ -9,6 +9,9 @@ import {
   ContentEditPage,
   ContentsPage,
   ContentPage,
+  ChattingListPage,
+  ChattingRoomPage,
+  ProfilePage,
 } from './pages'
 
 function App() {
@@ -29,18 +32,26 @@ function App() {
           </LocationProvider>
         </Route>
         <Route path="/signin" component={SigninPage}></Route>
-
         <DefaultTemplate>
           <Switch>
-            <Route exact path="/content/food">
+            <Route exact path="/food">
               <ContentsPage subMenu="food" />
             </Route>
-            <Route exact path="/content/package">
+            <Route exact path="/package">
               <ContentsPage subMenu="package" />
             </Route>
-            <Route path="/content/:subMenu/edit" component={ContentEditPage} />
+            <Route path="/:subMenu/edit" component={ContentEditPage} />
             <Route exact path="/content/:contentId">
               <ContentPage />
+            </Route>
+            <Route path="/chat">
+              <ChattingListPage />
+            </Route>
+            <Route path="/chatting/:userName">
+              <ChattingRoomPage />
+            </Route>
+            <Route path="/profile">
+              <ProfilePage />
             </Route>
           </Switch>
         </DefaultTemplate>

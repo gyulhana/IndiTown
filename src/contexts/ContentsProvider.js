@@ -56,8 +56,6 @@ const ContentsProvider = ({
     [handleDeleteContent]
   )
 
-  console.log(contents)
-
   return (
     <ContentsContext.Provider
       value={{ contents, onDeleteContent, onAddContent }}

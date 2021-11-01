@@ -4,80 +4,83 @@ import moment from 'moment'
 const ContentEditContext = createContext()
 export const useContentEditContext = () => useContext(ContentEditContext)
 
-const ContentEditProvider = ({ children, handleSubmitContent, subMenu }) => {
-  moment.defaultFormat = 'YYYY-MM-DD HH:mm'
-  const getTime = () => {
-    const date = moment()
-    return date
-  }
-
-  const [content, setContent] = useState({
-    title: '',
-    type: subMenu, // food or package
-    selectedDate: '30분',
-    recruitmentDate: moment(getTime()).clone().add(30, 'minutes').format(),
-    selectedOption: '금액',
-    recruitmentOption: null,
-  })
+const ContentEditProvider = ({
+  initialState,
+  validate,
+  handleSubmitContent,
+  children,
+}) => {
+  const MOMENT_DEFAULT_FORMAT = 'YYYY-MM-DD HH:mm'
+  moment.defaultFormat = MOMENT_DEFAULT_FORMAT
+  const [content, setContent] = useState(initialState)
 
   const [data, setData] = useState({
     title: '',
-    img: null,
     channelId: '616a205422996f0bc94f6e23',
+    image: null,
   })
 
-  useEffect(() => {
-    setData({ ...data, title: JSON.stringify(content) })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [content])
+  const [errors, setErrors] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
 
-  console.log(content, data)
+  const onRadioChange = ({ target }) => {
+    const m = moment()
+    let recruitmentDate
 
-  const onDateRadioChange = (e) => {
-    const m = moment(getTime())
-    console.log(m)
-    if (e.target.id === '30분') {
-      const recruitmentDate = m.clone().add(30, 'minutes').format()
-      console.log(m)
-      setContent({ ...content, selectedDate: e.target.id, recruitmentDate })
-    } else if (e.target.id === '1시간') {
-      const recruitmentDate = m.clone().add(1, 'hours').format()
-      setContent({ ...content, selectedDate: e.target.id, recruitmentDate })
-    } else if (e.target.id === '직접입력') {
-      setContent({ ...content, selectedDate: e.target.id })
+    if (target.id === '30분') {
+      recruitmentDate = m.clone().add(30, 'minutes').format()
+    } else if (target.id === '1시간') {
+      recruitmentDate = m.clone().add(1, 'hours').format()
+    } else if (target.id === '직접입력') {
+      recruitmentDate = m.clone().add(1, 'hours').format()
     }
+    setContent({ ...content, [target.name]: target.id, recruitmentDate })
   }
 
-  const onDateInputChange = (e) => {
-    setContent({ ...content, recruitmentDate: e.target.value })
+  const onInputChange = ({ target }) => {
+    setContent({ ...content, [target.name]: target.value })
+    console.log(content)
   }
 
-  const onOptionRadioChange = (e) => {
-    setContent({ ...content, selectedOption: e.target.id })
+  const onImgChange = (file, url) => {
+    setData({
+      ...data,
+      image: {
+        file,
+        url,
+      },
+    })
+    console.log(content)
   }
 
-  const onOptionInputChange = (e) => {
-    setContent({ ...content, recruitmentOption: e.target.value })
-  }
-
-  const onChangeTitle = (e) => {
-    setContent({ ...content, title: e.target.value })
-  }
-
-  const onSubmitContent = (e) => {
+  const onSubmitContent = async (e) => {
+    const formData = new FormData()
+    setIsLoading(true)
     e.preventDefault()
-    handleSubmitContent(data)
+
+    const newErrors = validate ? validate(content) : {}
+
+    if (Object.keys(newErrors).length === 0) {
+      formData.append('image', data.image)
+      setData({ ...data, title: JSON.stringify(content) })
+      formData.append('channelId', data.channelId)
+      formData.append('title', data.title)
+
+      await handleSubmitContent(formData)
+    }
+    setErrors(newErrors)
+    setIsLoading(false)
   }
 
   return (
     <ContentEditContext.Provider
       value={{
         content,
-        onChangeTitle,
-        onDateRadioChange,
-        onDateInputChange,
-        onOptionRadioChange,
-        onOptionInputChange,
+        errors,
+        isLoading,
+        onInputChange,
+        onRadioChange,
+        onImgChange,
         onSubmitContent,
       }}
     >

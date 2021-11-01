@@ -28,7 +28,7 @@ export const NavBottom = () => {
         }
         index="food"
       >
-        홈
+        {/* 홈 */}
       </Nav.Item>
       <Nav.Item
         icon={
@@ -47,7 +47,7 @@ export const NavBottom = () => {
         }
         index="search"
       >
-        검색
+        {/* 검색 */}
       </Nav.Item>
       <Nav.Item
         icon={
@@ -64,9 +64,9 @@ export const NavBottom = () => {
             />
           </svg>
         }
-        index="chatting"
+        index="chat"
       >
-        채팅
+        {/* 채팅 */}
       </Nav.Item>
       <Nav.Item
         icon={
@@ -85,7 +85,7 @@ export const NavBottom = () => {
         }
         index="profile"
       >
-        프로필
+        {/* 프로필 */}
       </Nav.Item>
     </Nav>
   )

@@ -1,9 +1,8 @@
-import { useCallback, useState, useRef } from 'react'
+import { useCallback, useRef, useState } from 'react'
+
 const useAsyncFn = (fn, deps) => {
   const lastCallId = useRef(0)
-  const [state, setState] = useState({
-    isLoading: false,
-  })
+  const [state, setState] = useState({ isLoading: false })
 
   const callback = useCallback((...args) => {
     const callId = ++lastCallId.current
@@ -19,7 +18,6 @@ const useAsyncFn = (fn, deps) => {
       },
       (error) => {
         callId === lastCallId.current && setState({ error, isLoading: false })
-        setState({ error, isLoading: false })
         return error
       }
     )

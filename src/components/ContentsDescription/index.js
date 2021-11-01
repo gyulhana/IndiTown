@@ -34,8 +34,9 @@ const ContentsDescription = ({
   progressResultNum,
   progressTime,
   progressAmount,
-  imgSrc,
+  contentImg,
   createdAt,
+  onClick,
   ...props
 }) => {
   return (
@@ -53,6 +54,7 @@ const ContentsDescription = ({
           nickName={userNickName}
           email={userEmail}
           town={userTown}
+          onClick={onClick}
         />
         <svg
           width="6"
@@ -74,7 +76,7 @@ const ContentsDescription = ({
         <Image
           lazy
           block
-          src={imgSrc}
+          src={contentImg}
           mode="cover"
           style={{ maxWidth: '30rem', borderRadius: '0.8rem' }}
         ></Image>
@@ -101,10 +103,10 @@ const ContentsDescription = ({
       <Text
         block
         size={12}
-        color={theme.colors.gray_3}
+        color={theme.colors.gray_4}
         style={{ marginTop: '2rem' }}
       >
-        {createdAt}
+        {new Date(createdAt).toLocaleString()}
       </Text>
     </div>
   )
@@ -117,6 +119,7 @@ Progress.propTypes = {
   userEmail: PropTypes.string,
   userTown: PropTypes.string,
   title: PropTypes.string,
+  contentImg: PropTypes.string,
   progressTargetNum: PropTypes.number,
   progressResultNum: PropTypes.number,
   progressTime: PropTypes.string,

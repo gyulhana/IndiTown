@@ -97,7 +97,7 @@ const SignupForm = () => {
           url: `${API_ENDPOINT}/signup`,
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json;charset=UTP-8',
+            'Content-Type': 'application/json;charset=utf-8',
           },
           data: JSON.stringify(data),
         })

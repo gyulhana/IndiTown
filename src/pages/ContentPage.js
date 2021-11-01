@@ -1,7 +1,6 @@
 import styled from '@emotion/styled'
-import axios from 'axios'
-import { Fragment, useCallback } from 'react'
-import { useParams } from 'react-router'
+import { Fragment, useCallback, useState } from 'react'
+import { useHistory, useParams } from 'react-router'
 import { useAsync } from '../hooks'
 import ContentsDescription from '../components/ContentsDescription'
 import CommentInput from '../components/CommentInput'
@@ -9,17 +8,20 @@ import CommentList from '../components/CommentList'
 import Spinner from '../components/Spinner'
 import moment from 'moment'
 import theme from '../themes'
+import useSessionStorage from '../hooks/useSessionStorage'
+import { ApiUtils } from '../utils/api'
 
 const ContentPage = () => {
   const { contentId } = useParams()
-
-  const API_END_POINT = 'http://13.209.30.200'
-  const TOKEN = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYxNzc5OTliNDdlYzMzMjlkNDM0YjkwYyIsImVtYWlsIjoiYUBhLmEifSwiaWF0IjoxNjM1MzE2OTY1fQ._m_M1OchkSKUL88dxYwFlNITRgYDjodN9cQdL3RHyWY`
+  const [userInfo, setUserInfo] = useSessionStorage('IndiTown')
+  const { token, _id } = userInfo
+  const [comments, setComments] = useState([])
+  const history = useHistory()
 
   const content = useAsync(async () => {
-    return await axios
-      .get(`${API_END_POINT}/posts/${contentId}`)
-      .then((response) => response.data)
+    const response = await ApiUtils.getContentDetail(contentId)
+    setComments(response.comments)
+    return response
   }, [contentId])
 
   console.log(content)
@@ -31,30 +33,39 @@ const ContentPage = () => {
   `
   const handleCommentSubmit = useCallback(
     async (comment) => {
-      return await axios({
-        method: 'post',
-        url: `${API_END_POINT}/comments/create`,
-        headers: {
-          authorization: `Bearer ${TOKEN}`,
-        },
-        data: comment,
-      }).then((response) => response.data)
+      const createdComment = await ApiUtils.createComment({ token, comment })
+      setComments([...comments, createdComment])
     },
-    [TOKEN]
+    [token, comments]
   )
 
   const calculateTime = (time) => {
-    const t1 = moment(time, 'YYYY-MM-DD hh:mm')
-    const t2 = moment()
-    const m = moment.duration(t1.diff(t2))
+    const t1 = moment(time, 'YYYY-MM-DD hh:mm') // 언제까지 시킬건지 지정 날짜 값
+    const t2 = moment() // 현재시간
+    const m = moment.duration(t1.diff(t2)) // t1 - t2
 
-    return `${Math.floor(m.asDays())
+    return `${Math.floor(m.asDays()) // 1.6456456546(일) -> 01(일)
       .toString()
-      .padStart(2, '0')}일  ${Math.floor(m.asHours())
+      .padStart(2, '0')}일  ${Math.floor(m.asHours()) // 시간
       .toString()
-      .padStart(2, '0')}시  ${Math.floor(m.asMinutes() % 60)
+      .padStart(2, '0')}시  ${Math.floor(m.asMinutes() % 60) // 분
       .toString()
       .padStart(2, '0')}분`
+  }
+
+  const moveToChat = (value) => {
+    if (_id !== value._id) {
+      const userName = JSON.parse(value.fullName).userName
+      setUserInfo({
+        ...userInfo,
+        contactUserId: '',
+      })
+      setUserInfo({
+        ...userInfo,
+        contactUserId: value._id,
+      })
+      history.push(`/chatting/${userName}`)
+    }
   }
 
   if (!content.isLoading && content.value) {
@@ -70,10 +81,12 @@ const ContentPage = () => {
             userNickName={JSON.parse(content.value.author.fullName).userName}
             userTown={JSON.parse(content.value.author.fullName).location}
             title={JSON.parse(content.value.title).title}
+            contentImg={content.value.img}
             progressTime={calculateTime(
-              JSON.parse(content.value.title).recruitmentDate
+              JSON.parse(content.value.title).recruitmentDate // 언제까지 시킬건지 지정 날짜 값
             )}
             createdAt={content.value.createdAt}
+            onClick={() => moveToChat(content.value.author)}
           />
         </Fragment>
 
@@ -89,7 +102,7 @@ const ContentPage = () => {
             })
           }}
         />
-        <CommentList comments={content.value?.comments} />
+        <CommentList comments={comments} />
       </Container>
     )
   } else {
