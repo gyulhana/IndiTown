@@ -1,7 +1,8 @@
 import styled from '@emotion/styled'
-import { useRef, useState } from 'react'
 import theme from '../../themes'
+import { useRef, useState } from 'react'
 import { darken } from 'polished'
+import { useContentEditContext } from '../../contexts/ContentEditProvider'
 
 const UploadContainer = styled.div`
   display: inline-flex;
@@ -29,6 +30,7 @@ const UploadImage = ({
   const [dragging, setDragging] = useState(false)
   const inputRef = useRef(null)
   const photoRef = useRef(null)
+  const { onChangeImg } = useContentEditContext()
 
   const handleFileChange = (e) => {
     const files = e.target.files
@@ -42,6 +44,8 @@ const UploadImage = ({
 
       reader.onload = () => {
         photoRef.current.style.background = `center 100% / auto 100% no-repeat url(${reader.result})`
+
+        onChangeImg({ file: changedFile, url: reader.result })
       }
     }
   }

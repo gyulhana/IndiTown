@@ -307,8 +307,8 @@ const SignupPage = () => {
           회원가입
         </Button>
       </form>
-      <Modal show={isSignup}>
-        <span>회원가입이 완료 되었습니다.</span>
+      <Modal show={isSignup} style={{ textAlign: 'center' }}>
+        <p style={{ paddingTop: '2rem' }}>회원가입이 완료 되었습니다.</p>
         <Link to="/signin" style={{ justifySelf: 'center' }}>
           <Button style={{ marginTop: '1rem' }} primary={false}>
             로그인 하기

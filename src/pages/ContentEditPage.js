@@ -21,6 +21,7 @@ const Header = styled.div`
 const ContentEditPage = ({ subMenu, match }) => {
   const API_END_POINT = 'http://13.209.30.200'
   const TOKEN = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYxNzc5OTliNDdlYzMzMjlkNDM0YjkwYyIsImVtYWlsIjoiYUBhLmEifSwiaWF0IjoxNjM1MzE2OTY1fQ._m_M1OchkSKUL88dxYwFlNITRgYDjodN9cQdL3RHyWY`
+
   const handleSubmitContent = useCallback(
     async (data) => {
       return await axios({

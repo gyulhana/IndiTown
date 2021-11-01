@@ -70,6 +70,7 @@ const ContentPage = () => {
             userNickName={JSON.parse(content.value.author.fullName).userName}
             userTown={JSON.parse(content.value.author.fullName).location}
             title={JSON.parse(content.value.title).title}
+            contentImg={content.value.img}
             progressTime={calculateTime(
               JSON.parse(content.value.title).recruitmentDate
             )}
