@@ -45,7 +45,7 @@ const ContentsEdit = ({
   userTown,
   ...props
 }) => {
-  const { onChangeTitle, onSubmitContent } = useContentEditContext()
+  const { onInputChange, onSubmitContent } = useContentEditContext()
 
   return (
     <div {...props}>
@@ -62,7 +62,8 @@ const ContentsEdit = ({
       />
       <StyledTextarea
         placeholder="무엇을 함께 주문하고 싶으신가요?"
-        onChange={onChangeTitle}
+        name="title"
+        onChange={onInputChange}
       />
       <UploadImage
         droppable

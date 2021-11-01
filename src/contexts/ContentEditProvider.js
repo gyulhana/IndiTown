@@ -6,23 +6,19 @@ export const useContentEditContext = () => useContext(ContentEditContext)
 
 const ContentEditProvider = ({ children, handleSubmitContent, subMenu }) => {
   moment.defaultFormat = 'YYYY-MM-DD HH:mm'
-  const getTime = () => {
-    const date = moment()
-    return date
-  }
 
   const [content, setContent] = useState({
     title: '',
     type: subMenu, // food or package
     selectedDate: '30분',
-    recruitmentDate: moment(getTime()).clone().add(30, 'minutes').format(),
+    recruitmentDate: moment().clone().add(30, 'minutes').format(),
     selectedOption: '금액',
     recruitmentOption: null,
   })
 
   const [data, setData] = useState({
     title: '',
-    img: null,
+    image: null,
     channelId: '616a205422996f0bc94f6e23',
   })
 
@@ -33,52 +29,48 @@ const ContentEditProvider = ({ children, handleSubmitContent, subMenu }) => {
 
   console.log(content, data)
 
-  const onDateRadioChange = (e) => {
-    const m = moment(getTime())
-    console.log(m)
-    if (e.target.id === '30분') {
-      const recruitmentDate = m.clone().add(30, 'minutes').format()
-      console.log(m)
-      setContent({ ...content, selectedDate: e.target.id, recruitmentDate })
-    } else if (e.target.id === '1시간') {
-      const recruitmentDate = m.clone().add(1, 'hours').format()
-      setContent({ ...content, selectedDate: e.target.id, recruitmentDate })
-    } else if (e.target.id === '직접입력') {
-      setContent({ ...content, selectedDate: e.target.id })
+  const onRadioChange = ({ target }) => {
+    const m = moment()
+    let recruitmentDate
+    console.log(target.id, target.name)
+
+    if (target.id === '30분') {
+      recruitmentDate = m.clone().add(30, 'minutes').format()
+    } else if (target.id === '1시간') {
+      recruitmentDate = m.clone().add(1, 'hours').format()
     }
+    setContent({ ...content, [target.name]: target.id, recruitmentDate })
   }
 
-  const onDateInputChange = (e) => {
-    setContent({ ...content, recruitmentDate: e.target.value })
+  const onInputChange = ({ target }) => {
+    console.log(target)
+    setContent({ ...content, [target.name]: target.value })
   }
 
-  const onOptionRadioChange = (e) => {
-    setContent({ ...content, selectedOption: e.target.id })
-  }
+  const formData = new FormData()
 
-  const onOptionInputChange = (e) => {
-    setContent({ ...content, recruitmentOption: e.target.value })
-  }
-
-  const onChangeTitle = (e) => {
-    setContent({ ...content, title: e.target.value })
+  const onImgChange = (file, result) => {
+    console.log('image', result)
+    setData({ ...data, image: result })
   }
 
   const onSubmitContent = (e) => {
     e.preventDefault()
-    handleSubmitContent(data)
+    formData.append('title', data.title)
+    formData.append('channelId', data.channelId)
+    formData.append('image', data.image)
+
+    handleSubmitContent(formData)
   }
 
   return (
     <ContentEditContext.Provider
       value={{
         content,
-        onChangeTitle,
-        onDateRadioChange,
-        onDateInputChange,
-        onOptionRadioChange,
-        onOptionInputChange,
+        onInputChange,
+        onRadioChange,
         onSubmitContent,
+        onImgChange,
       }}
     >
       {children}
