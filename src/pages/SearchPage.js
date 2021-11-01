@@ -99,7 +99,7 @@ export const SearchPage = () => {
   )
 
   return (
-    <>
+    <div>
       <Header>검색</Header>
       <Container>
         <div>
@@ -191,7 +191,7 @@ export const SearchPage = () => {
           </div>
         </div>
       </Container>
-    </>
+    </div>
   )
 }
 

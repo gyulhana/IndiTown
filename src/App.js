@@ -9,11 +9,11 @@ import {
   ContentEditPage,
   ContentsPage,
   ContentPage,
+  SearchPage,
   ChattingListPage,
   ChattingRoomPage,
   ProfilePage,
 } from './pages'
-import SearchPage from './pages/SearchPage'
 
 function App() {
   return (
