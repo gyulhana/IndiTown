@@ -36,6 +36,7 @@ const ContentsDescription = ({
   progressAmount,
   contentImg,
   createdAt,
+  onClick,
   ...props
 }) => {
   return (
@@ -53,6 +54,7 @@ const ContentsDescription = ({
           nickName={userNickName}
           email={userEmail}
           town={userTown}
+          onClick={onClick}
         />
         <svg
           width="6"
@@ -101,10 +103,10 @@ const ContentsDescription = ({
       <Text
         block
         size={12}
-        color={theme.colors.gray_3}
+        color={theme.colors.gray_4}
         style={{ marginTop: '2rem' }}
       >
-        {createdAt}
+        {new Date(createdAt).toLocaleString()}
       </Text>
     </div>
   )

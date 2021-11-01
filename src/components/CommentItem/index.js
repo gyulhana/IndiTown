@@ -20,6 +20,7 @@ const CommentItem = ({
   userTown,
   comment,
   createdAt,
+  onClick,
 }) => {
   return (
     <Container>
@@ -34,6 +35,7 @@ const CommentItem = ({
         email={userEmail}
         town={userTown}
         style={{ marginBottom: '1rem' }}
+        onClick={onClick}
       />
       <CommentContainer>
         <Text block size={14}>
@@ -42,10 +44,10 @@ const CommentItem = ({
         <Text
           block
           size={12}
-          color={theme.colors.gray_3}
+          color={theme.colors.gray_4}
           style={{ marginTop: '2rem' }}
         >
-          {createdAt}
+          {new Date(createdAt).toLocaleString()}
         </Text>
       </CommentContainer>
     </Container>

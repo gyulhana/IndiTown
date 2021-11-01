@@ -7,15 +7,17 @@ import ContentsSummaryList from '../components/ContentsSummaryList'
 import Spinner from '../components/Spinner'
 import WriteButton from '../components/WriteButton'
 import styled from '@emotion/styled'
+import useSessionStorage from '../hooks/useSessionStorage'
+import { ApiUtils } from '../utils/api'
 
 const ContentsPage = ({ subMenu }) => {
   const API_END_POINT = 'http://13.209.30.200'
-  const TOKEN = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYxNzc5OTliNDdlYzMzMjlkNDM0YjkwYyIsImVtYWlsIjoiYUBhLmEifSwiaWF0IjoxNjM1MzE2OTY1fQ._m_M1OchkSKUL88dxYwFlNITRgYDjodN9cQdL3RHyWY`
+
+  const [userInfo] = useSessionStorage('IndiTown')
+  const { token } = userInfo
 
   const initialContents = useAsync(async () => {
-    return await axios
-      .get(`${API_END_POINT}/posts/channel/616a205422996f0bc94f6e23`)
-      .then((response) => response.data)
+    return await ApiUtils.getPostsList()
   }, [])
 
   const handleAddContent = useCallback(
@@ -24,12 +26,12 @@ const ContentsPage = ({ subMenu }) => {
         method: 'post',
         url: `${API_END_POINT}/posts/create`,
         headers: {
-          authorization: `Bearer ${TOKEN}`,
+          authorization: `Bearer ${token}`,
         },
         data: content,
       }).then((response) => response.data)
     },
-    [TOKEN]
+    [token]
   )
 
   const handleDeleteContent = useCallback(
@@ -38,14 +40,14 @@ const ContentsPage = ({ subMenu }) => {
         method: 'delete',
         url: `${API_END_POINT}/posts/delete`,
         headers: {
-          authorization: `Bearer ${TOKEN}`,
+          authorization: `Bearer ${token}`,
         },
         data: {
           id,
         },
       }).then(() => ({ id }))
     },
-    [TOKEN]
+    [token]
   )
 
   const SpinnerWrapper = styled.div`
