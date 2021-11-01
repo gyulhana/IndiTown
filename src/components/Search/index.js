@@ -1,7 +1,5 @@
 import Form from '../Form'
 
-const request = () => {}
-
 const handleKeyPress = (e) => {}
 
 const Search = ({ args }) => {
