@@ -59,10 +59,10 @@ const StyledForm = styled.form`
 const ContentsEditOption = ({ onSubmit, ...props }) => {
   const {
     content,
-    onDateRadioChange,
-    onDateInputChange,
-    onOptionRadioChange,
-    onOptionInputChange,
+    onChangeDateRadio,
+    onChangeDateInput,
+    onChangeOptionRadio,
+    onChangeOptionInput,
   } = useContentEditContext()
 
   return (
@@ -92,7 +92,7 @@ const ContentsEditOption = ({ onSubmit, ...props }) => {
                 name="radio"
                 id="30분"
                 type="radio"
-                onChange={onDateRadioChange}
+                onChange={onChangeDateRadio}
                 checked={content.selectedDate === '30분'}
               />
               <label htmlFor="30분">30분</label>
@@ -100,14 +100,14 @@ const ContentsEditOption = ({ onSubmit, ...props }) => {
                 name="radio"
                 id="1시간"
                 type="radio"
-                onChange={onDateRadioChange}
+                onChange={onChangeDateRadio}
               />
               <label htmlFor="1시간">1시간</label>
               <input
                 name="radio"
                 id="직접입력"
                 type="radio"
-                onChange={onDateRadioChange}
+                onChange={onChangeDateRadio}
               />
               <label htmlFor="직접입력">직접입력</label>
             </StyledForm>
@@ -121,7 +121,7 @@ const ContentsEditOption = ({ onSubmit, ...props }) => {
             type="text"
             disabled={content.selectedDate !== '직접입력'}
             defaultValue={content.recruitmentDate}
-            onChange={onDateInputChange}
+            onChange={onChangeDateInput}
             onSubmit={(e) => e.preventDefault}
           />
           <Text color={theme.colors.gray_5}>까지</Text>
@@ -153,7 +153,7 @@ const ContentsEditOption = ({ onSubmit, ...props }) => {
                 name="radio"
                 id="금액"
                 type="radio"
-                onChange={onOptionRadioChange}
+                onChange={onChangeOptionRadio}
                 checked={content.selectedOption === '금액'}
               />
               <label htmlFor="금액">금액</label>
@@ -161,14 +161,14 @@ const ContentsEditOption = ({ onSubmit, ...props }) => {
                 name="radio"
                 id="수량"
                 type="radio"
-                onChange={onOptionRadioChange}
+                onChange={onChangeOptionRadio}
               />
               <label htmlFor="수량">수량</label>
               <input
                 name="radio"
                 id="인원"
                 type="radio"
-                onChange={onOptionRadioChange}
+                onChange={onChangeOptionRadio}
               />
               <label htmlFor="인원">인원</label>
             </StyledForm>
@@ -180,7 +180,7 @@ const ContentsEditOption = ({ onSubmit, ...props }) => {
         >
           <StyledInput
             type="text"
-            onChange={onOptionInputChange}
+            onChange={onChangeOptionInput}
             style={{ textAlign: 'right' }}
           />
           <Text color={theme.colors.gray_5}>

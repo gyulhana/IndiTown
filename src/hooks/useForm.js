@@ -5,6 +5,8 @@ const useForm = ({ initialValues, onSubmit, validate }) => {
   const [errors, setErrors] = useState({})
   const [isLoading, setIsLoading] = useState(false)
 
+  const [formData, setFormData] = useState(initialValues)
+
   const handleChange = (e) => {
     const { name, value } = e.target
     setValues({ ...values, [name]: value })
