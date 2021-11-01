@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import moment from 'moment'
+import { useHistory } from 'react-router'
 
 const ContentEditContext = createContext()
 export const useContentEditContext = () => useContext(ContentEditContext)
@@ -33,40 +34,47 @@ const ContentEditProvider = ({ children, handleSubmitContent, subMenu }) => {
 
   console.log(content, data)
 
-  const onDateRadioChange = (e) => {
+  const onChangeDateRadio = ({ target }) => {
     const m = moment(getTime())
-    console.log(m)
-    if (e.target.id === '30분') {
+    if (target.id === '30분') {
       const recruitmentDate = m.clone().add(30, 'minutes').format()
       console.log(m)
-      setContent({ ...content, selectedDate: e.target.id, recruitmentDate })
-    } else if (e.target.id === '1시간') {
+      setContent({ ...content, selectedDate: target.id, recruitmentDate })
+    } else if (target.id === '1시간') {
       const recruitmentDate = m.clone().add(1, 'hours').format()
-      setContent({ ...content, selectedDate: e.target.id, recruitmentDate })
-    } else if (e.target.id === '직접입력') {
-      setContent({ ...content, selectedDate: e.target.id })
+      setContent({ ...content, selectedDate: target.id, recruitmentDate })
+    } else if (target.id === '직접입력') {
+      setContent({ ...content, selectedDate: target.id })
     }
   }
 
-  const onDateInputChange = (e) => {
-    setContent({ ...content, recruitmentDate: e.target.value })
+  const onChangeDateInput = ({ target }) => {
+    setContent({ ...content, recruitmentDate: target.value })
   }
 
-  const onOptionRadioChange = (e) => {
-    setContent({ ...content, selectedOption: e.target.id })
+  const onChangeOptionRadio = ({ target }) => {
+    setContent({ ...content, selectedOption: target.id })
   }
 
-  const onOptionInputChange = (e) => {
-    setContent({ ...content, recruitmentOption: e.target.value })
+  const onChangeOptionInput = ({ target }) => {
+    setContent({ ...content, recruitmentOption: target.value })
   }
 
-  const onChangeTitle = (e) => {
-    setContent({ ...content, title: e.target.value })
+  const onChangeTitle = ({ target }) => {
+    setContent({ ...content, title: target.value })
   }
 
-  const onSubmitContent = (e) => {
+  const onChangeImg = ({ file, url }) => {
+    console.log(file, url)
+    setData({ ...data, img: { file, url } })
+  }
+
+  const history = useHistory()
+
+  const onSubmitContent = async (e) => {
     e.preventDefault()
-    handleSubmitContent(data)
+    const create = await handleSubmitContent(data)
+    history.push(`/content/${create._id}`)
   }
 
   return (
@@ -74,10 +82,11 @@ const ContentEditProvider = ({ children, handleSubmitContent, subMenu }) => {
       value={{
         content,
         onChangeTitle,
-        onDateRadioChange,
-        onDateInputChange,
-        onOptionRadioChange,
-        onOptionInputChange,
+        onChangeDateRadio,
+        onChangeDateInput,
+        onChangeOptionRadio,
+        onChangeOptionInput,
+        onChangeImg,
         onSubmitContent,
       }}
     >
