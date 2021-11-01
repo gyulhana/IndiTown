@@ -34,8 +34,6 @@ export const NewSearch = () => {
     [value]
   )
 
-  console.log('result', result)
-
   return (
     <div>
       <Form
@@ -51,27 +49,42 @@ export const NewSearch = () => {
       />
       <label for="useronly">유저만 보기</label>
       <div>
-        {' '}
-        유저
-        {result &&
-          result.map(({ email, _id }) => (
-            <div key={_id}>
-              {email}
-              <br />
-            </div>
-          ))}
+        <h3>❤유저❤</h3>
+        {result
+          ?.filter((item) => item.fullName)
+          ?.filter((item) => item.fullName.includes('Yohan1'))
+          ?.map((item) => {
+            console.log('아이템 타입', typeof item.fullName)
+            console.log('아이템', item.fullName)
+
+            return (
+              <div key={item._id}>
+                {item.email}
+                <br />
+              </div>
+            )
+          })}
       </div>
       <br />
       <div>
-        {' '}
-        게시물
-        {result &&
-          result.map((item) => (
-            <div key={item._id}>
-              {item.title.title}
-              <br />
-            </div>
-          ))}
+        <h1>✨게시물✨</h1>
+        {result
+          ?.filter(
+            (item) =>
+              'title' in item && item.channel === '616a205422996f0bc94f6e23'
+          )
+          .map((item) => {
+            console.log(typeof item)
+            console.log(item)
+            console.log('title 타입', typeof item.title)
+
+            return (
+              <div key={item._id}>
+                {item.title}
+                <br />
+              </div>
+            )
+          })}
       </div>
     </div>
   )
