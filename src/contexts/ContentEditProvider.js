@@ -16,19 +16,12 @@ const ContentEditProvider = ({
 
   const [data, setData] = useState({
     title: '',
-    image: null,
     channelId: '616a205422996f0bc94f6e23',
+    image: null,
   })
 
   const [errors, setErrors] = useState({})
   const [isLoading, setIsLoading] = useState(false)
-
-  useEffect(() => {
-    setData({ ...data, title: JSON.stringify(content) })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [content])
-
-  console.log(content, data)
 
   const onRadioChange = ({ target }) => {
     const m = moment()
@@ -45,27 +38,33 @@ const ContentEditProvider = ({
   }
 
   const onInputChange = ({ target }) => {
-    console.log(target)
     setContent({ ...content, [target.name]: target.value })
+    console.log(content)
   }
 
-  const onImgChange = (file, result) => {
-    console.log('image', result)
-    setData({ ...data, image: result })
+  const onImgChange = (file, url) => {
+    setData({
+      ...data,
+      image: {
+        file,
+        url,
+      },
+    })
+    console.log(content)
   }
-
-  const formData = new FormData()
 
   const onSubmitContent = async (e) => {
+    const formData = new FormData()
     setIsLoading(true)
     e.preventDefault()
 
     const newErrors = validate ? validate(content) : {}
 
     if (Object.keys(newErrors).length === 0) {
-      formData.append('title', data.title)
-      formData.append('channelId', data.channelId)
       formData.append('image', data.image)
+      setData({ ...data, title: JSON.stringify(content) })
+      formData.append('channelId', data.channelId)
+      formData.append('title', data.title)
 
       await handleSubmitContent(formData)
     }

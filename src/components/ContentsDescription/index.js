@@ -34,7 +34,7 @@ const ContentsDescription = ({
   progressResultNum,
   progressTime,
   progressAmount,
-  imgSrc,
+  contentImg,
   createdAt,
   ...props
 }) => {
@@ -74,7 +74,7 @@ const ContentsDescription = ({
         <Image
           lazy
           block
-          src={imgSrc}
+          src={contentImg}
           mode="cover"
           style={{ maxWidth: '30rem', borderRadius: '0.8rem' }}
         ></Image>
@@ -117,6 +117,7 @@ Progress.propTypes = {
   userEmail: PropTypes.string,
   userTown: PropTypes.string,
   title: PropTypes.string,
+  contentImg: PropTypes.string,
   progressTargetNum: PropTypes.number,
   progressResultNum: PropTypes.number,
   progressTime: PropTypes.string,

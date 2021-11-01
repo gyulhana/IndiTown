@@ -44,15 +44,15 @@ const ContentPage = () => {
   )
 
   const calculateTime = (time) => {
-    const t1 = moment(time, 'YYYY-MM-DD hh:mm')
-    const t2 = moment()
-    const m = moment.duration(t1.diff(t2))
+    const t1 = moment(time, 'YYYY-MM-DD hh:mm') // 언제까지 시킬건지 지정 날짜 값
+    const t2 = moment() // 현재시간
+    const m = moment.duration(t1.diff(t2)) // t1 - t2
 
-    return `${Math.floor(m.asDays())
+    return `${Math.floor(m.asDays()) // 1.6456456546(일) -> 01(일)
       .toString()
-      .padStart(2, '0')}일  ${Math.floor(m.asHours())
+      .padStart(2, '0')}일  ${Math.floor(m.asHours()) // 시간
       .toString()
-      .padStart(2, '0')}시  ${Math.floor(m.asMinutes() % 60)
+      .padStart(2, '0')}시  ${Math.floor(m.asMinutes() % 60) // 분
       .toString()
       .padStart(2, '0')}분`
   }
@@ -70,8 +70,9 @@ const ContentPage = () => {
             userNickName={JSON.parse(content.value.author.fullName).userName}
             userTown={JSON.parse(content.value.author.fullName).location}
             title={JSON.parse(content.value.title).title}
+            contentImg={content.value.img}
             progressTime={calculateTime(
-              JSON.parse(content.value.title).recruitmentDate
+              JSON.parse(content.value.title).recruitmentDate // 언제까지 시킬건지 지정 날짜 값
             )}
             createdAt={content.value.createdAt}
           />

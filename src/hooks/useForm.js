@@ -1,25 +1,11 @@
 import { useState } from 'react'
-import moment from 'moment'
 
 const useForm = ({ initialValues, onSubmit, validate }) => {
   const [values, setValues] = useState(initialValues)
   const [errors, setErrors] = useState({})
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleRadioChange = (e) => {
-    const { name, id } = e.target
-    const m = moment()
-    let recruitmentDate
-
-    if (id === '30분') {
-      recruitmentDate = m.clone().add(30, 'minutes').format()
-    } else if (id === '1시간') {
-      recruitmentDate = m.clone().add(1, 'hours').format()
-    }
-    setValues({ ...values, [name]: id, recruitmentDate })
-  }
-
-  const handleInputChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target
     setValues({ ...values, [name]: value })
   }
@@ -40,8 +26,7 @@ const useForm = ({ initialValues, onSubmit, validate }) => {
     values,
     errors,
     isLoading,
-    handleRadioChange,
-    handleInputChange,
+    handleChange,
     handleSubmit,
   }
 }

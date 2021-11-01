@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
-import { useRef, useState } from 'react'
 import theme from '../../themes'
+import { useRef, useState } from 'react'
 import { darken } from 'polished'
 import { useContentEditContext } from '../../contexts/ContentEditProvider'
 
@@ -30,7 +30,6 @@ const UploadImage = ({
   const [dragging, setDragging] = useState(false)
   const inputRef = useRef(null)
   const photoRef = useRef(null)
-
   const { onImgChange } = useContentEditContext()
 
   const handleFileChange = (e) => {
@@ -44,6 +43,7 @@ const UploadImage = ({
       reader.readAsDataURL(changedFile)
 
       reader.onload = () => {
+        console.log('filechaged!', changedFile)
         onImgChange(changedFile, reader.result)
         photoRef.current.style.background = `center 100% / auto 100% no-repeat url(${reader.result})`
       }
