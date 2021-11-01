@@ -23,18 +23,28 @@ const ContentEditProvider = ({
   const [errors, setErrors] = useState({})
   const [isLoading, setIsLoading] = useState(false)
 
-  const onRadioChange = ({ target }) => {
-    const m = moment()
-    let recruitmentDate
+  const onRadioChange = (e) => {
+    const { id, name } = e.target
 
-    if (target.id === '30분') {
-      recruitmentDate = m.clone().add(30, 'minutes').format()
-    } else if (target.id === '1시간') {
-      recruitmentDate = m.clone().add(1, 'hours').format()
-    } else if (target.id === '직접입력') {
-      recruitmentDate = m.clone().add(1, 'hours').format()
+    if (name === 'selectedDate') {
+      const m = moment()
+      let recruitmentDate
+
+      // eslint-disable-next-line default-case
+      switch (id) {
+        case '30분':
+          recruitmentDate = m.clone().add(30, 'minutes').format()
+          break
+        case '1시간':
+          recruitmentDate = m.clone().add(1, 'hours').format()
+          break
+        case '직접입력':
+          recruitmentDate = m.clone().add(1, 'hours').format()
+      }
+      setContent({ ...content, [name]: id, recruitmentDate })
+    } else {
+      setContent({ ...content, [name]: id })
     }
-    setContent({ ...content, [target.name]: target.id, recruitmentDate })
   }
 
   const onInputChange = ({ target }) => {
@@ -50,7 +60,6 @@ const ContentEditProvider = ({
         url,
       },
     })
-    console.log(content)
   }
 
   const onSubmitContent = async (e) => {
