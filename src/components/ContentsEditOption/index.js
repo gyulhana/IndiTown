@@ -6,6 +6,11 @@ import useForm from '../../hooks/useForm'
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
+`
+
+const FlexBox = styled.div`
+  display: flex;
   align-items: center;
   justify-content: space-between;
 `
@@ -27,6 +32,10 @@ const StyledInput = styled.input`
     border: 1px solid ${theme.colors.gray_3};
     color: ${theme.colors.gray_3};
   }
+`
+const StyledInputForm = styled.form`
+  margin-top: 1rem;
+  margin-left: auto;
 `
 
 const StyledForm = styled.form`
@@ -58,12 +67,13 @@ const StyledForm = styled.form`
 `
 
 const ContentsEditOption = ({ onSubmit, ...props }) => {
-  const { content, onRadioChange, onInputChange } = useContentEditContext()
+  const { content, errors, onRadioChange, onInputChange } =
+    useContentEditContext()
 
   return (
     <div {...props}>
-      <div style={{ position: 'relative' }}>
-        <Container>
+      <Container>
+        <FlexBox>
           <StyledOption>
             <svg
               width="20"
@@ -107,11 +117,8 @@ const ContentsEditOption = ({ onSubmit, ...props }) => {
               <label htmlFor="직접입력">직접입력</label>
             </StyledForm>
           </div>
-        </Container>
-        <form
-          style={{ marginTop: '1rem', position: 'absolute', right: 0 }}
-          onSubmit={onSubmit}
-        >
+        </FlexBox>
+        <StyledInputForm onSubmit={onSubmit}>
           <StyledInput
             type="text"
             name="recruitmentDate"
@@ -119,12 +126,25 @@ const ContentsEditOption = ({ onSubmit, ...props }) => {
             value={content.recruitmentDate}
             onChange={onInputChange}
             onSubmit={(e) => e.preventDefault}
+            style={{
+              borderColor: errors.recruitmentDate
+                ? theme.colors.warning
+                : undefined,
+            }}
           />
           <Text color={theme.colors.gray_5}>까지</Text>
-        </form>
-      </div>
-      <div style={{ position: 'relative', marginTop: '5rem' }}>
-        <Container>
+        </StyledInputForm>
+        <Text
+          block
+          color={theme.colors.warning}
+          size="sm"
+          style={{ margin: '0.5rem 1.4rem 0 0', textAlign: 'right' }}
+        >
+          {errors.recruitmentDate}
+        </Text>
+      </Container>
+      <Container style={{ marginTop: '2rem' }}>
+        <FlexBox>
           <StyledOption>
             <svg
               width="20"
@@ -169,16 +189,18 @@ const ContentsEditOption = ({ onSubmit, ...props }) => {
               <label htmlFor="인원">인원</label>
             </StyledForm>
           </div>
-        </Container>
-        <form
-          style={{ marginTop: '1rem', position: 'absolute', right: 0 }}
-          onSubmit={onSubmit}
-        >
+        </FlexBox>
+        <StyledInputForm onSubmit={onSubmit}>
           <StyledInput
             type="text"
             name="recruitmentOption"
             onChange={onInputChange}
-            style={{ textAlign: 'right' }}
+            style={{
+              textAlign: 'right',
+              borderColor: errors.recruitmentOption
+                ? theme.colors.warning
+                : undefined,
+            }}
           />
           <Text color={theme.colors.gray_5}>
             {content.selectedOption === '금액'
@@ -189,8 +211,16 @@ const ContentsEditOption = ({ onSubmit, ...props }) => {
               ? '명'
               : ''}
           </Text>
-        </form>
-      </div>
+        </StyledInputForm>
+        <Text
+          block
+          color={theme.colors.warning}
+          size="sm"
+          style={{ margin: '0.5rem 1.4rem 0 0', textAlign: 'right' }}
+        >
+          {errors.recruitmentOption}
+        </Text>
+      </Container>
     </div>
   )
 }
