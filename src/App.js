@@ -47,7 +47,7 @@ function App() {
             <Route path="/chat">
               <ChattingListPage />
             </Route>
-            <Route path="/chatting/:user">
+            <Route path="/chatting/:userName">
               <ChattingRoomPage />
             </Route>
             <Route path="/profile">

@@ -1,7 +1,6 @@
 import styled from '@emotion/styled'
-import axios from 'axios'
-import { Fragment, useCallback } from 'react'
-import { useParams } from 'react-router'
+import { Fragment, useCallback, useState } from 'react'
+import { useHistory, useParams } from 'react-router'
 import { useAsync } from '../hooks'
 import ContentsDescription from '../components/ContentsDescription'
 import CommentInput from '../components/CommentInput'
@@ -9,17 +8,20 @@ import CommentList from '../components/CommentList'
 import Spinner from '../components/Spinner'
 import moment from 'moment'
 import theme from '../themes'
+import useSessionStorage from '../hooks/useSessionStorage'
+import { ApiUtils } from '../utils/api'
 
 const ContentPage = () => {
   const { contentId } = useParams()
-
-  const API_END_POINT = 'http://13.209.30.200'
-  const TOKEN = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYxNzc5OTliNDdlYzMzMjlkNDM0YjkwYyIsImVtYWlsIjoiYUBhLmEifSwiaWF0IjoxNjM1MzE2OTY1fQ._m_M1OchkSKUL88dxYwFlNITRgYDjodN9cQdL3RHyWY`
+  const [userInfo, setUserInfo] = useSessionStorage('IndiTown')
+  const { token, _id } = userInfo
+  const [comments, setComments] = useState([])
+  const history = useHistory()
 
   const content = useAsync(async () => {
-    return await axios
-      .get(`${API_END_POINT}/posts/${contentId}`)
-      .then((response) => response.data)
+    const response = await ApiUtils.getContentDetail(contentId)
+    setComments(response.comments)
+    return response
   }, [contentId])
 
   console.log(content)
@@ -31,16 +33,10 @@ const ContentPage = () => {
   `
   const handleCommentSubmit = useCallback(
     async (comment) => {
-      return await axios({
-        method: 'post',
-        url: `${API_END_POINT}/comments/create`,
-        headers: {
-          authorization: `Bearer ${TOKEN}`,
-        },
-        data: comment,
-      }).then((response) => response.data)
+      const createdComment = await ApiUtils.createComment({ token, comment })
+      setComments([...comments, createdComment])
     },
-    [TOKEN]
+    [token, comments]
   )
 
   const calculateTime = (time) => {
@@ -55,6 +51,21 @@ const ContentPage = () => {
       .padStart(2, '0')}시  ${Math.floor(m.asMinutes() % 60)
       .toString()
       .padStart(2, '0')}분`
+  }
+
+  const moveToChat = (value) => {
+    if (_id !== value._id) {
+      const userName = JSON.parse(value.fullName).userName
+      setUserInfo({
+        ...userInfo,
+        contactUserId: '',
+      })
+      setUserInfo({
+        ...userInfo,
+        contactUserId: value._id,
+      })
+      history.push(`/chatting/${userName}`)
+    }
   }
 
   if (!content.isLoading && content.value) {
@@ -75,6 +86,7 @@ const ContentPage = () => {
               JSON.parse(content.value.title).recruitmentDate
             )}
             createdAt={content.value.createdAt}
+            onClick={() => moveToChat(content.value.author)}
           />
         </Fragment>
 
@@ -90,7 +102,7 @@ const ContentPage = () => {
             })
           }}
         />
-        <CommentList comments={content.value?.comments} />
+        <CommentList comments={comments} />
       </Container>
     )
   } else {

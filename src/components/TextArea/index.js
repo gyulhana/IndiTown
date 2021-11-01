@@ -44,6 +44,7 @@ const TextArea = ({
   value,
   id,
   name,
+  onSubmit,
   ...props
 }) => {
   function resize(element) {
@@ -52,7 +53,12 @@ const TextArea = ({
   }
 
   return (
-    <StyledForm {...props} style={{ width }} id="commentForm">
+    <StyledForm
+      {...props}
+      style={{ width }}
+      id="commentForm"
+      onSubmit={onSubmit}
+    >
       <StyledTextArea
         placeholder={placeholder}
         onKeyUp={(event) => resize(event.target)}

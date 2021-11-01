@@ -1,17 +1,16 @@
 import styled from '@emotion/styled'
-import axios from 'axios'
 import { useFormik } from 'formik'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import TextArea from '../components/TextArea'
 import ChattingHistory from '../components/Chat/ChattingHistory'
 import useSessionStorage from '../hooks/useSessionStorage'
-import { useHistory } from 'react-router'
 import theme from '../themes'
+import { ApiUtils } from '../utils/api'
 
 const ChattingContainer = styled.div`
   background-color: #fff;
   position: relative;
-  height: 90vh;
+  height: 75vh;
   background-color: #fff;
   border-radius: 12.8px;
   margin: 1rem;
@@ -47,22 +46,10 @@ const ChattingRoomPage = () => {
   const messageRef = useRef(null)
   const [userInfo] = useSessionStorage('IndiTown')
   const { token, contactUserId, _id } = userInfo
-  const history = useHistory()
 
   const getMessages = async () => {
     try {
-      const messages = await axios({
-        url: 'http://13.209.30.200/messages',
-        method: 'GET',
-        headers: {
-          Authorization: `bearer ${token}`,
-          'Content-Type': 'application/json;charset=utf-8',
-        },
-        params: {
-          userId: `${contactUserId}`,
-        },
-      })
-
+      const messages = await ApiUtils.getMessages({ token, contactUserId })
       setMessages(messages.data)
     } catch (error) {
       console.error(error)
@@ -74,19 +61,14 @@ const ChattingRoomPage = () => {
       chat: '',
     },
     onSubmit: async (value) => {
-      const data = {
+      const messageData = {
         message: value.chat,
         receiver: contactUserId,
       }
       try {
-        await axios({
-          url: 'http://13.209.30.200/messages/create',
-          method: 'POST',
-          headers: {
-            Authorization: `bearer ${token}`,
-            'Content-Type': 'application/json;charset=utf-8',
-          },
-          data: JSON.stringify(data),
+        await ApiUtils.sendMessage({
+          token,
+          messageData,
         })
 
         formik.setValues({
@@ -105,25 +87,19 @@ const ChattingRoomPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const historyBack = () => {
-    history.goBack()
-  }
-
   return (
     <Fragment>
-      <button onClick={historyBack}>뒤로가기</button>
       <ChattingContainer>
         <MessageArea ref={messageRef}>
           <ChattingHistory message={messages} id={_id} />
         </MessageArea>
         <InputTextArea>
-          <form onSubmit={formik.handleSubmit}>
-            <TextArea
-              name="chat"
-              onChange={formik.handleChange}
-              value={formik.values.chat}
-            />
-          </form>
+          <TextArea
+            onSubmit={formik.handleSubmit}
+            name="chat"
+            onChange={formik.handleChange}
+            value={formik.values.chat}
+          />
         </InputTextArea>
       </ChattingContainer>
     </Fragment>

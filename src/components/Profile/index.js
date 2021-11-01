@@ -33,6 +33,7 @@ const Profile = ({
   nickName,
   email,
   town,
+  onClick,
   ...props
 }) => {
   return (
@@ -44,6 +45,7 @@ const Profile = ({
         src={src}
         placeholder={placeholder}
         alt={alt}
+        onClick={onClick}
       ></Avatar>
       <div style={{ marginLeft: '0.875rem' }}>
         <Text strong size={sizeStyles[size].fontsize_1}>

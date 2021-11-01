@@ -3,11 +3,11 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import Input from '../components/Form'
 import Button from '../components/Button'
-import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router'
 import useSessionStorage from '../hooks/useSessionStorage'
 import theme from '../themes'
+import { ApiUtils } from '../utils/api'
 
 const FormContainer = styled.form`
   padding: 2rem;
@@ -36,7 +36,6 @@ const invalidErrorMessage = {
 }
 
 const SigninPage = () => {
-  const API_ENDPOINT = 'http://13.209.30.200'
   const [, setUserInfo] = useSessionStorage('IndiTown', '')
   const history = useHistory()
 
@@ -58,25 +57,15 @@ const SigninPage = () => {
       }
 
       try {
-        const result = await axios({
-          url: `${API_ENDPOINT}/login`,
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-          },
-          data: JSON.stringify(userInfo),
-        })
+        const result = await ApiUtils.login(userInfo)
 
         const token = result.data.token
         const _id = result.data.user._id
         const user = { token, _id, user: result.data.user }
 
-        setUserInfo({
-          token: '',
-          _id: '',
-          user: {},
-        })
         setUserInfo(user)
+
+        history.push('/food')
       } catch (error) {
         console.log(error)
         formik.setErrors({ userEmail: invalidErrorMessage.notCorrect })

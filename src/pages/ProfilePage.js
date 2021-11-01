@@ -11,11 +11,11 @@ import ContentsProvider from '../contexts/ContentsProvider'
 const ProfileContainer = styled.div`
   margin: 1rem;
   margin-top: 5rem;
-  border-radius: 12.8px;
 `
 
 const ProfileWrapper = styled.div`
   background-color: #fff;
+  border-radius: 12.8px 12.8px 0 0;
 `
 
 const ProfilePage = () => {
@@ -72,10 +72,10 @@ const ProfilePage = () => {
           </ContentsProvider>
         </Nav.Item>
         <Nav.Item title="참여내역" index="profile/participant">
-          참여
+          {/* 참여 */}
         </Nav.Item>
         <Nav.Item title="관심내역" index="profile/likes">
-          관심
+          {/* 관심 */}
         </Nav.Item>
       </Nav>
     </ProfileContainer>
