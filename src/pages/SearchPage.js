@@ -146,43 +146,45 @@ export const SearchPage = () => {
 
                 return (
                   <PostContainer alt={JSON.parse(content.title).title}>
-                    <Avatar
-                      key={content._id}
-                      lazy
-                      size={48}
-                      threshold={0.5}
-                      src={
-                        JSON.parse(content.title).type === 'food'
-                          ? 'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FxznxP%2FbtrjCACuE5H%2F7ZYQrKuvzJLaZr6kxqPBkk%2Fimg.png'
-                          : 'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fc5Y83o%2FbtrjAfMkXbm%2FcnJvyenK4RLrL2IpdTq7Hk%2Fimg.png'
-                      }
-                    />
-                    <div style={{ marginLeft: '0.875rem' }}>
-                      <PostTitle
-                        strong
-                        size={theme.fontSizes.sm}
-                        style={{
-                          overflow: 'hidden',
-                          lineClamp: 1,
-                          display: 'box',
-                        }}
-                      >
-                        {JSON.parse(content.title).title.length > 0
-                          ? JSON.parse(content.title).title
-                          : '제목 없음'}
-                      </PostTitle>
-                      <div
-                        style={{
-                          fontSize: '0.9rem',
-                          fontWeight: '500',
-                          color: `${theme.colors.primary}`,
-                        }}
-                      >
-                        {+leftTime.substr(0, 2) >= 0
-                          ? `${leftTime} 남음`
-                          : '모집 기한 종료'}
+                    <Link to={`/content/${content._id}`}>
+                      <Avatar
+                        key={content._id}
+                        lazy
+                        size={48}
+                        threshold={0.5}
+                        src={
+                          JSON.parse(content.title).type === 'food'
+                            ? 'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FxznxP%2FbtrjCACuE5H%2F7ZYQrKuvzJLaZr6kxqPBkk%2Fimg.png'
+                            : 'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fc5Y83o%2FbtrjAfMkXbm%2FcnJvyenK4RLrL2IpdTq7Hk%2Fimg.png'
+                        }
+                      />
+                      <div style={{ marginLeft: '0.875rem' }}>
+                        <PostTitle
+                          strong
+                          size={theme.fontSizes.sm}
+                          style={{
+                            overflow: 'hidden',
+                            lineClamp: 1,
+                            display: 'box',
+                          }}
+                        >
+                          {JSON.parse(content.title).title.length > 0
+                            ? JSON.parse(content.title).title
+                            : '제목 없음'}
+                        </PostTitle>
+                        <div
+                          style={{
+                            fontSize: '0.9rem',
+                            fontWeight: '500',
+                            color: `${theme.colors.primary}`,
+                          }}
+                        >
+                          {+leftTime.substr(0, 2) >= 0
+                            ? `${leftTime} 남음`
+                            : '모집 기한 종료'}
+                        </div>
                       </div>
-                    </div>
+                    </Link>
                   </PostContainer>
                 )
               })}

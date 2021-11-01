@@ -13,6 +13,7 @@ import {
   ChattingRoomPage,
   ProfilePage,
 } from './pages'
+import SearchPage from './pages/SearchPage'
 
 function App() {
   return (
@@ -43,6 +44,9 @@ function App() {
             <Route path="/:subMenu/edit" component={ContentEditPage} />
             <Route exact path="/content/:contentId">
               <ContentPage />
+            </Route>
+            <Route path="/search">
+              <SearchPage />
             </Route>
             <Route path="/chat">
               <ChattingListPage />
