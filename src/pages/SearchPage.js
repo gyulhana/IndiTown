@@ -5,11 +5,23 @@ import Form from '../components/Form'
 import styled from '@emotion/styled'
 import theme from '../themes'
 import Profile from '../components/Profile'
-import ContentsSummary, {
-  calculateTime,
-  LinkWrapper,
-} from '../components/ContentsSummary'
 import { Link } from 'react-router-dom'
+import Avatar from '../components/Avatar'
+import moment from 'moment'
+
+const calculateTime = (time) => {
+  const t1 = moment(time, 'YYYY-MM-DD hh:mm')
+  const t2 = moment()
+  const m = moment.duration(t1.diff(t2))
+  console.log()
+  return `${Math.floor(m.asDays()).toString().padStart(2, '0')}일  ${Math.floor(
+    m.asHours() % 24
+  )
+    .toString()
+    .padStart(2, '0')}시  ${Math.floor(m.asMinutes() % 60)
+    .toString()
+    .padStart(2, '0')}분`
+}
 
 const Header = styled.div`
   background-color: white;
@@ -45,6 +57,22 @@ const Title = styled.h3`
   font-weight: 500;
 `
 
+const PostTitle = styled.h3`
+  font-weight: 500;
+  display: box;
+  white-space: wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
+
+const PostContainer = styled.div`
+  display: flex;
+  align-items: center;
+  line-height: 1.4;
+  cursor: pointer;
+  margin-bottom: 1rem;
+`
+
 export const SearchPage = () => {
   const API_END_POINT = 'http://13.209.30.200'
 
@@ -56,7 +84,6 @@ export const SearchPage = () => {
 
   const [value, setValue] = useState('')
   const [result, setResult] = useState([])
-  const [onlyUser, setOnlyUser] = useState(false)
 
   useDebounce(
     async () => {
@@ -81,24 +108,21 @@ export const SearchPage = () => {
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
-          <input
-            type="checkbox"
-            id="useronly"
-            onlyUser={onlyUser}
-            OnCheckedChanged={() => setOnlyUser(!onlyUser)}
-          />
-          <label for="useronly">유저만 보기</label>
           <div>
             <Title>사용자</Title>
             {result
               ?.filter((item) => item.fullName)
               ?.filter((item) => item.fullName.includes('Yohan1'))
               ?.map((item) => {
+                console.log(item)
                 return (
                   <Profile
+                    key={item._id}
                     lazy
                     threshold={0.5}
-                    src={'https://picsum.photos/400'}
+                    src={
+                      'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbDh7FL%2FbtrjyIagzyN%2FTXsUFujA0H8NykBT8C0WZk%2Fimg.png'
+                    }
                     alt={JSON.parse(item.fullName).userName}
                     nickName={JSON.parse(item.fullName).userName}
                     email={item.email}
@@ -115,12 +139,51 @@ export const SearchPage = () => {
                 (item) =>
                   'title' in item && item.channel === '616a205422996f0bc94f6e23'
               )
-              .map((item) => {
+              .map((content) => {
+                const leftTime = calculateTime(
+                  JSON.parse(content.title).recruitmentDate
+                )
+
                 return (
-                  <div key={item._id}>
-                    {JSON.parse(item.title).title}
-                    <br />
-                  </div>
+                  <PostContainer alt={JSON.parse(content.title).title}>
+                    <Avatar
+                      key={content._id}
+                      lazy
+                      size={48}
+                      threshold={0.5}
+                      src={
+                        JSON.parse(content.title).type === 'food'
+                          ? 'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FxznxP%2FbtrjCACuE5H%2F7ZYQrKuvzJLaZr6kxqPBkk%2Fimg.png'
+                          : 'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fc5Y83o%2FbtrjAfMkXbm%2FcnJvyenK4RLrL2IpdTq7Hk%2Fimg.png'
+                      }
+                    />
+                    <div style={{ marginLeft: '0.875rem' }}>
+                      <PostTitle
+                        strong
+                        size={theme.fontSizes.sm}
+                        style={{
+                          overflow: 'hidden',
+                          lineClamp: 1,
+                          display: 'box',
+                        }}
+                      >
+                        {JSON.parse(content.title).title.length > 0
+                          ? JSON.parse(content.title).title
+                          : '제목 없음'}
+                      </PostTitle>
+                      <div
+                        style={{
+                          fontSize: '0.9rem',
+                          fontWeight: '500',
+                          color: `${theme.colors.primary}`,
+                        }}
+                      >
+                        {+leftTime.substr(0, 2) >= 0
+                          ? `${leftTime} 남음`
+                          : '모집 기한 종료'}
+                      </div>
+                    </div>
+                  </PostContainer>
                 )
               })}
           </div>
