@@ -5,14 +5,15 @@ import styled from '@emotion/styled'
 import theme from '../../themes'
 import ContentsEditOption from '../ContentsEditOption'
 import Button from '../Button'
+import Text from '../Text'
 import { useContentEditContext } from '../../contexts/ContentEditProvider'
 
 const StyledTextarea = styled.textarea`
   width: 100%;
   height: 16rem;
   outline: none;
-  border: none;
   resize: none;
+  border: none;
   font-family: 'Noto Sans KR', sans-serif;
   overflow-y: scroll;
   -ms-overflow-style: none;
@@ -45,7 +46,7 @@ const ContentsEdit = ({
   userTown,
   ...props
 }) => {
-  const { onChangeTitle, onSubmitContent } = useContentEditContext()
+  const { errors, onInputChange, onSubmitContent } = useContentEditContext()
 
   return (
     <div {...props}>
@@ -62,8 +63,19 @@ const ContentsEdit = ({
       />
       <StyledTextarea
         placeholder="무엇을 함께 주문하고 싶으신가요?"
-        onChange={onChangeTitle}
+        name="title"
+        spellCheck="false"
+        onChange={onInputChange}
       />
+      <Text
+        block
+        color={theme.colors.warning}
+        size="sm"
+        style={{ margin: '0.5rem 1.4rem 2rem 0', textAlign: 'center' }}
+      >
+        {errors.title}
+      </Text>
+
       <UploadImage
         droppable
         accept={'.png, .jpg, .jpeg, .gif'}
@@ -116,7 +128,7 @@ const ContentsEdit = ({
         onSubmit={onSubmitContent}
       />
       <Button
-        style={{ width: '100%', marginTop: '6rem' }}
+        style={{ width: '100%', marginTop: '2rem' }}
         size="large"
         onClick={onSubmitContent}
       >

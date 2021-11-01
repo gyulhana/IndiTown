@@ -2,8 +2,14 @@ import styled from '@emotion/styled'
 import theme from '../../themes'
 import Text from '../..//components/Text'
 import { useContentEditContext } from '../../contexts/ContentEditProvider'
+import useForm from '../../hooks/useForm'
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const FlexBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -26,6 +32,10 @@ const StyledInput = styled.input`
     border: 1px solid ${theme.colors.gray_3};
     color: ${theme.colors.gray_3};
   }
+`
+const StyledInputForm = styled.form`
+  margin-top: 1rem;
+  margin-left: auto;
 `
 
 const StyledForm = styled.form`
@@ -57,18 +67,13 @@ const StyledForm = styled.form`
 `
 
 const ContentsEditOption = ({ onSubmit, ...props }) => {
-  const {
-    content,
-    onChangeDateRadio,
-    onChangeDateInput,
-    onChangeOptionRadio,
-    onChangeOptionInput,
-  } = useContentEditContext()
+  const { content, errors, onRadioChange, onInputChange } =
+    useContentEditContext()
 
   return (
     <div {...props}>
-      <div style={{ position: 'relative' }}>
-        <Container>
+      <Container>
+        <FlexBox>
           <StyledOption>
             <svg
               width="20"
@@ -89,46 +94,57 @@ const ContentsEditOption = ({ onSubmit, ...props }) => {
           <div>
             <StyledForm onSubmit={onSubmit}>
               <input
-                name="radio"
+                name="selectedDate"
                 id="30분"
                 type="radio"
-                onChange={onChangeDateRadio}
+                onChange={onRadioChange}
                 checked={content.selectedDate === '30분'}
               />
               <label htmlFor="30분">30분</label>
               <input
-                name="radio"
+                name="selectedDate"
                 id="1시간"
                 type="radio"
-                onChange={onChangeDateRadio}
+                onChange={onRadioChange}
               />
               <label htmlFor="1시간">1시간</label>
               <input
-                name="radio"
+                name="selectedDate"
                 id="직접입력"
                 type="radio"
-                onChange={onChangeDateRadio}
+                onChange={onRadioChange}
               />
               <label htmlFor="직접입력">직접입력</label>
             </StyledForm>
           </div>
-        </Container>
-        <form
-          style={{ marginTop: '1rem', position: 'absolute', right: 0 }}
-          onSubmit={onSubmit}
-        >
+        </FlexBox>
+        <StyledInputForm onSubmit={onSubmit}>
           <StyledInput
             type="text"
+            name="recruitmentDate"
             disabled={content.selectedDate !== '직접입력'}
-            defaultValue={content.recruitmentDate}
-            onChange={onChangeDateInput}
+            value={content.recruitmentDate}
+            onChange={onInputChange}
             onSubmit={(e) => e.preventDefault}
+            style={{
+              borderColor: errors.recruitmentDate
+                ? theme.colors.warning
+                : undefined,
+            }}
           />
           <Text color={theme.colors.gray_5}>까지</Text>
-        </form>
-      </div>
-      <div style={{ position: 'relative', marginTop: '5rem' }}>
-        <Container>
+        </StyledInputForm>
+        <Text
+          block
+          color={theme.colors.warning}
+          size="sm"
+          style={{ margin: '0.5rem 1.4rem 0 0', textAlign: 'right' }}
+        >
+          {errors.recruitmentDate}
+        </Text>
+      </Container>
+      <Container style={{ marginTop: '2rem' }}>
+        <FlexBox>
           <StyledOption>
             <svg
               width="20"
@@ -150,38 +166,41 @@ const ContentsEditOption = ({ onSubmit, ...props }) => {
           <div>
             <StyledForm onSubmit={onSubmit}>
               <input
-                name="radio"
+                name="selectedOption"
                 id="금액"
                 type="radio"
-                onChange={onChangeOptionRadio}
+                onChange={onRadioChange}
                 checked={content.selectedOption === '금액'}
               />
               <label htmlFor="금액">금액</label>
               <input
-                name="radio"
+                name="selectedOption"
                 id="수량"
                 type="radio"
-                onChange={onChangeOptionRadio}
+                onChange={onRadioChange}
               />
               <label htmlFor="수량">수량</label>
               <input
-                name="radio"
+                name="selectedOption"
                 id="인원"
                 type="radio"
-                onChange={onChangeOptionRadio}
+                onChange={onRadioChange}
               />
               <label htmlFor="인원">인원</label>
             </StyledForm>
           </div>
-        </Container>
-        <form
-          style={{ marginTop: '1rem', position: 'absolute', right: 0 }}
-          onSubmit={onSubmit}
-        >
+        </FlexBox>
+        <StyledInputForm onSubmit={onSubmit}>
           <StyledInput
             type="text"
-            onChange={onChangeOptionInput}
-            style={{ textAlign: 'right' }}
+            name="recruitmentOption"
+            onChange={onInputChange}
+            style={{
+              textAlign: 'right',
+              borderColor: errors.recruitmentOption
+                ? theme.colors.warning
+                : undefined,
+            }}
           />
           <Text color={theme.colors.gray_5}>
             {content.selectedOption === '금액'
@@ -192,8 +211,16 @@ const ContentsEditOption = ({ onSubmit, ...props }) => {
               ? '명'
               : ''}
           </Text>
-        </form>
-      </div>
+        </StyledInputForm>
+        <Text
+          block
+          color={theme.colors.warning}
+          size="sm"
+          style={{ margin: '0.5rem 1.4rem 0 0', textAlign: 'right' }}
+        >
+          {errors.recruitmentOption}
+        </Text>
+      </Container>
     </div>
   )
 }

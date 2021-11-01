@@ -1,92 +1,86 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import moment from 'moment'
-import { useHistory } from 'react-router'
 
 const ContentEditContext = createContext()
 export const useContentEditContext = () => useContext(ContentEditContext)
 
-const ContentEditProvider = ({ children, handleSubmitContent, subMenu }) => {
-  moment.defaultFormat = 'YYYY-MM-DD HH:mm'
-  const getTime = () => {
-    const date = moment()
-    return date
-  }
-
-  const [content, setContent] = useState({
-    title: '',
-    type: subMenu, // food or package
-    selectedDate: '30분',
-    recruitmentDate: moment(getTime()).clone().add(30, 'minutes').format(),
-    selectedOption: '금액',
-    recruitmentOption: null,
-  })
+const ContentEditProvider = ({
+  initialState,
+  validate,
+  handleSubmitContent,
+  children,
+}) => {
+  const MOMENT_DEFAULT_FORMAT = 'YYYY-MM-DD HH:mm'
+  moment.defaultFormat = MOMENT_DEFAULT_FORMAT
+  const [content, setContent] = useState(initialState)
 
   const [data, setData] = useState({
     title: '',
-    img: null,
     channelId: '616a205422996f0bc94f6e23',
+    image: null,
   })
 
-  useEffect(() => {
-    setData({ ...data, title: JSON.stringify(content) })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [content])
+  const [errors, setErrors] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
 
-  console.log(content, data)
+  const onRadioChange = ({ target }) => {
+    const m = moment()
+    let recruitmentDate
 
-  const onChangeDateRadio = ({ target }) => {
-    const m = moment(getTime())
     if (target.id === '30분') {
-      const recruitmentDate = m.clone().add(30, 'minutes').format()
-      console.log(m)
-      setContent({ ...content, selectedDate: target.id, recruitmentDate })
+      recruitmentDate = m.clone().add(30, 'minutes').format()
     } else if (target.id === '1시간') {
-      const recruitmentDate = m.clone().add(1, 'hours').format()
-      setContent({ ...content, selectedDate: target.id, recruitmentDate })
+      recruitmentDate = m.clone().add(1, 'hours').format()
     } else if (target.id === '직접입력') {
-      setContent({ ...content, selectedDate: target.id })
+      recruitmentDate = m.clone().add(1, 'hours').format()
     }
+    setContent({ ...content, [target.name]: target.id, recruitmentDate })
   }
 
-  const onChangeDateInput = ({ target }) => {
-    setContent({ ...content, recruitmentDate: target.value })
+  const onInputChange = ({ target }) => {
+    setContent({ ...content, [target.name]: target.value })
+    console.log(content)
   }
 
-  const onChangeOptionRadio = ({ target }) => {
-    setContent({ ...content, selectedOption: target.id })
+  const onImgChange = (file, url) => {
+    setData({
+      ...data,
+      image: {
+        file,
+        url,
+      },
+    })
+    console.log(content)
   }
-
-  const onChangeOptionInput = ({ target }) => {
-    setContent({ ...content, recruitmentOption: target.value })
-  }
-
-  const onChangeTitle = ({ target }) => {
-    setContent({ ...content, title: target.value })
-  }
-
-  const onChangeImg = ({ file, url }) => {
-    console.log(file, url)
-    setData({ ...data, img: { file, url } })
-  }
-
-  const history = useHistory()
 
   const onSubmitContent = async (e) => {
+    const formData = new FormData()
+    setIsLoading(true)
     e.preventDefault()
-    const create = await handleSubmitContent(data)
-    history.push(`/content/${create._id}`)
+
+    const newErrors = validate ? validate(content) : {}
+
+    if (Object.keys(newErrors).length === 0) {
+      formData.append('image', data.image)
+      setData({ ...data, title: JSON.stringify(content) })
+      formData.append('channelId', data.channelId)
+      formData.append('title', data.title)
+
+      await handleSubmitContent(formData)
+    }
+    setErrors(newErrors)
+    setIsLoading(false)
   }
 
   return (
     <ContentEditContext.Provider
       value={{
         content,
-        onChangeTitle,
-        onChangeDateRadio,
-        onChangeDateInput,
-        onChangeOptionRadio,
-        onChangeOptionInput,
-        onChangeImg,
+        errors,
+        isLoading,
+        onInputChange,
+        onRadioChange,
+        onImgChange,
         onSubmitContent,
       }}
     >
