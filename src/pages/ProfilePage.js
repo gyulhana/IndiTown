@@ -43,6 +43,7 @@ const ProfilePage = () => {
   useEffect(() => {
     getUserInfoAsync(_id)
     getPostsListsAsync()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
