@@ -2,7 +2,9 @@ import styled from '@emotion/styled'
 import { Fragment, useCallback, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
 import { useAsync } from '../hooks'
-import ContentsProvider from '../contexts/ContentsProvider'
+import ContentsProvider, {
+  useContentsContext,
+} from '../contexts/ContentsProvider'
 import ContentsDescription from '../components/ContentsDescription'
 import CommentInput from '../components/CommentInput'
 import CommentList from '../components/CommentList'
@@ -11,6 +13,7 @@ import theme from '../themes'
 import useSessionStorage from '../hooks/useSessionStorage'
 import { ApiUtils } from '../utils/api'
 import LikeAndJoin from '../components/LikeAndJoin'
+import NotiModal from '../components/NotiModal'
 import { TimeUtils } from '../utils/time'
 
 const ContentPage = () => {
@@ -20,6 +23,10 @@ const ContentPage = () => {
   const [comments, setComments] = useState([])
   const history = useHistory()
   const [like, setLike] = useState(false)
+  const [count, setCount] = useState(0)
+  const [isJoin, setIsJoin] = useState(false)
+  const [openJoinPopup, setOpenJoinPopup] = useState(false)
+  const { openJoinModal } = useContentsContext()
 
   const content = useAsync(async () => {
     const response = await ApiUtils.getContentDetail(contentId)
@@ -29,6 +36,7 @@ const ContentPage = () => {
       if (likeList.length === 0) {
         return setLike(false)
       }
+      setCount(likeList.length)
       for (const post of likeList) {
         if (post.user === _id) {
           return setLike(true)
@@ -85,6 +93,7 @@ const ContentPage = () => {
     try {
       await ApiUtils.likePost({ token, postId: data })
       setLike(true)
+      setCount(count + 1)
     } catch (error) {
       console.error(error)
     }
@@ -111,10 +120,13 @@ const ContentPage = () => {
     try {
       await ApiUtils.dislikePost({ token, id: data })
       setLike(false)
+      setCount(count - 1)
     } catch (error) {
       console.error(error)
     }
   }
+
+  console.log(content)
 
   if (!content.isLoading && content.value) {
     return (
@@ -125,7 +137,6 @@ const ContentPage = () => {
               id={content.value?._id}
               style={{
                 padding: '1rem',
-                borderBottom: `1px solid ${theme.colors.gray_2}`,
               }}
               userEmail={content.value.author.email}
               userNickName={JSON.parse(content.value.author.fullName).userName}
@@ -142,23 +153,16 @@ const ContentPage = () => {
             />
           </Fragment>
 
-          <CommentInput
-            style={{
-              padding: '1rem',
-              // borderBottom: `1px solid ${theme.colors.gray_2}`,
-            }}
-            onSubmit={(e) => {
-              e.preventDefault()
-              handleCommentSubmit({
-                comment: e.target[0].value,
-                postId: contentId,
-              })
-            }}
-          />
           <LikeAndJoin
-            initialState={like}
-            onClick={like ? dislikePost : likePost}
+            likeState={like}
+            count={count}
+            onLikeClick={like ? dislikePost : likePost}
+            joinState={isJoin}
+            isExpired={TimeUtils.checkExpired(content.value)}
+            openJoinClick={() => setOpenJoinPopup(true)}
           />
+          <NotiModal initialState={openJoinPopup} />
+
           <CommentInput
             style={{
               padding: '1rem',
