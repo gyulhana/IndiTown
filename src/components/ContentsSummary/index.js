@@ -11,7 +11,6 @@ const StyledContentsSummary = styled.div`
   padding: 1rem;
   border-radius: 0.8rem;
   line-height: 1.4;
-  max-width: 25rem;
 `
 const selectedOptions = {
   금액: '원',
