@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { useCallback } from 'react'
 import { useAsync } from '../hooks'
 import { Link } from 'react-router-dom'
@@ -11,8 +10,6 @@ import useSessionStorage from '../hooks/useSessionStorage'
 import { ApiUtils } from '../utils/api'
 
 const ContentsPage = ({ subMenu }) => {
-  const API_END_POINT = 'http://13.209.30.200'
-
   const [userInfo] = useSessionStorage('IndiTown')
   const { token } = userInfo
 
@@ -22,14 +19,7 @@ const ContentsPage = ({ subMenu }) => {
 
   const handleAddContent = useCallback(
     async (content) => {
-      return await axios({
-        method: 'post',
-        url: `${API_END_POINT}/posts/create`,
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-        data: content,
-      }).then((response) => response.data)
+      return await ApiUtils.createContent({ token, content })
     },
     [token]
   )

@@ -159,6 +159,31 @@ const dislikePost = async (data) => {
   })
 }
 
+const signup = async (data) => {
+  return await axiosInstance({
+    url: '/signup',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=UTP-8',
+    },
+    data: JSON.stringify(data),
+  })
+}
+
+const getUserLists = async () => {
+  return await axiosInstance({
+    url: '/users/get-users',
+    method: 'GET',
+  })
+}
+
+const searchPosts = async (word) => {
+  return await axiosInstance({
+    url: `/search/all/${word}`,
+    method: 'get',
+  })
+}
+
 export const ApiUtils = {
   getUsersInfo,
   getPostsList,
@@ -172,4 +197,7 @@ export const ApiUtils = {
   sendMessage,
   likePost,
   dislikePost,
+  signup,
+  getUserLists,
+  searchPosts,
 }
