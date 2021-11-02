@@ -59,7 +59,9 @@ const PostContainer = styled.div`
 
 export const SearchPage = () => {
   const data = useCallback(async (word) => {
-    return await ApiUtils.searchPosts(word)
+    return await (
+      await ApiUtils.searchPosts(word)
+    ).data
   }, [])
 
   const [value, setValue] = useState('')
