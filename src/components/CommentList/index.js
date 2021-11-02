@@ -1,6 +1,7 @@
 import { useHistory } from 'react-router'
 import useSessionStorage from '../../hooks/useSessionStorage'
 import CommentItem from '../CommentItem'
+import { ProfileUtils } from '../../utils/profile'
 
 const CommentList = ({ comments }) => {
   const history = useHistory()
@@ -26,7 +27,15 @@ const CommentList = ({ comments }) => {
       {comments.map((comment) => (
         <CommentItem
           key={comment._id}
-          userNickName={JSON.parse(comment.author.fullName).userName}
+          userImg={
+            comment.author.image ||
+            ProfileUtils.getDefaultImage(comment.author.email)
+          }
+          userNickName={
+            comment.author.fullName[0] !== '{'
+              ? comment.author.fullName
+              : JSON.parse(comment.author.fullName)?.userName
+          }
           userEmail={comment.author.email}
           comment={comment.comment}
           createdAt={comment.createdAt}

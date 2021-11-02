@@ -11,7 +11,6 @@ const StyledContentsSummary = styled.div`
   padding: 1rem;
   border-radius: 0.8rem;
   line-height: 1.4;
-  max-width: 25rem;
 `
 const selectedOptions = {
   금액: '원',
@@ -25,7 +24,7 @@ const ContentsSummary = ({
   placeholder,
   size = 'medium',
   alt,
-  userImg = 'https://picsum.photos/400',
+  userImg,
   userNickName,
   userEmail,
   userTown,
@@ -45,7 +44,7 @@ const ContentsSummary = ({
         lazy
         threshold={0.5}
         size={size}
-        src={userImg || 'https://picsum.photos/400'}
+        src={userImg}
         placeholder={placeholder}
         alt={alt}
         nickName={userNickName}

@@ -11,6 +11,7 @@ import useSessionStorage from '../hooks/useSessionStorage'
 import { ApiUtils } from '../utils/api'
 import LikeAndJoin from '../components/LikeAndJoin'
 import { TimeUtils } from '../utils/time'
+import { ProfileUtils } from '../utils/profile'
 
 const ContentPage = () => {
   const { contentId } = useParams()
@@ -140,8 +141,20 @@ const ContentPage = () => {
                 padding: '1rem',
               }}
               userEmail={content.value.author.email}
-              userNickName={JSON.parse(content.value.author.fullName).userName}
-              userTown={JSON.parse(content.value.author.fullName).location}
+              userImg={
+                content.value.author.image ||
+                ProfileUtils.getDefaultImage(content.value.author.email)
+              }
+              userNickName={
+                content.value.author.fullName[0] !== '{'
+                  ? content.value.author.fullName
+                  : JSON.parse(content.value.author.fullName).userName
+              }
+              userTown={
+                content.value.author.fullName[0] !== '{'
+                  ? '동네정보없음'
+                  : JSON.parse(content.value.author.fullName).location
+              }
               title={JSON.parse(content.value.title).title}
               contentImg={content.value.image}
               isExpired={!TimeUtils.checkExpired(content.value)}
@@ -167,6 +180,10 @@ const ContentPage = () => {
             style={{
               padding: '1rem',
             }}
+            userImg={
+              content.value.author.image ||
+              ProfileUtils.getDefaultImage(content.value.author.email)
+            }
             onSubmit={(e) => {
               e.preventDefault()
               handleCommentSubmit({

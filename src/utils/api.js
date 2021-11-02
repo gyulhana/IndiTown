@@ -39,6 +39,17 @@ const login = async (userInfo) => {
   })
 }
 
+const UploadUserImage = async (data) => {
+  return await axiosInstance({
+    method: 'post',
+    url: '/users/upload/photo',
+    headers: {
+      authorization: `Bearer ${data.token}`,
+    },
+    data: data.formData,
+  })
+}
+
 const createContent = async (data) => {
   return await axiosInstance({
     method: 'post',
@@ -182,16 +193,13 @@ const searchPosts = async (word) => {
     url: `/search/all/${word}`,
     method: 'get',
   })
-    .then((response) => response.data)
-    .catch((error) => {
-      console.log(error.response)
-    })
 }
 
 export const ApiUtils = {
   getUsersInfo,
   getPostsList,
   login,
+  UploadUserImage,
   createContent,
   deleteContent,
   getContentDetail,
