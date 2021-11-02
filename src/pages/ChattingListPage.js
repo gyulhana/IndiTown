@@ -6,6 +6,7 @@ import LastChattingDate from '../components/Chat/LastChattingDate'
 import { useHistory } from 'react-router'
 import useSessionStorage from '../hooks/useSessionStorage'
 import { ApiUtils } from '../utils/api'
+import { ProfileUtils } from '../utils/profile'
 
 const ChatListContainer = styled.div`
   background-color: #fff;
@@ -103,7 +104,10 @@ const ChattingListPage = ({ src, onClick }) => {
                 marginRight: '0.875rem',
               }}
               size={40}
-              src={src}
+              src={
+                chat.receiver.image ||
+                ProfileUtils.getDefaultImage(chat.receiver.email)
+              }
               onClick={onClick}
             />
             <Chat>

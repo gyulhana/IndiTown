@@ -2,11 +2,12 @@ import Profile from '../components/Profile'
 import Nav from '../components/Nav'
 import styled from '@emotion/styled'
 import { useEffect, useState } from 'react'
-import { ApiUtils } from '../utils/api'
 import useSessionStorage from '../hooks/useSessionStorage'
 import theme from '../themes'
 import ContentsSummaryList from '../components/ContentsSummaryList'
 import ContentsProvider from '../contexts/ContentsProvider'
+import { ApiUtils } from '../utils/api'
+import { ProfileUtils } from '../utils/profile'
 
 const ProfileContainer = styled.div`
   margin: 1rem;
@@ -58,7 +59,7 @@ const ProfilePage = () => {
     getPostsListsAsync()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
+  console.log(userData.email)
   return (
     <ProfileContainer>
       <ProfileWrapper>
@@ -66,6 +67,10 @@ const ProfilePage = () => {
           lazy
           threshold={0.5}
           size="large"
+          src={
+            userData.image ||
+            (userData.email && ProfileUtils.getDefaultImage(userData.email))
+          }
           nickName={userData.userName}
           email={userData.email}
           town={userData.location}

@@ -12,6 +12,7 @@ import useSessionStorage from '../hooks/useSessionStorage'
 import { ApiUtils } from '../utils/api'
 import LikeAndJoin from '../components/LikeAndJoin'
 import { TimeUtils } from '../utils/time'
+import { ProfileUtils } from '../utils/profile'
 
 const ContentPage = () => {
   const { contentId } = useParams()
@@ -129,6 +130,10 @@ const ContentPage = () => {
                 borderBottom: `1px solid ${theme.colors.gray_2}`,
               }}
               userEmail={content.value.author.email}
+              userImg={
+                content.value.author.image ||
+                ProfileUtils.getDefaultImage(content.value.author.email)
+              }
               userNickName={JSON.parse(content.value.author.fullName).userName}
               userTown={JSON.parse(content.value.author.fullName).location}
               title={JSON.parse(content.value.title).title}
@@ -148,6 +153,10 @@ const ContentPage = () => {
               padding: '1rem',
               // borderBottom: `1px solid ${theme.colors.gray_2}`,
             }}
+            userImg={
+              content.value.author.image ||
+              ProfileUtils.getDefaultImage(content.value.author.email)
+            }
             onSubmit={(e) => {
               e.preventDefault()
               handleCommentSubmit({
@@ -164,6 +173,10 @@ const ContentPage = () => {
             style={{
               padding: '1rem',
             }}
+            userImg={
+              content.value.author.image ||
+              ProfileUtils.getDefaultImage(content.value.author.email)
+            }
             onSubmit={(e) => {
               e.preventDefault()
               handleCommentSubmit({
