@@ -1,11 +1,11 @@
 import styled from '@emotion/styled'
 import { useFormik } from 'formik'
-import { Fragment, useMemo, useRef, useState } from 'react'
+import { Fragment, useState } from 'react'
 import Button from '../Button'
 import Modal from '../Modal'
-import * as Yup from 'yup'
-import Input from '../Form'
 import theme from '../../themes'
+import { ApiUtils } from '../../utils/api'
+import useSessionStorage from '../../hooks/useSessionStorage'
 
 const JoinButton = styled(Button)`
   cursor: auto;
@@ -13,18 +13,15 @@ const JoinButton = styled(Button)`
     background-color: #333333;
   }
 `
-
 const Header = styled.h4`
   color: #333333;
   padding: 0;
   margin: 0;
 `
-
 const Text = styled.div`
   font-size: 0.9rem;
   line-height: 1.4rem;
 `
-
 const ButtonContainer = styled.div`
   margin-top: 24px;
   width: calc(100%);
@@ -33,17 +30,17 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
 `
 
-const Invalid = styled.div`
-  height: 1rem;
-  color: #dc3545;
-  font-size: 0.875rem;
-  margin: 0.25rem 0 1rem;
+const OptionText = styled.div`
+  text-align: center;
+  margin-bottom: 1rem;
 `
 
 const Join = ({ initialState, isExpired, value }) => {
   const [show, setShow] = useState(false)
   const [join, setJoin] = useState(false)
   const [remainOptions, setRemainOptions] = useState(0)
+  const [userInfo] = useSessionStorage('IndiTown')
+  const { token } = userInfo
 
   const closeModal = (e) => {
     e.preventDefault()
@@ -61,23 +58,20 @@ const Join = ({ initialState, isExpired, value }) => {
     setJoin(true)
   }
 
-  const inValidErrorMessage = {
-    min: '0 이상의 값을 입력해 주세요',
-    max: `${remainOptions} 이하의 값을 입력해 주세요`,
-    required: '숫자를 입력해 주세요',
-  }
   const formik = useFormik({
     initialValues: {
       options: 0,
     },
-    validationSchema: Yup.object({
-      options: Yup.number()
-        .min(0, inValidErrorMessage.min)
-        .max(remainOptions, inValidErrorMessage.max)
-        .required(inValidErrorMessage.required),
-    }),
     onSubmit: async () => {
-      alert(formik.values.options)
+      const formData = new FormData()
+      const title = JSON.parse(value.title)
+      title.orderdOption += formik.values.options
+      formData.append('postId', value._id)
+      formData.append('title', JSON.stringify(title))
+      formData.append('image', value.image ? value.image : null)
+      formData.append('channelId', value.channel._id)
+
+      await ApiUtils.updatePost({ token, content: formData })
     },
   })
 
@@ -94,23 +88,24 @@ const Join = ({ initialState, isExpired, value }) => {
       <Modal show={show} onClose={() => setShow(false)}>
         {join ? (
           <Fragment>
-            <form onSubmit={formik.handleSubmit}>
-              <Input
-                type="text"
+            <form style={{ width: '14rem' }} onSubmit={formik.handleSubmit}>
+              <div style={{ textAlign: 'center' }}>얼마나 구매할까요?</div>
+              <input
+                type="range"
                 style={{
                   border: `1px solid ${theme.colors.gray_2}`,
                   margin: '1rem 0',
+                  width: '100%',
                 }}
                 id="options"
                 name="options"
+                min="0"
+                max={remainOptions}
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
                 value={formik.values.options}
                 placeholder="얼마나 구매할까요?"
               />
-              {formik.errors.options ? (
-                <Invalid>{formik.errors.options}</Invalid>
-              ) : null}
+              <OptionText>{formik.values.options}</OptionText>
               <Button type="submit" style={{ width: '100%' }}>
                 참여하기
               </Button>

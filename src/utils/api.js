@@ -195,6 +195,18 @@ const searchPosts = async (word) => {
   })
 }
 
+const updatePost = async (data) => {
+  return await axiosInstance({
+    url: '/posts/update',
+    method: 'put',
+    headers: {
+      Authorization: `bearer ${data.token}`,
+      'Content-Type': 'application/json;charset=UTP-8',
+    },
+    data: data.content,
+  })
+}
+
 export const ApiUtils = {
   getUsersInfo,
   getPostsList,
@@ -212,4 +224,5 @@ export const ApiUtils = {
   signup,
   getUserLists,
   searchPosts,
+  updatePost,
 }
