@@ -16,7 +16,7 @@ const ContentEditProvider = ({
 
   const [data, setData] = useState({
     title: '',
-    channelId: '616a205422996f0bc94f6e23',
+    channelId: process.env.REACT_APP_SNS_CHANNEL_ID,
     image: null,
   })
 
@@ -45,31 +45,30 @@ const ContentEditProvider = ({
     } else {
       setContent({ ...content, [name]: id })
     }
-    setData({ ...data, title: JSON.stringify(content) })
   }
 
   const onInputChange = ({ target }) => {
     setContent({ ...content, [target.name]: target.value })
-    setData({ ...data, title: JSON.stringify(content) })
   }
 
-  const onImgChange = (file, url) => {
+  useEffect(
+    () => setData({ ...data, title: JSON.stringify(content) }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [content]
+  )
+  const onImgChange = (file) => {
     setData({
       ...data,
-      image: {
-        file,
-        url,
-      },
+      image: file,
     })
   }
 
   const onSubmitContent = async (e) => {
     const formData = new FormData()
     setIsLoading(true)
-
     e.preventDefault()
 
-    const newErrors = validate ? validate(content) : {}
+    const newErrors = validate ? validate(content, data) : {}
 
     if (Object.keys(newErrors).length === 0) {
       formData.append('image', data.image)

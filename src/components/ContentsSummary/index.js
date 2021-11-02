@@ -17,6 +17,7 @@ const selectedOptions = {
   금액: '원',
   수량: '개',
   인원: '명',
+  '': '',
 }
 const ContentsSummary = ({
   lazy,
@@ -29,11 +30,9 @@ const ContentsSummary = ({
   userEmail,
   userTown,
   title,
-  progressTargetNum,
-  progressResultNum,
+  isExpired,
+  progress,
   progressTime,
-  progressAmount,
-  selectedOption,
   ...props
 }) => {
   useEffect(() => {
@@ -66,16 +65,25 @@ const ContentsSummary = ({
         }}
         block
       />
+      {!isExpired && (
+        <Progress
+          size={size}
+          children={progressTime}
+          style={{ marginBottom: '0.5rem' }}
+        />
+      )}
       <Progress
         size={size}
-        children={progressTime}
-        style={{ marginBottom: '0.5rem' }}
-      />
-      <Progress
-        size={size}
-        targetNum={progressTargetNum}
-        resultNum={progressResultNum}
-        children={`${progressAmount}${selectedOptions[selectedOption]} 남음`}
+        targetNum={progress.recruitmentOption}
+        isExpired={isExpired}
+        resultNum={''}
+        children={
+          isExpired
+            ? '모집마감'
+            : `${progress.recruitmentOption}${
+                selectedOptions[progress.selectedOption]
+              } 남음`
+        }
       />
     </StyledContentsSummary>
   )
@@ -92,9 +100,7 @@ Progress.propTypes = {
   userEmail: PropTypes.string,
   userTown: PropTypes.string,
   title: PropTypes.string,
-  progressTargetNum: PropTypes.number,
-  progressResultNum: PropTypes.number,
-  progressTime: PropTypes.string,
-  progressAmount: PropTypes.string,
+  isExpired: PropTypes.boolean,
+  progress: PropTypes.object,
 }
 export default ContentsSummary

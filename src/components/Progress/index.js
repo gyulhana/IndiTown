@@ -35,6 +35,7 @@ const ProgressBar = styled.div`
   height: 100%;
   left: 0;
   top: 0;
+  width: 2rem;
 `
 
 const Progress = ({
@@ -43,15 +44,19 @@ const Progress = ({
   targetNum,
   resultNum,
   children,
+  isExpired,
   ...props
 }) => {
+  console.log(targetNum, isExpired)
   return (
-    <StyledProgress {...props} size={size} width={width}>
-      {targetNum && resultNum && (
-        <ProgressBar
-          style={{ width: `${(resultNum / targetNum) * 100}%` }}
-        ></ProgressBar>
-      )}
+    <StyledProgress
+      {...props}
+      size={size}
+      width={width}
+      resultNum={resultNum}
+      targetNum={targetNum}
+    >
+      {targetNum && !isExpired && <ProgressBar />}
       <Text style={{ zIndex: 10 }} size={sizeStyles[size].fontSize}>
         {children}
       </Text>
