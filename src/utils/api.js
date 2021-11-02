@@ -129,6 +129,18 @@ const likePost = async (data) => {
   })
 }
 
+const dislikePost = async (data) => {
+  return await axiosInstance({
+    method: 'delete',
+    url: '/likes/delete',
+    headers: {
+      Authorization: `bearer ${data.token}`,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    data: JSON.stringify(data.id),
+  })
+}
+
 export const ApiUtils = {
   getUsersInfo,
   getPostsList,
@@ -140,4 +152,5 @@ export const ApiUtils = {
   getMessages,
   sendMessage,
   likePost,
+  dislikePost,
 }
