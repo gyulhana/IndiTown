@@ -1,4 +1,3 @@
-import axios from 'axios'
 import useDebounce from '../hooks/useDebounce'
 import { useState, useCallback } from 'react'
 import Form from '../components/Form'
@@ -8,6 +7,7 @@ import Profile from '../components/Profile'
 import { Link } from 'react-router-dom'
 import Avatar from '../components/Avatar'
 import moment from 'moment'
+import { ApiUtils } from '../utils/api'
 
 const calculateTime = (time) => {
   const t1 = moment(time, 'YYYY-MM-DD hh:mm')
@@ -58,12 +58,8 @@ const PostContainer = styled.div`
 `
 
 export const SearchPage = () => {
-  const API_END_POINT = 'http://13.209.30.200'
-
   const data = useCallback(async (word) => {
-    return await axios
-      .get(`${API_END_POINT}/search/all/${word}`)
-      .then((response) => response.data)
+    return await ApiUtils.searchPosts(word)
   }, [])
 
   const [value, setValue] = useState('')

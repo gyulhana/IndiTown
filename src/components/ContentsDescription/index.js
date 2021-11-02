@@ -53,6 +53,7 @@ const EditButton = ({ handleClick }) => {
 const ContentsDescription = ({
   threshold,
   placeholder,
+  id,
   alt,
   userImg = 'https://picsum.photos/400',
   userNickName,
@@ -67,16 +68,18 @@ const ContentsDescription = ({
   onClick,
   ...props
 }) => {
-  const [userInfo, setUserInfo] = useSessionStorage('IndiTown')
+  const [userInfo] = useSessionStorage('IndiTown')
   const isAuthor = userInfo.user.email === userEmail
 
   const [isClickEdit, setIsClickEdit] = useState(false)
+
   return (
     <div {...props}>
       {isClickEdit && (
         <EditModal
           defaultShow={isClickEdit}
           handleClick={() => setIsClickEdit(!isClickEdit)}
+          id={id}
         />
       )}
       <FlexBox

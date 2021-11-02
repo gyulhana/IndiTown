@@ -78,12 +78,10 @@ const ContentEditPage = ({ match }) => {
   }
 
   const [userInfo] = useSessionStorage('IndiTown')
-  const { token } = userInfo
+  const { user, token } = userInfo
   const history = useHistory()
-
   const handleSubmitContent = useCallback(
     async (content) => {
-      console.log(content)
       const { _id } = await ApiUtils.createContent({ content, token })
       console.log(_id)
       history.push(`/content/${_id}`)
@@ -91,6 +89,7 @@ const ContentEditPage = ({ match }) => {
     [history, token]
   )
 
+  const userFullName = JSON.parse(user.fullName)
   return (
     <Container>
       <ContentEditProvider
@@ -103,7 +102,13 @@ const ContentEditPage = ({ match }) => {
             게시물 만들기
           </Text>
         </Header>
-        <ContentsEdit style={{ padding: '1rem' }} />
+        <ContentsEdit
+          style={{ padding: '1rem' }}
+          alt={`${userFullName.userName}님의 프로필`}
+          userNickName={userFullName.userName}
+          userEmail={user.email}
+          userTown={userFullName.location}
+        />
       </ContentEditProvider>
     </Container>
   )

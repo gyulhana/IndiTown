@@ -77,7 +77,7 @@ Image.propTypes = {
   lazy: PropTypes.bool,
   threshold: PropTypes.number,
   placeholder: PropTypes.string,
-  src: PropTypes.string.isRequired,
+  src: PropTypes.string,
   block: PropTypes.bool,
   width: PropTypes.number,
   height: PropTypes.number,
