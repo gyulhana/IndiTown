@@ -45,7 +45,7 @@ const ContentPage = () => {
     background-color: white;
     border-radius: 0.8rem;
   `
-  
+
   const handleDeleteContent = useCallback(
     async (contentId) => {
       await ApiUtils.deleteContent({ token, contentId })
@@ -53,7 +53,7 @@ const ContentPage = () => {
     },
     [history, token]
   )
-  
+
   const handleCommentSubmit = useCallback(
     async (comment) => {
       const createdComment = await ApiUtils.createComment({ token, comment })
@@ -76,13 +76,6 @@ const ContentPage = () => {
       history.push(`/chatting/${userName}`)
     }
   }
-  console.log(content.value)
-
-  const Container = styled.div`
-    margin: 5rem 1rem;
-    background-color: white;
-    border-radius: 0.8rem;
-  `
 
   const likePost = async () => {
     const data = {
@@ -162,7 +155,6 @@ const ContentPage = () => {
               })
             }}
           />
-          </Fragment>
           <LikeAndJoin
             initialState={like}
             onClick={like ? dislikePost : likePost}
