@@ -82,13 +82,16 @@ const ContentPage = () => {
     }
   }
 
+  const [likeData, setLikeData] = useState({})
+
   const likePost = async () => {
     const data = {
       postId: content.value._id,
     }
 
     try {
-      await ApiUtils.likePost({ token, postId: data })
+      const likeResponse = await ApiUtils.likePost({ token, postId: data })
+      setLikeData(likeResponse.data)
       setLike(true)
       setCount(count + 1)
     } catch (error) {
@@ -109,7 +112,12 @@ const ContentPage = () => {
   }
 
   const dislikePost = async () => {
-    const likeId = checkLikeId()
+    let likeId = null
+    if (Object.keys(likeData).length === 0) {
+      likeId = checkLikeId()
+    } else {
+      likeId = likeData._id
+    }
     const data = {
       id: likeId,
     }
@@ -122,8 +130,6 @@ const ContentPage = () => {
       console.error(error)
     }
   }
-
-  console.log(content)
 
   if (!content.isLoading && content.value) {
     return (

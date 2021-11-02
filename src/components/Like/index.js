@@ -5,6 +5,11 @@ const LikeStyle = styled.svg`
   cursor: pointer;
 `
 
+const FlexBox = styled.div`
+  display: flex;
+  align-items: center;
+`
+
 const Button = styled.button`
   background-color: initial;
   border: none;
@@ -13,7 +18,7 @@ const Button = styled.button`
 `
 
 const Count = styled.span`
-  font-size: ${theme.fontSizes.h4};
+  font-size: ${theme.fontSizes.h6};
   color: ${theme.colors.primary};
   margin-left: 0.25rem;
   cursor: default;
@@ -21,7 +26,7 @@ const Count = styled.span`
 
 const Like = ({ initialState, onClick, count = 0 }) => {
   return (
-    <div>
+    <FlexBox>
       <Button type="button" onClick={onClick}>
         {initialState ? (
           <LikeStyle
@@ -52,7 +57,7 @@ const Like = ({ initialState, onClick, count = 0 }) => {
         )}
       </Button>
       <Count>{count}</Count>
-    </div>
+    </FlexBox>
   )
 }
 
