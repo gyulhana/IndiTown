@@ -7,7 +7,6 @@ import axios from 'axios'
 import Button from '../components/Button'
 import { useLocation } from '../contexts/LocationProvider'
 import Modal from '../components/Modal'
-import { rgba } from 'polished'
 import { Link } from 'react-router-dom'
 
 const SignupContainer = styled.div`
