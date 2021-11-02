@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/fcb18cf0-a9b6-4537-9a75-a35a0b41e12a/deploy-status)](https://app.netlify.com/sites/inditown/deploys)
+
 # 📈 프로젝트 설명
 ## 개요 
 GPS 위치 정보를 기반으로 동일한 플랫폼 혹은 동일한 음식을(같은 식당의 음식)을 구매(또는 배달)하려는 유저들이 배달비, 배송비 절감을 위해 함께 구매할 동네 유저를 모집하는 플랫폼
