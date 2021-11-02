@@ -13,7 +13,6 @@ const Container = styled.div`
 
 const LinkWrapper = styled.div`
   display: inline-block;
-  max-width: 27rem;
   margin-bottom: 1rem;
 `
 
