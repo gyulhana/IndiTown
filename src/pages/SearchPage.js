@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import Avatar from '../components/Avatar'
 import moment from 'moment'
 import { ApiUtils } from '../utils/api'
+import { ProfileUtils } from '../utils/profile'
 
 const calculateTime = (time) => {
   const t1 = moment(time, 'YYYY-MM-DD hh:mm')
@@ -58,8 +59,6 @@ const PostContainer = styled.div`
   padding: 1rem;
   box-sizing: border-box;
 `
-const userthumb =
-  'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbDh7FL%2FbtrjyIagzyN%2FTXsUFujA0H8NykBT8C0WZk%2Fimg.png'
 const foodthumb =
   'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FxznxP%2FbtrjCACuE5H%2F7ZYQrKuvzJLaZr6kxqPBkk%2Fimg.png'
 const parcelthumb =
@@ -98,21 +97,24 @@ export const SearchPage = () => {
         />
         <div>
           <Title>사용자</Title>
-          {result.data
+          {result
             ?.filter((item) => item.fullName)
             ?.filter((item) => item.fullName.includes('Yohan1'))
             ?.map((item) => {
-              const userinfo = JSON.parse(item.fullName)
+              const userInfo = JSON.parse(item.fullName)
               return (
                 <Profile
                   key={item._id}
                   lazy
                   threshold={0.5}
-                  src={userthumb}
-                  alt={userinfo.userName}
-                  nickName={userinfo.userName}
+                  src={
+                    item.image ||
+                    (item.email && ProfileUtils.getDefaultImage(item.email))
+                  }
+                  alt={userInfo.userName}
+                  nickName={userInfo.userName}
                   email={item.email}
-                  town={userinfo.location}
+                  town={userInfo.location}
                   style={{ marginBottom: '1rem' }}
                 />
               )
@@ -120,7 +122,7 @@ export const SearchPage = () => {
         </div>
         <div>
           <Title>포스트</Title>
-          {result.data
+          {result
             ?.filter(
               (item) =>
                 'title' in item && item.channel === '616a205422996f0bc94f6e23'
@@ -129,11 +131,11 @@ export const SearchPage = () => {
               const leftTime = calculateTime(
                 JSON.parse(content.title).recruitmentDate
               )
-              const contentsinfo = JSON.parse(content.title)
+              const contentsInfo = JSON.parse(content.title)
 
               return (
                 <Link to={`/content/${content._id}`}>
-                  <PostContainer alt={contentsinfo.title}>
+                  <PostContainer alt={contentsInfo.title}>
                     <Avatar
                       style={{ flexShrink: 0 }}
                       key={content._id}
@@ -141,7 +143,7 @@ export const SearchPage = () => {
                       size={48}
                       threshold={0.5}
                       src={
-                        contentsinfo.type === 'food' ? foodthumb : parcelthumb
+                        contentsInfo.type === 'food' ? foodthumb : parcelthumb
                       }
                     />
                     <div
@@ -153,8 +155,8 @@ export const SearchPage = () => {
                       }}
                     >
                       <PostTitle strong size={theme.fontSizes.sm}>
-                        {contentsinfo.title.length > 0
-                          ? contentsinfo.title
+                        {contentsInfo.title.length > 0
+                          ? contentsInfo.title
                           : '제목 없음'}
                       </PostTitle>
                       <div
