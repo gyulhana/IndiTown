@@ -182,10 +182,6 @@ const searchPosts = async (word) => {
     url: `/search/all/${word}`,
     method: 'get',
   })
-    .then((response) => response.data)
-    .catch((error) => {
-      console.log(error.response)
-    })
 }
 
 export const ApiUtils = {
