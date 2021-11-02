@@ -40,7 +40,7 @@ const login = async (userInfo) => {
 }
 
 const createContent = async (data) => {
-  return await axios({
+  return await axiosInstance({
     method: 'post',
     url: '/posts/create',
     headers: {
@@ -49,6 +49,23 @@ const createContent = async (data) => {
     data: data.content,
   })
     .then((response) => response.data)
+    .catch((error) => {
+      console.log(error.response)
+    })
+}
+
+const deleteContent = async (data) => {
+  return await axiosInstance({
+    method: 'delete',
+    url: '/posts/delete',
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+    data: {
+      id: data.contentId,
+    },
+  })
+    .then((response) => response)
     .catch((error) => {
       console.log(error.response)
     })
@@ -122,6 +139,7 @@ export const ApiUtils = {
   getPostsList,
   login,
   createContent,
+  deleteContent,
   getContentDetail,
   createComment,
   getMessageList,

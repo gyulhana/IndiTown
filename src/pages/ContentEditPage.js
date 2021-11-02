@@ -1,5 +1,4 @@
 import styled from '@emotion/styled'
-import axios from 'axios'
 import { useCallback } from 'react'
 import ContentsEdit from '../components/ContentsEdit'
 import Text from '../components/Text'
@@ -7,6 +6,8 @@ import theme from '../themes'
 import ContentEditProvider from '../contexts/ContentEditProvider'
 import moment from 'moment'
 import useSessionStorage from '../hooks/useSessionStorage'
+import { ApiUtils } from '../utils/api'
+import { useHistory } from 'react-router'
 
 const Container = styled.div`
   margin: 5rem 1rem 4rem 1rem;
@@ -21,7 +22,6 @@ const Header = styled.div`
 `
 
 const ContentEditPage = ({ match }) => {
-  const API_END_POINT = 'http://13.209.30.200'
   const MOMENT_DEFAULT_FORMAT = 'YYYY-MM-DD HH:mm'
 
   const initialState = {
@@ -36,7 +36,7 @@ const ContentEditPage = ({ match }) => {
     recruitmentOption: null,
   }
 
-  const validate = ({ title, recruitmentDate, recruitmentOption }) => {
+  const validate = ({ title, recruitmentDate, recruitmentOption }, data) => {
     const errors = {}
     if (!title) {
       errors.title = '본문을 입력해 주세요'
@@ -70,24 +70,25 @@ const ContentEditPage = ({ match }) => {
       errors.recruitmentOption = '숫자 값을 입력해 주세요'
     }
 
+    if (recruitmentOption && !JSON.parse(data.title).recruitmentOption) {
+      errors.recruitmentOption = '옵션을 다시 타이핑 해 주세요'
+    }
+
     return errors
   }
 
   const [userInfo] = useSessionStorage('IndiTown')
   const { token } = userInfo
+  const history = useHistory()
 
   const handleSubmitContent = useCallback(
-    async (data) => {
-      return await axios({
-        method: 'post',
-        url: `${API_END_POINT}/posts/create`,
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-        data,
-      }).then((response) => response.data)
+    async (content) => {
+      console.log(content)
+      const { _id } = await ApiUtils.createContent({ content, token })
+      console.log(_id)
+      history.push(`/content/${_id}`)
     },
-    [token]
+    [history, token]
   )
 
   return (

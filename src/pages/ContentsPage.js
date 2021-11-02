@@ -34,22 +34,6 @@ const ContentsPage = ({ subMenu }) => {
     [token]
   )
 
-  const handleDeleteContent = useCallback(
-    async (id) => {
-      return await axios({
-        method: 'delete',
-        url: `${API_END_POINT}/posts/delete`,
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-        data: {
-          id,
-        },
-      }).then(() => ({ id }))
-    },
-    [token]
-  )
-
   const SpinnerWrapper = styled.div`
     width: 100%;
     height: 80vh;
@@ -63,7 +47,6 @@ const ContentsPage = ({ subMenu }) => {
       initialContents={initialContents.value?.filter(
         (content) => JSON.parse(content.title).type === subMenu
       )}
-      handleDeleteContent={handleDeleteContent}
       handleAddContent={handleAddContent}
     >
       <div>
@@ -72,10 +55,10 @@ const ContentsPage = ({ subMenu }) => {
             <Spinner />
           </SpinnerWrapper>
         ) : (
-          <ContentsSummaryList />
+          <ContentsSummaryList subMenu={subMenu} />
         )}
       </div>
-      <Link to={`/${subMenu}/edit`}>
+      <Link to={`/content/${subMenu}/edit`}>
         <WriteButton />
       </Link>
     </ContentsProvider>
