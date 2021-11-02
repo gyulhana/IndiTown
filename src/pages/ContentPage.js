@@ -7,7 +7,6 @@ import ContentsDescription from '../components/ContentsDescription'
 import CommentInput from '../components/CommentInput'
 import CommentList from '../components/CommentList'
 import Spinner from '../components/Spinner'
-import theme from '../themes'
 import useSessionStorage from '../hooks/useSessionStorage'
 import { ApiUtils } from '../utils/api'
 import LikeAndJoin from '../components/LikeAndJoin'
@@ -21,6 +20,8 @@ const ContentPage = () => {
   const [comments, setComments] = useState([])
   const history = useHistory()
   const [like, setLike] = useState(false)
+  const [count, setCount] = useState(0)
+  const [isJoin, setIsJoin] = useState(false)
 
   const { isLoading, value } = useAsync(async () => {
     const response = await ApiUtils.getContentDetail(contentId)
@@ -30,6 +31,7 @@ const ContentPage = () => {
       if (likeList.length === 0) {
         return setLike(false)
       }
+      setCount(likeList.length)
       for (const post of likeList) {
         if (post.user === _id) {
           return setLike(true)
@@ -79,14 +81,18 @@ const ContentPage = () => {
     }
   }
 
+  const [likeData, setLikeData] = useState({})
+
   const likePost = async () => {
     const data = {
       postId: value._id,
     }
 
     try {
-      await ApiUtils.likePost({ token, postId: data })
+      const likeResponse = await ApiUtils.likePost({ token, postId: data })
+      setLikeData(likeResponse.data)
       setLike(true)
+      setCount(count + 1)
     } catch (error) {
       console.error(error)
     }
@@ -105,7 +111,12 @@ const ContentPage = () => {
   }
 
   const dislikePost = async () => {
-    const likeId = checkLikeId()
+    let likeId = null
+    if (Object.keys(likeData).length === 0) {
+      likeId = checkLikeId()
+    } else {
+      likeId = likeData._id
+    }
     const data = {
       id: likeId,
     }
@@ -113,6 +124,7 @@ const ContentPage = () => {
     try {
       await ApiUtils.dislikePost({ token, id: data })
       setLike(false)
+      setCount(count - 1)
     } catch (error) {
       console.error(error)
     }
@@ -127,7 +139,6 @@ const ContentPage = () => {
               id={value?._id}
               style={{
                 padding: '1rem',
-                borderBottom: `1px solid ${theme.colors.gray_2}`,
               }}
               userEmail={value.author.email}
               userImg={
@@ -156,13 +167,22 @@ const ContentPage = () => {
             />
           </Fragment>
 
+          <LikeAndJoin
+            likeState={like}
+            count={count}
+            onLikeClick={like ? dislikePost : likePost}
+            joinState={isJoin}
+            isExpired={TimeUtils.checkExpired(content.value)}
+            value={content.value}
+          />
+
           <CommentInput
             style={{
               padding: '1rem',
             }}
             userImg={
-              value.author.image ||
-              ProfileUtils.getDefaultImage(value.author.email)
+              content.value.author.image ||
+              ProfileUtils.getDefaultImage(content.value.author.email)
             }
             onSubmit={(e) => {
               e.preventDefault()
@@ -171,10 +191,6 @@ const ContentPage = () => {
                 postId: contentId,
               })
             }}
-          />
-          <LikeAndJoin
-            initialState={like}
-            onClick={like ? dislikePost : likePost}
           />
           <CommentList comments={comments} />
         </Container>

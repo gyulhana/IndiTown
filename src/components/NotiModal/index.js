@@ -22,8 +22,8 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
 `
 
-const NotiModal = () => {
-  const [show, setShow] = useState(true)
+const NotiModal = ({ onClick, initialState = false }) => {
+  const [show, setShow] = useState(initialState)
   const closeModal = (e) => {
     e.preventDefault()
     setShow(false)
@@ -37,9 +37,9 @@ const NotiModal = () => {
       </Text>
       <Text style={{ color: '#333333' }}>참여하시겠어요?</Text>
       <ButtonContainer>
-        <Button>참여하기</Button>
+        <Button onClick={onClick}>참여하기</Button>
         <Button
-          style={{ backgroundColor: 'white', width: '44%' }}
+          style={{ backgroundColor: '#ddd', width: '44%' }}
           onClick={(e) => closeModal(e)}
         >
           닫기
