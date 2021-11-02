@@ -117,6 +117,18 @@ const sendMessage = async (data) => {
   })
 }
 
+const likePost = async (data) => {
+  return await axiosInstance({
+    url: '/likes/create',
+    method: 'post',
+    headers: {
+      Authorization: `bearer ${data.token}`,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    data: JSON.stringify(data.postId),
+  })
+}
+
 export const ApiUtils = {
   getUsersInfo,
   getPostsList,
@@ -127,4 +139,5 @@ export const ApiUtils = {
   getMessageList,
   getMessages,
   sendMessage,
+  likePost,
 }

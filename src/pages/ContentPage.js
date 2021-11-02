@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Fragment, useCallback, useState } from 'react'
+import { Fragment, useCallback, useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
 import { useAsync } from '../hooks'
 import ContentsDescription from '../components/ContentsDescription'
@@ -10,6 +10,8 @@ import moment from 'moment'
 import theme from '../themes'
 import useSessionStorage from '../hooks/useSessionStorage'
 import { ApiUtils } from '../utils/api'
+import axios from 'axios'
+import LikeAndJoin from '../components/LikeAndJoin'
 
 const ContentPage = () => {
   const { contentId } = useParams()
@@ -17,14 +19,26 @@ const ContentPage = () => {
   const { token, _id } = userInfo
   const [comments, setComments] = useState([])
   const history = useHistory()
+  const [like, setLike] = useState(false)
 
   const content = useAsync(async () => {
     const response = await ApiUtils.getContentDetail(contentId)
     setComments(response.comments)
+
+    const checkLikePost = (likeList) => {
+      if (likeList.length === 0) {
+        return setLike(false)
+      }
+      for (const post of likeList) {
+        if (post.user === _id) {
+          return setLike(true)
+        }
+      }
+    }
+    checkLikePost(response.likes)
+
     return response
   }, [contentId])
-
-  console.log(content)
 
   const Container = styled.div`
     margin: 5rem 1rem 0 1rem;
@@ -68,6 +82,47 @@ const ContentPage = () => {
     }
   }
 
+  const likePost = async () => {
+    const data = {
+      postId: content.value._id,
+    }
+
+    await ApiUtils.likePost({
+      token,
+      postId: data,
+    })
+    setLike(true)
+  }
+
+  const checkLikeId = () => {
+    const likeList = content.value.likes
+    if (likeList.length === 0) {
+      return
+    }
+    for (const post of likeList) {
+      if (post.user === _id) {
+        return post._id
+      }
+    }
+  }
+
+  const dislikePost = async () => {
+    const likeId = checkLikeId()
+    const data = {
+      id: likeId,
+    }
+    setLike(false)
+    await axios({
+      method: 'delete',
+      url: 'http://13.209.30.200/likes/delete',
+      headers: {
+        Authorization: `bearer ${token}`,
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      data: JSON.stringify(data),
+    })
+  }
+
   if (!content.isLoading && content.value) {
     return (
       <Container>
@@ -75,7 +130,7 @@ const ContentPage = () => {
           <ContentsDescription
             style={{
               padding: '1rem',
-              borderBottom: `1px solid ${theme.colors.gray_2}`,
+              // borderBottom: `1px solid ${theme.colors.gray_2}`,
             }}
             userEmail={content.value?.author.email}
             userNickName={JSON.parse(content.value.author.fullName).userName}
@@ -89,7 +144,10 @@ const ContentPage = () => {
             onClick={() => moveToChat(content.value.author)}
           />
         </Fragment>
-
+        <LikeAndJoin
+          initialState={like}
+          onClick={like ? dislikePost : likePost}
+        />
         <CommentInput
           style={{
             padding: '1rem',
