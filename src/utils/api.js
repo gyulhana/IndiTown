@@ -55,6 +55,7 @@ const createContent = async (data) => {
 }
 
 const deleteContent = async (data) => {
+  console.log(data.contentId)
   return await axiosInstance({
     method: 'delete',
     url: '/posts/delete',
