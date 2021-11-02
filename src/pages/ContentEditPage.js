@@ -34,6 +34,7 @@ const ContentEditPage = ({ match }) => {
       .format(MOMENT_DEFAULT_FORMAT),
     selectedOption: '금액',
     recruitmentOption: null,
+    orderdOption: 0,
   }
 
   const validate = ({ title, recruitmentDate, recruitmentOption }, data) => {
@@ -83,7 +84,6 @@ const ContentEditPage = ({ match }) => {
   const handleSubmitContent = useCallback(
     async (content) => {
       const { _id } = await ApiUtils.createContent({ content, token })
-      console.log(_id)
       history.push(`/content/${_id}`)
     },
     [history, token]

@@ -22,6 +22,8 @@ const LikeAndJoin = ({
   isExpired,
   count,
   openJoinClick,
+  isPopup,
+  value,
   ...props
 }) => {
   return (
@@ -32,6 +34,8 @@ const LikeAndJoin = ({
         isExpired={isExpired}
         onClick={onJoinClick}
         openJoinClick={openJoinClick}
+        isPopup={isPopup}
+        value={value}
       />
     </Container>
   )

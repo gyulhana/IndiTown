@@ -5,7 +5,6 @@ import {
   useEffect,
   useReducer,
 } from 'react'
-import useToggle from '../hooks/useToggle'
 
 const ContentsContext = createContext()
 export const useContentsContext = () => useContext(ContentsContext)
@@ -36,7 +35,6 @@ const ContentsProvider = ({
   handleAddContent,
 }) => {
   const [contents, dispatch] = useReducer(reducer, initialContents || [])
-  console.log(contents)
   useEffect(() => {
     dispatch({ type: 'INIT_CONTENTS', payload: initialContents || [] })
   }, [initialContents])
@@ -57,16 +55,12 @@ const ContentsProvider = ({
     [handleDeleteContent]
   )
 
-  const [openJoinModal, toggleJoinModal] = useToggle(false)
-
   return (
     <ContentsContext.Provider
       value={{
         contents,
         onDeleteContent,
         onAddContent,
-        openJoinModal,
-        toggleJoinModal,
       }}
     >
       {children}

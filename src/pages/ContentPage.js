@@ -10,7 +10,6 @@ import Spinner from '../components/Spinner'
 import useSessionStorage from '../hooks/useSessionStorage'
 import { ApiUtils } from '../utils/api'
 import LikeAndJoin from '../components/LikeAndJoin'
-import NotiModal from '../components/NotiModal'
 import { TimeUtils } from '../utils/time'
 
 const ContentPage = () => {
@@ -22,7 +21,6 @@ const ContentPage = () => {
   const [like, setLike] = useState(false)
   const [count, setCount] = useState(0)
   const [isJoin, setIsJoin] = useState(false)
-  const [openJoinPopup, setOpenJoinPopup] = useState(false)
 
   const content = useAsync(async () => {
     const response = await ApiUtils.getContentDetail(contentId)
@@ -162,9 +160,8 @@ const ContentPage = () => {
             onLikeClick={like ? dislikePost : likePost}
             joinState={isJoin}
             isExpired={TimeUtils.checkExpired(content.value)}
-            openJoinClick={() => {}}
+            value={content.value}
           />
-          <NotiModal initialState={true} />
 
           <CommentInput
             style={{

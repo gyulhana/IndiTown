@@ -28,9 +28,6 @@ const NotiModal = ({ onClick, initialState = false }) => {
     e.preventDefault()
     setShow(false)
   }
-  const openModal = () => {
-    setShow(true)
-  }
 
   return (
     <Modal show={show} onClose={() => setShow(false)}>
