@@ -3,6 +3,7 @@ import { useContentsContext } from '../../contexts/ContentsProvider'
 import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
 import { TimeUtils } from '../../utils/time'
+import { ProfileUtils } from '../../utils/profile'
 
 const Container = styled.div`
   padding: 1rem;
@@ -26,6 +27,10 @@ const ContentsSummaryList = ({ subMenu, ...props }) => {
           <Link to={`/content/${content._id}`}>
             <ContentsSummary
               lazy
+              userImg={
+                content.author.image ||
+                ProfileUtils.getDefaultImage(content.author.email)
+              }
               userNickName={JSON.parse(content.author.fullName).userName}
               userId={content.author.email}
               userTown={JSON.parse(content.author.fullName).location}

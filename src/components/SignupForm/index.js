@@ -102,8 +102,6 @@ const SignupForm = () => {
           data: JSON.stringify(data),
         })
 
-        console.log(user.data)
-
         formik.setValues({
           userId: '',
           userPassword: '',

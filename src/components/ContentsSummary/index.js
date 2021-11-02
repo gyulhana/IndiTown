@@ -25,7 +25,7 @@ const ContentsSummary = ({
   placeholder,
   size = 'medium',
   alt,
-  userImg = 'https://picsum.photos/400',
+  userImg,
   userNickName,
   userEmail,
   userTown,
@@ -45,7 +45,7 @@ const ContentsSummary = ({
         lazy
         threshold={0.5}
         size={size}
-        src={userImg || 'https://picsum.photos/400'}
+        src={userImg}
         placeholder={placeholder}
         alt={alt}
         nickName={userNickName}

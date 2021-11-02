@@ -13,7 +13,7 @@ const calculateTime = (time) => {
   const t1 = moment(time, 'YYYY-MM-DD hh:mm')
   const t2 = moment()
   const m = moment.duration(t1.diff(t2))
-  console.log()
+
   return `${Math.floor(m.asDays()).toString().padStart(2, '0')}일  ${Math.floor(
     m.asHours() % 24
   )
@@ -98,7 +98,7 @@ export const SearchPage = () => {
         />
         <div>
           <Title>사용자</Title>
-          {result
+          {result.data
             ?.filter((item) => item.fullName)
             ?.filter((item) => item.fullName.includes('Yohan1'))
             ?.map((item) => {
@@ -120,7 +120,7 @@ export const SearchPage = () => {
         </div>
         <div>
           <Title>포스트</Title>
-          {result
+          {result.data
             ?.filter(
               (item) =>
                 'title' in item && item.channel === '616a205422996f0bc94f6e23'

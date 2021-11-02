@@ -55,7 +55,7 @@ const ContentsDescription = ({
   placeholder,
   id,
   alt,
-  userImg = 'https://picsum.photos/400',
+  userImg,
   userNickName,
   userEmail,
   userTown,
