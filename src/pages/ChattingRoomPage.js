@@ -95,10 +95,16 @@ const ChattingRoomPage = () => {
         </MessageArea>
         <InputTextArea>
           <TextArea
+            placeholder={'메세지를 입력하세요!'}
             onSubmit={formik.handleSubmit}
             name="chat"
             onChange={formik.handleChange}
             value={formik.values.chat}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && e.key !== 'shift') {
+                formik.handleSubmit()
+              }
+            }}
           />
         </InputTextArea>
       </ChattingContainer>
