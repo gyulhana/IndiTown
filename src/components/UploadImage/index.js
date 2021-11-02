@@ -30,7 +30,7 @@ const UploadImage = ({
   const [dragging, setDragging] = useState(false)
   const inputRef = useRef(null)
   const photoRef = useRef(null)
-  const { onChangeImg } = useContentEditContext()
+  const { onImgChange } = useContentEditContext()
 
   const handleFileChange = (e) => {
     const files = e.target.files
@@ -43,9 +43,9 @@ const UploadImage = ({
       reader.readAsDataURL(changedFile)
 
       reader.onload = () => {
+        console.log('filechaged!', changedFile)
+        onImgChange(changedFile, reader.result)
         photoRef.current.style.background = `center 100% / auto 100% no-repeat url(${reader.result})`
-
-        onChangeImg({ file: changedFile, url: reader.result })
       }
     }
   }
