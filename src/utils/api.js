@@ -134,6 +134,30 @@ const sendMessage = async (data) => {
   })
 }
 
+const likePost = async (data) => {
+  return await axiosInstance({
+    url: '/likes/create',
+    method: 'post',
+    headers: {
+      Authorization: `bearer ${data.token}`,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    data: JSON.stringify(data.postId),
+  })
+}
+
+const dislikePost = async (data) => {
+  return await axiosInstance({
+    method: 'delete',
+    url: '/likes/delete',
+    headers: {
+      Authorization: `bearer ${data.token}`,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    data: JSON.stringify(data.id),
+  })
+}
+
 export const ApiUtils = {
   getUsersInfo,
   getPostsList,
@@ -145,4 +169,6 @@ export const ApiUtils = {
   getMessageList,
   getMessages,
   sendMessage,
+  likePost,
+  dislikePost,
 }

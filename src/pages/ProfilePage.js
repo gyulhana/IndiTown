@@ -23,6 +23,7 @@ const ProfilePage = () => {
   const { _id } = userInfo
   const [userData, setUserData] = useState({})
   const [myPostsList, setMyPostsList] = useState([])
+  const [myLikePostList, setMyLikePostList] = useState([])
 
   const getUserInfoAsync = async (userId) => {
     const data = await ApiUtils.getUsersInfo(userId)
@@ -38,6 +39,18 @@ const ProfilePage = () => {
     const posts = await ApiUtils.getPostsList()
     const myPosts = posts.filter((post) => post.author._id === _id)
     setMyPostsList(myPosts)
+
+    const myLikePosts = posts
+      .filter((post) => !!post.likes.length)
+      .filter((post) => {
+        for (const like of post.likes) {
+          if (like.user === _id) {
+            return true
+          }
+        }
+        return false
+      })
+    setMyLikePostList(myLikePosts)
   }
 
   useEffect(() => {
@@ -75,7 +88,9 @@ const ProfilePage = () => {
           {/* 참여 */}
         </Nav.Item>
         <Nav.Item title="관심내역" index="profile/likes">
-          {/* 관심 */}
+          <ContentsProvider initialContents={myLikePostList}>
+            <ContentsSummaryList style={{ padding: '1rem 0 0' }} />
+          </ContentsProvider>
         </Nav.Item>
       </Nav>
     </ProfileContainer>

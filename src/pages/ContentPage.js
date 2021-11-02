@@ -10,6 +10,7 @@ import Spinner from '../components/Spinner'
 import theme from '../themes'
 import useSessionStorage from '../hooks/useSessionStorage'
 import { ApiUtils } from '../utils/api'
+import LikeAndJoin from '../components/LikeAndJoin'
 import { TimeUtils } from '../utils/time'
 
 const ContentPage = () => {
@@ -18,13 +19,33 @@ const ContentPage = () => {
   const { token, _id } = userInfo
   const [comments, setComments] = useState([])
   const history = useHistory()
+  const [like, setLike] = useState(false)
 
   const content = useAsync(async () => {
     const response = await ApiUtils.getContentDetail(contentId)
     setComments(response.comments)
+
+    const checkLikePost = (likeList) => {
+      if (likeList.length === 0) {
+        return setLike(false)
+      }
+      for (const post of likeList) {
+        if (post.user === _id) {
+          return setLike(true)
+        }
+      }
+    }
+    checkLikePost(response.likes)
+
     return response
   }, [contentId])
 
+  const Container = styled.div`
+    margin: 5rem 1rem 0 1rem;
+    background-color: white;
+    border-radius: 0.8rem;
+  `
+  
   const handleDeleteContent = useCallback(
     async (contentId) => {
       await ApiUtils.deleteContent({ token, contentId })
@@ -32,7 +53,7 @@ const ContentPage = () => {
     },
     [history, token]
   )
-
+  
   const handleCommentSubmit = useCallback(
     async (comment) => {
       const createdComment = await ApiUtils.createComment({ token, comment })
@@ -63,6 +84,45 @@ const ContentPage = () => {
     border-radius: 0.8rem;
   `
 
+  const likePost = async () => {
+    const data = {
+      postId: content.value._id,
+    }
+
+    try {
+      await ApiUtils.likePost({ token, postId: data })
+      setLike(true)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const checkLikeId = () => {
+    const likeList = content.value.likes
+    if (likeList.length === 0) {
+      return
+    }
+    for (const post of likeList) {
+      if (post.user === _id) {
+        return post._id
+      }
+    }
+  }
+
+  const dislikePost = async () => {
+    const likeId = checkLikeId()
+    const data = {
+      id: likeId,
+    }
+
+    try {
+      await ApiUtils.dislikePost({ token, id: data })
+      setLike(false)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   if (!content.isLoading && content.value) {
     return (
       <ContentsProvider handleDeleteContent={handleDeleteContent}>
@@ -89,6 +149,24 @@ const ContentPage = () => {
             />
           </Fragment>
 
+          <CommentInput
+            style={{
+              padding: '1rem',
+              // borderBottom: `1px solid ${theme.colors.gray_2}`,
+            }}
+            onSubmit={(e) => {
+              e.preventDefault()
+              handleCommentSubmit({
+                comment: e.target[0].value,
+                postId: contentId,
+              })
+            }}
+          />
+          </Fragment>
+          <LikeAndJoin
+            initialState={like}
+            onClick={like ? dislikePost : likePost}
+          />
           <CommentInput
             style={{
               padding: '1rem',
