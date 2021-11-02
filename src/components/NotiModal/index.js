@@ -2,7 +2,6 @@ import styled from '@emotion/styled'
 import Modal from '../Modal'
 import Button from '../Button'
 import { useState } from 'react'
-import JoinProvider from '../../contexts/JoinProvider'
 
 const Header = styled.h4`
   color: #333333;
@@ -34,24 +33,22 @@ const NotiModal = ({ onClick, initialState = false }) => {
   }
 
   return (
-    <JoinProvider>
-      <Modal show={show} onClose={() => setShow(false)}>
-        <Header>참여하기</Header>
-        <Text style={{ color: '#737373' }}>
-          [안내] 현재 참여 후 취소 시 모집자와 채팅으로만 환불이 가능합니다.
-        </Text>
-        <Text style={{ color: '#333333' }}>참여하시겠어요?</Text>
-        <ButtonContainer>
-          <Button onClick={onClick}>참여하기</Button>
-          <Button
-            style={{ backgroundColor: '#ddd', width: '44%' }}
-            onClick={(e) => closeModal(e)}
-          >
-            닫기
-          </Button>
-        </ButtonContainer>
-      </Modal>
-    </JoinProvider>
+    <Modal show={show} onClose={() => setShow(false)}>
+      <Header>참여하기</Header>
+      <Text style={{ color: '#737373' }}>
+        [안내] 현재 참여 후 취소 시 모집자와 채팅으로만 환불이 가능합니다.
+      </Text>
+      <Text style={{ color: '#333333' }}>참여하시겠어요?</Text>
+      <ButtonContainer>
+        <Button onClick={onClick}>참여하기</Button>
+        <Button
+          style={{ backgroundColor: '#ddd', width: '44%' }}
+          onClick={(e) => closeModal(e)}
+        >
+          닫기
+        </Button>
+      </ButtonContainer>
+    </Modal>
   )
 }
 

@@ -151,14 +151,14 @@ const SignupPage = () => {
     }
 
     const userLists = await getUserLists()
-    userLists.forEach((user) => {
+    for (const user of userLists) {
       if (user.email === value) {
         setUserTyping([...userTyping, value])
         formik.setErrors({ userEmail: invalidErrorMessage.duplicateUserEmail })
         setDuplicationCheck(false)
         return
       }
-    })
+    }
 
     setDuplicationCheck(true)
   }, [getUserLists, userTyping, formik])

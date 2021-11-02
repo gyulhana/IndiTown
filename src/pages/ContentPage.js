@@ -2,14 +2,11 @@ import styled from '@emotion/styled'
 import { Fragment, useCallback, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
 import { useAsync } from '../hooks'
-import ContentsProvider, {
-  useContentsContext,
-} from '../contexts/ContentsProvider'
+import ContentsProvider from '../contexts/ContentsProvider'
 import ContentsDescription from '../components/ContentsDescription'
 import CommentInput from '../components/CommentInput'
 import CommentList from '../components/CommentList'
 import Spinner from '../components/Spinner'
-import theme from '../themes'
 import useSessionStorage from '../hooks/useSessionStorage'
 import { ApiUtils } from '../utils/api'
 import LikeAndJoin from '../components/LikeAndJoin'
@@ -26,7 +23,6 @@ const ContentPage = () => {
   const [count, setCount] = useState(0)
   const [isJoin, setIsJoin] = useState(false)
   const [openJoinPopup, setOpenJoinPopup] = useState(false)
-  const { openJoinModal } = useContentsContext()
 
   const content = useAsync(async () => {
     const response = await ApiUtils.getContentDetail(contentId)
@@ -160,9 +156,9 @@ const ContentPage = () => {
             onLikeClick={like ? dislikePost : likePost}
             joinState={isJoin}
             isExpired={TimeUtils.checkExpired(content.value)}
-            openJoinClick={() => setOpenJoinPopup(true)}
+            openJoinClick={() => {}}
           />
-          <NotiModal initialState={openJoinPopup} />
+          <NotiModal initialState={true} />
 
           <CommentInput
             style={{
