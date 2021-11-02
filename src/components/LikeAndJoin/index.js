@@ -10,10 +10,10 @@ const Container = styled.div`
   border-bottom: 1px solid ${theme.colors.gray_2};
 `
 
-const LikeAndJoin = ({ initialState, ...props }) => {
+const LikeAndJoin = ({ initialState, onClick, ...props }) => {
   return (
     <Container {...props}>
-      <Like initialState={initialState} />
+      <Like initialState={initialState} onClick={onClick} />
     </Container>
   )
 }

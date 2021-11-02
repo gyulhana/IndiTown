@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Fragment, useCallback, useEffect, useState } from 'react'
+import { Fragment, useCallback, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
 import { useAsync } from '../hooks'
 import ContentsDescription from '../components/ContentsDescription'
@@ -10,7 +10,6 @@ import moment from 'moment'
 import theme from '../themes'
 import useSessionStorage from '../hooks/useSessionStorage'
 import { ApiUtils } from '../utils/api'
-import axios from 'axios'
 import LikeAndJoin from '../components/LikeAndJoin'
 
 const ContentPage = () => {
@@ -87,11 +86,12 @@ const ContentPage = () => {
       postId: content.value._id,
     }
 
-    await ApiUtils.likePost({
-      token,
-      postId: data,
-    })
-    setLike(true)
+    try {
+      await ApiUtils.likePost({ token, postId: data })
+      setLike(true)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const checkLikeId = () => {
@@ -111,16 +111,13 @@ const ContentPage = () => {
     const data = {
       id: likeId,
     }
-    setLike(false)
-    await axios({
-      method: 'delete',
-      url: 'http://13.209.30.200/likes/delete',
-      headers: {
-        Authorization: `bearer ${token}`,
-        'Content-Type': 'application/json;charset=utf-8',
-      },
-      data: JSON.stringify(data),
-    })
+
+    try {
+      await ApiUtils.dislikePost({ token, id: data })
+      setLike(false)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   if (!content.isLoading && content.value) {

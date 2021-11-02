@@ -1,16 +1,21 @@
+import React from 'react'
 import styled from '@emotion/styled'
-import useToggle from '../../hooks/useToggle'
 
 const LikeStyle = styled.svg`
   cursor: pointer;
 `
 
-const Like = ({ initialState }) => {
-  const [state, toggle] = useToggle(initialState)
+const Button = styled.button`
+  background-color: initial;
+  border: none;
+  margin: 0;
+  padding: 0;
+`
 
+const Like = ({ initialState, onClick, isLoading }) => {
   return (
-    <span onClick={toggle}>
-      {state ? (
+    <Button type="button" onClick={onClick}>
+      {initialState ? (
         <LikeStyle
           width="40"
           height="40"
@@ -37,8 +42,8 @@ const Like = ({ initialState }) => {
           />
         </LikeStyle>
       )}
-    </span>
+    </Button>
   )
 }
 
-export default Like
+export default React.memo(Like)
