@@ -88,7 +88,7 @@ export const SearchPage = () => {
         />
         <div>
           <Title>사용자</Title>
-          {result.data
+          {result
             ?.filter((item) => item.fullName)
             ?.filter((item) => item.fullName.includes('Yohan1'))
             ?.map((item) => {
