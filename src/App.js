@@ -9,6 +9,7 @@ import {
   ContentEditPage,
   ContentsPage,
   ContentPage,
+  SearchPage,
   ChattingListPage,
   ChattingRoomPage,
   ProfilePage,
@@ -43,6 +44,9 @@ function App() {
             <Route path="/:subMenu/edit" component={ContentEditPage} />
             <Route exact path="/content/:contentId">
               <ContentPage />
+            </Route>
+            <Route path="/search">
+              <SearchPage />
             </Route>
             <Route path="/chat">
               <ChattingListPage />
