@@ -21,6 +21,14 @@ const DefaultTemplate = ({ children }) => {
           <NavBottom />
         </div>
       )
+    case 'search':
+      return (
+        <div>
+          <Header>검색 페이지</Header>
+          <main>{children}</main>
+          <NavBottom />
+        </div>
+      )
     case 'chat':
       return (
         <div>
