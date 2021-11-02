@@ -64,7 +64,7 @@ const invalidErrorMessage = {
 }
 
 const SignupPage = () => {
-  const [userTyping, setUserTyping] = useState(new Set())
+  const [userTyping, setUserTyping] = useState([])
   const [duplicationCheck, setDuplicationCheck] = useState(false)
   const [isSignup, setIsSignup] = useState(false)
   const { currentLocation } = useLocation()
@@ -130,7 +130,7 @@ const SignupPage = () => {
   })
 
   const checkValidation = {
-    email: formik.touched.userEmail && formik.errors.userEmail,
+    email: formik.errors.userEmail,
     id: formik.touched.userId && formik.errors.userId,
     password: formik.touched.userPassword && formik.errors.userPassword,
   }
@@ -144,20 +144,24 @@ const SignupPage = () => {
     const value = formik.values.userEmail
     if (!value) {
       return
+    } else if (userTyping.includes(value)) {
+      formik.setErrors({ userEmail: invalidErrorMessage.duplicateUserEmail })
+      setDuplicationCheck(false)
+      return
     }
 
     const userLists = await getUserLists()
     userLists.forEach((user) => {
       if (user.email === value) {
+        setUserTyping([...userTyping, value])
         formik.setErrors({ userEmail: invalidErrorMessage.duplicateUserEmail })
-        setUserTyping(() => new Set([...userTyping, value]))
         setDuplicationCheck(false)
         return
       }
     })
 
     setDuplicationCheck(true)
-  }, [getUserLists, setUserTyping, userTyping, formik])
+  }, [getUserLists, userTyping, formik])
 
   return (
     <SignupContainer>
