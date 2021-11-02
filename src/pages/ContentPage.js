@@ -12,6 +12,7 @@ import useSessionStorage from '../hooks/useSessionStorage'
 import { ApiUtils } from '../utils/api'
 import LikeAndJoin from '../components/LikeAndJoin'
 import { TimeUtils } from '../utils/time'
+import { ProfileUtils } from '../utils/profile'
 
 const ContentPage = () => {
   const { contentId } = useParams()
@@ -21,7 +22,7 @@ const ContentPage = () => {
   const history = useHistory()
   const [like, setLike] = useState(false)
 
-  const content = useAsync(async () => {
+  const { isLoading, value } = useAsync(async () => {
     const response = await ApiUtils.getContentDetail(contentId)
     setComments(response.comments)
 
@@ -80,7 +81,7 @@ const ContentPage = () => {
 
   const likePost = async () => {
     const data = {
-      postId: content.value._id,
+      postId: value._id,
     }
 
     try {
@@ -92,7 +93,7 @@ const ContentPage = () => {
   }
 
   const checkLikeId = () => {
-    const likeList = content.value.likes
+    const likeList = value.likes
     if (likeList.length === 0) {
       return
     }
@@ -117,37 +118,52 @@ const ContentPage = () => {
     }
   }
 
-  if (!content.isLoading && content.value) {
+  if (!isLoading && value) {
     return (
       <ContentsProvider handleDeleteContent={handleDeleteContent}>
         <Container>
           <Fragment>
             <ContentsDescription
-              id={content.value?._id}
+              id={value?._id}
               style={{
                 padding: '1rem',
                 borderBottom: `1px solid ${theme.colors.gray_2}`,
               }}
-              userEmail={content.value.author.email}
-              userNickName={JSON.parse(content.value.author.fullName).userName}
-              userTown={JSON.parse(content.value.author.fullName).location}
-              title={JSON.parse(content.value.title).title}
-              contentImg={content.value.image}
-              isExpired={!TimeUtils.checkExpired(content.value)}
-              progress={JSON.parse(content.value.title)}
+              userEmail={value.author.email}
+              userImg={
+                value.author.image ||
+                ProfileUtils.getDefaultImage(value.author.email)
+              }
+              userNickName={
+                value.author.fullName[0] !== '{'
+                  ? value.author.fullName
+                  : JSON.parse(value.author.fullName).userName
+              }
+              userTown={
+                value.author.fullName[0] !== '{'
+                  ? '동네정보없음'
+                  : JSON.parse(value.author.fullName).location
+              }
+              title={JSON.parse(value.title).title}
+              contentImg={value.image}
+              isExpired={!TimeUtils.checkExpired(value)}
+              progress={JSON.parse(value.title)}
               progressTime={TimeUtils.calculateTime(
-                JSON.parse(content.value.title).recruitmentDate
+                JSON.parse(value.title).recruitmentDate
               )}
-              updatedAt={content.value.updatedAt}
-              onClick={() => moveToChat(content.value.author)}
+              updatedAt={value.updatedAt}
+              onClick={() => moveToChat(value.author)}
             />
           </Fragment>
 
           <CommentInput
             style={{
               padding: '1rem',
-              // borderBottom: `1px solid ${theme.colors.gray_2}`,
             }}
+            userImg={
+              value.author.image ||
+              ProfileUtils.getDefaultImage(value.author.email)
+            }
             onSubmit={(e) => {
               e.preventDefault()
               handleCommentSubmit({
@@ -159,18 +175,6 @@ const ContentPage = () => {
           <LikeAndJoin
             initialState={like}
             onClick={like ? dislikePost : likePost}
-          />
-          <CommentInput
-            style={{
-              padding: '1rem',
-            }}
-            onSubmit={(e) => {
-              e.preventDefault()
-              handleCommentSubmit({
-                comment: e.target[0].value,
-                postId: contentId,
-              })
-            }}
           />
           <CommentList comments={comments} />
         </Container>

@@ -55,7 +55,7 @@ const ContentsDescription = ({
   placeholder,
   id,
   alt,
-  userImg = 'https://picsum.photos/400',
+  userImg,
   userNickName,
   userEmail,
   userTown,
@@ -68,7 +68,7 @@ const ContentsDescription = ({
   onClick,
   ...props
 }) => {
-  const [userInfo, setUserInfo] = useSessionStorage('IndiTown')
+  const [userInfo] = useSessionStorage('IndiTown')
   const isAuthor = userInfo.user.email === userEmail
 
   const [isClickEdit, setIsClickEdit] = useState(false)

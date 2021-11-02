@@ -1,4 +1,3 @@
-import axios from 'axios'
 import useDebounce from '../hooks/useDebounce'
 import { useState, useCallback } from 'react'
 import Form from '../components/Form'
@@ -8,12 +7,14 @@ import Profile from '../components/Profile'
 import { Link } from 'react-router-dom'
 import Avatar from '../components/Avatar'
 import moment from 'moment'
+import { ApiUtils } from '../utils/api'
+import { ProfileUtils } from '../utils/profile'
 
 const calculateTime = (time) => {
   const t1 = moment(time, 'YYYY-MM-DD hh:mm')
   const t2 = moment()
   const m = moment.duration(t1.diff(t2))
-  console.log()
+
   return `${Math.floor(m.asDays()).toString().padStart(2, '0')}일  ${Math.floor(
     m.asHours() % 24
   )
@@ -43,8 +44,6 @@ const Title = styled.h3`
 
 const PostTitle = styled.h3`
   font-weight: 500;
-  display: box;
-  white-space: wrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `
@@ -55,15 +54,21 @@ const PostContainer = styled.div`
   line-height: 1.4;
   cursor: pointer;
   margin-bottom: 1rem;
+  background-color: #fff;
+  border-radius: 12.8px;
+  padding: 1rem;
+  box-sizing: border-box;
 `
+const foodthumb =
+  'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FxznxP%2FbtrjCACuE5H%2F7ZYQrKuvzJLaZr6kxqPBkk%2Fimg.png'
+const parcelthumb =
+  'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fc5Y83o%2FbtrjAfMkXbm%2FcnJvyenK4RLrL2IpdTq7Hk%2Fimg.png'
 
 export const SearchPage = () => {
-  const API_END_POINT = 'http://13.209.30.200'
-
   const data = useCallback(async (word) => {
-    return await axios
-      .get(`${API_END_POINT}/search/all/${word}`)
-      .then((response) => response.data)
+    return await (
+      await ApiUtils.searchPosts(word)
+    ).data
   }, [])
 
   const [value, setValue] = useState('')
@@ -96,19 +101,20 @@ export const SearchPage = () => {
             ?.filter((item) => item.fullName)
             ?.filter((item) => item.fullName.includes('Yohan1'))
             ?.map((item) => {
-              console.log(item)
+              const userInfo = JSON.parse(item.fullName)
               return (
                 <Profile
                   key={item._id}
                   lazy
                   threshold={0.5}
                   src={
-                    'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbDh7FL%2FbtrjyIagzyN%2FTXsUFujA0H8NykBT8C0WZk%2Fimg.png'
+                    item.image ||
+                    (item.email && ProfileUtils.getDefaultImage(item.email))
                   }
-                  alt={JSON.parse(item.fullName).userName}
-                  nickName={JSON.parse(item.fullName).userName}
+                  alt={userInfo.userName}
+                  nickName={userInfo.userName}
                   email={item.email}
-                  town={JSON.parse(item.fullName).location}
+                  town={userInfo.location}
                   style={{ marginBottom: '1rem' }}
                 />
               )
@@ -125,33 +131,32 @@ export const SearchPage = () => {
               const leftTime = calculateTime(
                 JSON.parse(content.title).recruitmentDate
               )
+              const contentsInfo = JSON.parse(content.title)
 
               return (
                 <Link to={`/content/${content._id}`}>
-                  <PostContainer alt={JSON.parse(content.title).title}>
+                  <PostContainer alt={contentsInfo.title}>
                     <Avatar
+                      style={{ flexShrink: 0 }}
                       key={content._id}
                       lazy
                       size={48}
                       threshold={0.5}
                       src={
-                        JSON.parse(content.title).type === 'food'
-                          ? 'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FxznxP%2FbtrjCACuE5H%2F7ZYQrKuvzJLaZr6kxqPBkk%2Fimg.png'
-                          : 'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fc5Y83o%2FbtrjAfMkXbm%2FcnJvyenK4RLrL2IpdTq7Hk%2Fimg.png'
+                        contentsInfo.type === 'food' ? foodthumb : parcelthumb
                       }
                     />
-                    <div style={{ marginLeft: '0.875rem' }}>
-                      <PostTitle
-                        strong
-                        size={theme.fontSizes.sm}
-                        style={{
-                          overflow: 'hidden',
-                          lineClamp: 1,
-                          display: 'box',
-                        }}
-                      >
-                        {JSON.parse(content.title).title.length > 0
-                          ? JSON.parse(content.title).title
+                    <div
+                      style={{
+                        marginLeft: '0.875rem',
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      <PostTitle strong size={theme.fontSizes.sm}>
+                        {contentsInfo.title.length > 0
+                          ? contentsInfo.title
                           : '제목 없음'}
                       </PostTitle>
                       <div

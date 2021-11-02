@@ -3,11 +3,11 @@ import { useFormik } from 'formik'
 import styled from '@emotion/styled'
 import * as Yup from 'yup'
 import { useCallback, useState } from 'react'
-import axios from 'axios'
 import Button from '../components/Button'
 import { useLocation } from '../contexts/LocationProvider'
 import Modal from '../components/Modal'
 import { Link } from 'react-router-dom'
+import { ApiUtils } from '../utils/api'
 
 const SignupContainer = styled.div`
   padding: 2rem;
@@ -67,7 +67,6 @@ const SignupPage = () => {
   const [userTyping, setUserTyping] = useState(new Set())
   const [duplicationCheck, setDuplicationCheck] = useState(false)
   const [isSignup, setIsSignup] = useState(false)
-  const API_ENDPOINT = 'http://13.209.30.200'
   const { currentLocation } = useLocation()
 
   const formik = useFormik({
@@ -122,15 +121,7 @@ const SignupPage = () => {
       }
 
       try {
-        await axios({
-          url: `${API_ENDPOINT}/signup`,
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json;charset=UTP-8',
-          },
-          data: JSON.stringify(data),
-        })
-
+        await ApiUtils.signup(data)
         setIsSignup(true)
       } catch (error) {
         console.log(error)
@@ -145,11 +136,7 @@ const SignupPage = () => {
   }
 
   const getUserLists = useCallback(async () => {
-    const userLists = await axios({
-      url: `${API_ENDPOINT}/users/get-users`,
-      method: 'GET',
-    })
-
+    const userLists = await ApiUtils.getUserLists()
     return userLists.data
   }, [])
 

@@ -22,15 +22,12 @@ const Text = styled.li`
   }
 `
 const EditModal = ({ id, onClick }) => {
-  console.log(id)
   const [show, setShow] = useState(true)
   const { onDeleteContent } = useContentsContext()
   const closeModal = (e) => {
     e.preventDefault()
     setShow(false)
   }
-
-  console.log(id)
 
   return (
     <Modal show={show} onClose={() => setShow(false)}>

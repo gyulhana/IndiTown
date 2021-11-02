@@ -47,7 +47,6 @@ const Progress = ({
   isExpired,
   ...props
 }) => {
-  console.log(targetNum, isExpired)
   return (
     <StyledProgress
       {...props}
