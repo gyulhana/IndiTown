@@ -31,9 +31,17 @@ const ContentsSummaryList = ({ subMenu, ...props }) => {
                 content.author.image ||
                 ProfileUtils.getDefaultImage(content.author.email)
               }
-              userNickName={JSON.parse(content.author.fullName).userName}
+              userNickName={
+                content.author.fullName[0] !== '{'
+                  ? content.author.fullName
+                  : JSON.parse(content.author.fullName).userName
+              }
               userId={content.author.email}
-              userTown={JSON.parse(content.author.fullName).location}
+              userTown={
+                content.author.fullName[0] !== '{'
+                  ? '동네정보없음'
+                  : JSON.parse(content.author.fullName).location
+              }
               title={JSON.parse(content.title).title}
               isExpired={!TimeUtils.checkExpired(content)}
               progress={JSON.parse(content.title)}

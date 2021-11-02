@@ -134,8 +134,16 @@ const ContentPage = () => {
                 content.value.author.image ||
                 ProfileUtils.getDefaultImage(content.value.author.email)
               }
-              userNickName={JSON.parse(content.value.author.fullName).userName}
-              userTown={JSON.parse(content.value.author.fullName).location}
+              userNickName={
+                content.value.author.fullName[0] !== '{'
+                  ? content.value.author.fullName
+                  : JSON.parse(content.value.author.fullName).userName
+              }
+              userTown={
+                content.value.author.fullName[0] !== '{'
+                  ? '동네정보없음'
+                  : JSON.parse(content.value.author.fullName).location
+              }
               title={JSON.parse(content.value.title).title}
               contentImg={content.value.image}
               isExpired={!TimeUtils.checkExpired(content.value)}

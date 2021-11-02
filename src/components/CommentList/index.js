@@ -31,7 +31,11 @@ const CommentList = ({ comments }) => {
             comment.author.image ||
             ProfileUtils.getDefaultImage(comment.author.email)
           }
-          userNickName={JSON.parse(comment.author.fullName).userName}
+          userNickName={
+            comment.author.fullName[0] !== '{'
+              ? comment.author.fullName
+              : JSON.parse(comment.author.fullName)?.userName
+          }
           userEmail={comment.author.email}
           comment={comment.comment}
           createdAt={comment.createdAt}
