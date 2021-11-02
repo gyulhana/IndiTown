@@ -138,7 +138,7 @@ const SigninPage = () => {
         large
         type="email"
         name="userEmail"
-        placeholder="ID"
+        placeholder="EMAIL"
         style={{ marginBottom: '1.25rem' }}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
