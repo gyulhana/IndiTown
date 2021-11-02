@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import BackButton from '../BackButton'
 
 const HeaderContainer = styled.div`
   position: fixed;
@@ -21,7 +22,12 @@ const HeaderContainer = styled.div`
 `
 
 const Header = ({ children, ...props }) => {
-  return <HeaderContainer {...props}>{children}</HeaderContainer>
+  return (
+    <HeaderContainer {...props}>
+      <BackButton />
+      {children}
+    </HeaderContainer>
+  )
 }
 
 export default Header
