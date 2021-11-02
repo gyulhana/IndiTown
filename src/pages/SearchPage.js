@@ -88,7 +88,7 @@ export const SearchPage = () => {
         />
         <div>
           <Title>사용자</Title>
-          {result
+          {result.data
             ?.filter((item) => item.fullName)
             ?.filter((item) => item.fullName.includes('Yohan1'))
             ?.map((item) => {
@@ -98,9 +98,7 @@ export const SearchPage = () => {
                   key={item._id}
                   lazy
                   threshold={0.5}
-                  src={
-                    'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbDh7FL%2FbtrjyIagzyN%2FTXsUFujA0H8NykBT8C0WZk%2Fimg.png'
-                  }
+                  src={''}
                   alt={JSON.parse(item.fullName).userName}
                   nickName={JSON.parse(item.fullName).userName}
                   email={item.email}
@@ -112,7 +110,7 @@ export const SearchPage = () => {
         </div>
         <div>
           <Title>포스트</Title>
-          {result
+          {result.data
             ?.filter(
               (item) =>
                 'title' in item && item.channel === '616a205422996f0bc94f6e23'

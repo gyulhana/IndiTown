@@ -199,6 +199,7 @@ export const ApiUtils = {
   getUsersInfo,
   getPostsList,
   login,
+  UploadUserImage,
   createContent,
   deleteContent,
   getContentDetail,
