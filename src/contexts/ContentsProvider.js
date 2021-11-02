@@ -35,7 +35,7 @@ const ContentsProvider = ({
   handleAddContent,
 }) => {
   const [contents, dispatch] = useReducer(reducer, initialContents || [])
-
+  console.log(contents)
   useEffect(() => {
     dispatch({ type: 'INIT_CONTENTS', payload: initialContents || [] })
   }, [initialContents])

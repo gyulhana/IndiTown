@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import Modal from '../Modal'
 import { useState } from 'react'
+import { useContentsContext } from '../../contexts/ContentsProvider'
 
 const Text = styled.li`
   list-style: none;
@@ -20,9 +21,10 @@ const Text = styled.li`
     cursor: default;
   }
 `
-
-const EditModal = () => {
+const EditModal = ({ id, onClick }) => {
+  console.log(id)
   const [show, setShow] = useState(true)
+  const { onDeleteContent } = useContentsContext()
   const closeModal = (e) => {
     e.preventDefault()
     setShow(false)
@@ -30,9 +32,11 @@ const EditModal = () => {
 
   return (
     <Modal show={show} onClose={() => setShow(false)}>
-      <Text remove>삭제하기</Text>
+      <Text remove onClick={() => onDeleteContent(id)}>
+        삭제하기
+      </Text>
       <Text>수정하기</Text>
-      <Text onClick={(e) => closeModal(e)}>취소</Text>
+      <Text onClick={(closeModal, onClick)}>취소</Text>
     </Modal>
   )
 }
