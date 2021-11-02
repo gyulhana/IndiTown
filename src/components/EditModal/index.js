@@ -30,6 +30,8 @@ const EditModal = ({ id, onClick }) => {
     setShow(false)
   }
 
+  console.log(id)
+
   return (
     <Modal show={show} onClose={() => setShow(false)}>
       <Text remove onClick={() => onDeleteContent(id)}>

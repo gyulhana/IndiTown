@@ -49,7 +49,8 @@ const ContentPage = () => {
   const handleDeleteContent = useCallback(
     async (contentId) => {
       await ApiUtils.deleteContent({ token, contentId })
-      history.push(`/food`)
+      history.goBack()
+      history.goBack()
     },
     [history, token]
   )

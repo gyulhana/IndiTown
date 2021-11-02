@@ -37,7 +37,6 @@ const StyledTextarea = styled.textarea`
 `
 
 const ContentsEdit = ({
-  threshold,
   placeholder,
   alt,
   userImg = 'https://picsum.photos/400',
@@ -47,7 +46,6 @@ const ContentsEdit = ({
   ...props
 }) => {
   const { errors, onInputChange, onSubmitContent } = useContentEditContext()
-
   return (
     <div {...props}>
       <Profile
@@ -141,7 +139,7 @@ const ContentsEdit = ({
 Profile.propTypes = {
   placeholder: PropTypes.string,
   alt: PropTypes.string,
-  userImg: PropTypes.string.isRequired,
+  userImg: PropTypes.string,
   userNickName: PropTypes.string,
   userEmail: PropTypes.string,
   userTown: PropTypes.string,
