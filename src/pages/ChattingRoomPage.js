@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import { useFormik } from 'formik'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import TextArea from '../components/TextArea'
 import ChattingHistory from '../components/Chat/ChattingHistory'
 import useSessionStorage from '../hooks/useSessionStorage'
@@ -11,10 +11,10 @@ import useScroll from '../hooks/useScroll'
 const ChattingContainer = styled.div`
   background-color: #fff;
   position: relative;
-  height: 75vh;
+  height: 80vh;
   background-color: #fff;
   border-radius: 12.8px;
-  margin: 1rem;
+  margin: 5rem 1rem;
   padding: 1rem;
   border: none;
   box-sizing: border-box;
@@ -36,17 +36,21 @@ const InputTextArea = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 76px;
   padding: 20px;
   border-top: 1px solid ${theme.colors.gray_2};
   box-sizing: border-box;
 `
 
 const ChattingRoomPage = () => {
+  function resize(element1, element2) {
+    element1.style.height = 40 + element2.scrollHeight + 'px'
+  }
+
   const [messages, setMessages] = useState([])
   const [userInfo] = useSessionStorage('IndiTown')
   const { token, contactUserId, _id } = userInfo
   const [ref] = useScroll()
+  const textAreaRef = useRef()
 
   const getMessages = async () => {
     try {
@@ -99,7 +103,7 @@ const ChattingRoomPage = () => {
         <MessageArea ref={ref}>
           <ChattingHistory message={messages} id={_id} />
         </MessageArea>
-        <InputTextArea>
+        <InputTextArea ref={textAreaRef}>
           <TextArea
             placeholder={'메세지를 입력하세요!'}
             onSubmit={formik.handleSubmit}
@@ -110,6 +114,9 @@ const ChattingRoomPage = () => {
               if (e.key === 'Enter' && !e.ctrlKey) {
                 formik.handleSubmit()
               }
+            }}
+            onKeyUp={(e) => {
+              resize(textAreaRef.current, e.target)
             }}
           />
         </InputTextArea>

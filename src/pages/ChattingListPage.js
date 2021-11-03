@@ -12,7 +12,7 @@ import Badge from '../components/Badge'
 const ChatListContainer = styled.div`
   background-color: #fff;
   border-radius: 12.8px;
-  margin: 5rem 1rem 1rem 1rem;
+  margin: 5rem 1rem;
   border: none;
   overflow-y: auto;
 `
