@@ -59,7 +59,7 @@ const ProfilePage = () => {
     getPostsListsAsync()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  console.log(userData.email)
+
   return (
     <ProfileContainer>
       <ProfileWrapper>

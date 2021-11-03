@@ -131,17 +131,26 @@ const ContentsDescription = ({
       <Progress
         size="medium"
         targetNum={progress.recruitmentOption}
-        resultNum={progress.orderdOption}
+        resultNum={progress.orderedOption}
         isExpired={isExpired}
         children={
           isExpired
             ? '모집마감'
-            : `${progress.recruitmentOption}${
+            : `${progress.recruitmentOption - progress.orderedOption}${
                 selectedOptions[progress.selectedOption]
               } 남음`
         }
       />
-
+      <Text
+        block
+        size="h6"
+        color={theme.colors.gray_4}
+        style={{ textAlign: 'end', margin: '0.4rem 0.8rem 0 0' }}
+      >
+        {`${progress.recruitmentOption} ${
+          selectedOptions[progress.selectedOption]
+        }`}
+      </Text>
       <Text
         block
         size={12}

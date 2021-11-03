@@ -3,7 +3,6 @@ import ReceiveMessage from './ReceiveMessage'
 import { ProfileUtils } from '../../utils/profile'
 
 const ChattingHistory = ({ message, id }) => {
-  console.log(message)
   return (
     <ul>
       {message.map((msg) =>

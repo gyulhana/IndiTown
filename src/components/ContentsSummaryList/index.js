@@ -18,7 +18,7 @@ const LinkWrapper = styled.div`
 
 const ContentsSummaryList = ({ subMenu, ...props }) => {
   const { contents } = useContentsContext()
-  console.log(contents)
+
   return (
     <Container {...props}>
       {contents.map((content) => (

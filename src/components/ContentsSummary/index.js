@@ -75,13 +75,15 @@ const ContentsSummary = ({
         size={size}
         targetNum={progress.recruitmentOption}
         isExpired={isExpired}
-        resultNum={''}
+        resultNum={progress.orderedOption}
         children={
           isExpired
             ? '모집마감'
-            : `${progress.recruitmentOption}${
-                selectedOptions[progress.selectedOption]
-              } 남음`
+            : `${
+                progress.orderedOption
+                  ? progress.recruitmentOption - progress.orderedOption
+                  : progress.recruitmentOption
+              }${selectedOptions[progress.selectedOption]} 남음`
         }
       />
     </StyledContentsSummary>
