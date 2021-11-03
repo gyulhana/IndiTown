@@ -6,6 +6,7 @@ import Modal from '../Modal'
 import theme from '../../themes'
 import { ApiUtils } from '../../utils/api'
 import useSessionStorage from '../../hooks/useSessionStorage'
+import { useHistory } from 'react-router'
 
 const JoinButton = styled(Button)`
   cursor: auto;
@@ -41,6 +42,7 @@ const Join = ({ initialState, isExpired, value }) => {
   const [remainOptions, setRemainOptions] = useState(0)
   const [userInfo] = useSessionStorage('IndiTown')
   const { token } = userInfo
+  const history = useHistory()
 
   const closeModal = (e) => {
     e.preventDefault()
@@ -52,14 +54,11 @@ const Join = ({ initialState, isExpired, value }) => {
     setShow(true)
   }
   const calculateRemainingOptions = (value) => {
-    const { recruitmentOption, orderedOption } = JSON.parse(value.title)
+    let { recruitmentOption, orderedOption } = JSON.parse(value.title)
     if (!orderedOption) {
-      console.log('')
+      orderedOption = 0
     }
     const sub = parseInt(recruitmentOption, 10) - parseInt(orderedOption, 10)
-    console.log(sub)
-    console.log(recruitmentOption)
-    console.log(orderedOption)
     setRemainOptions(sub)
     setJoin(true)
   }
@@ -71,13 +70,25 @@ const Join = ({ initialState, isExpired, value }) => {
     onSubmit: async () => {
       const formData = new FormData()
       const title = JSON.parse(value.title)
-      title.orderdOption += formik.values.options
+      if (!title.orderedOption) {
+        title.orderedOption = formik.values.options
+      } else {
+        title.orderedOption += formik.values.options
+      }
+
+      if (!title.joined) {
+        title.joined = [value.author._id]
+      } else {
+        title.joined.push(value.author._id)
+      }
+
       formData.append('postId', value._id)
       formData.append('title', JSON.stringify(title))
       formData.append('image', value.image ? value.image : null)
       formData.append('channelId', value.channel._id)
 
       await ApiUtils.updatePost({ token, content: formData })
+      history.go(0)
     },
   })
 
