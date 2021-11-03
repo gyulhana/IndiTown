@@ -13,10 +13,17 @@ const DefaultTemplate = ({ children }) => {
   switch (pathname) {
     case 'food':
     case 'package':
-    case 'content':
       return (
         <div>
           <MainNav />
+          <main>{children}</main>
+          <NavBottom />
+        </div>
+      )
+    case 'content':
+      return (
+        <div>
+          <Header>상세 페이지</Header>
           <main>{children}</main>
           <NavBottom />
         </div>

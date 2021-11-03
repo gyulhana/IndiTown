@@ -34,7 +34,8 @@ const ContentEditPage = ({ match }) => {
       .format(MOMENT_DEFAULT_FORMAT),
     selectedOption: '금액',
     recruitmentOption: null,
-    orderdOption: 0,
+    orderedOption: 0,
+    joined: [],
   }
 
   const validate = ({ title, recruitmentDate, recruitmentOption }, data) => {
