@@ -55,8 +55,6 @@ const Signin = () => {
           },
           data: JSON.stringify(userInfo),
         })
-
-        console.log(result)
       } catch (error) {
         console.log(error)
         formik.setErrors({ userEmail: invalidErrorMessage.notCorrect })

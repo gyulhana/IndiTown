@@ -43,7 +43,6 @@ const UploadImage = ({
       reader.readAsDataURL(changedFile)
 
       reader.onload = () => {
-        console.log('filechaged!', changedFile)
         onImgChange(changedFile, reader.result)
         photoRef.current.style.background = `center 100% / auto 100% no-repeat url(${reader.result})`
       }

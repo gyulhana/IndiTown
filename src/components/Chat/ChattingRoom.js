@@ -43,7 +43,6 @@ const ChattingRoom = () => {
       chat: '',
     },
     onSubmit: async (value) => {
-      console.log(value)
       const tokenMe =
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYxNzc5OTliNDdlYzMzMjlkNDM0YjkwYyIsImVtYWlsIjoiYUBhLmEifSwiaWF0IjoxNjM1NDkzNjc1fQ.etCO-YoKpVjszZ0zEslgDWL4ROmIetF50YkRVXHPxz8'
       const tokenYou =
@@ -68,7 +67,7 @@ const ChattingRoom = () => {
             userId: `${you}`,
           },
         })
-        console.log(messages)
+
         // const message = await axios({
         //   url: 'http://13.209.30.200/messages/create',
         //   method: 'POST',
@@ -114,7 +113,6 @@ const ChattingRoom = () => {
     }
 
     getMessages()
-    console.log(messages)
   }, [])
 
   return (

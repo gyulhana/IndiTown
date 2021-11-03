@@ -21,7 +21,13 @@ const CommentList = ({ comments }) => {
       history.push(`/chatting/${userName}`)
     }
   }
-
+  comments.forEach((comment) => {
+    const result =
+      comment.author.fullName[0] !== '{'
+        ? comment.author.fullName
+        : JSON.parse(comment.author.fullName).userName
+    console.log(result)
+  })
   return (
     <div>
       {comments.map((comment) => (
@@ -32,11 +38,16 @@ const CommentList = ({ comments }) => {
             ProfileUtils.getDefaultImage(comment.author.email)
           }
           userNickName={
-            comment.author.fullName[0] !== '{'
-              ? comment.author.fullName
-              : JSON.parse(comment.author.fullName)?.userName
+            comment.author.fullName[0] === '{'
+              ? JSON.parse(comment.author.fullName).userName
+              : comment.author.fullName
           }
           userEmail={comment.author.email}
+          userTown={
+            comment.author.fullName[0] === '{'
+              ? JSON.parse(comment.author.fullName).location
+              : ''
+          }
           comment={comment.comment}
           createdAt={comment.createdAt}
           onClick={() => moveToChat(comment.author)}
