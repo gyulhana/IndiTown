@@ -1,11 +1,12 @@
 import styled from '@emotion/styled'
 import { useFormik } from 'formik'
-import { Fragment, useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import TextArea from '../components/TextArea'
 import ChattingHistory from '../components/Chat/ChattingHistory'
 import useSessionStorage from '../hooks/useSessionStorage'
 import theme from '../themes'
 import { ApiUtils } from '../utils/api'
+import useScroll from '../hooks/useScroll'
 
 const ChattingContainer = styled.div`
   background-color: #fff;
@@ -43,9 +44,9 @@ const InputTextArea = styled.div`
 
 const ChattingRoomPage = () => {
   const [messages, setMessages] = useState([])
-  const messageRef = useRef(null)
   const [userInfo] = useSessionStorage('IndiTown')
   const { token, contactUserId, _id } = userInfo
+  const [ref] = useScroll()
 
   const getMessages = async () => {
     try {
@@ -75,7 +76,7 @@ const ChattingRoomPage = () => {
           chat: '',
         })
 
-        getMessages()
+        await getMessages()
       } catch (error) {
         console.log(error)
       }
@@ -87,10 +88,15 @@ const ChattingRoomPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    ref.current.scrollTop = ref.current.scrollHeight
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messages])
+
   return (
     <Fragment>
       <ChattingContainer>
-        <MessageArea ref={messageRef}>
+        <MessageArea ref={ref}>
           <ChattingHistory message={messages} id={_id} />
         </MessageArea>
         <InputTextArea>
@@ -101,7 +107,7 @@ const ChattingRoomPage = () => {
             onChange={formik.handleChange}
             value={formik.values.chat}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' && e.key !== 'shift') {
+              if (e.key === 'Enter' && !e.ctrlKey) {
                 formik.handleSubmit()
               }
             }}

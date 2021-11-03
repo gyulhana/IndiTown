@@ -207,6 +207,18 @@ const updatePost = async (data) => {
   })
 }
 
+const readChatting = async (data) => {
+  return await axiosInstance({
+    url: '/messages/update-seen',
+    method: 'put',
+    headers: {
+      Authorization: `bearer ${data.token}`,
+      'Content-Type': 'application/json;charset=UTP-8',
+    },
+    data: JSON.stringify(data.content),
+  })
+}
+
 export const ApiUtils = {
   getUsersInfo,
   getPostsList,
@@ -225,4 +237,5 @@ export const ApiUtils = {
   getUserLists,
   searchPosts,
   updatePost,
+  readChatting,
 }

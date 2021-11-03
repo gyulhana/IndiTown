@@ -7,6 +7,7 @@ import { useHistory } from 'react-router'
 import useSessionStorage from '../hooks/useSessionStorage'
 import { ApiUtils } from '../utils/api'
 import { ProfileUtils } from '../utils/profile'
+import Badge from '../components/Badge'
 
 const ChatListContainer = styled.div`
   background-color: #fff;
@@ -51,6 +52,7 @@ const ChattingListPage = ({ src, onClick }) => {
     const getMessageList = async () => {
       try {
         const messageList = await ApiUtils.getMessageList(token)
+        console.log(messageList)
         setChatList(messageList.data)
       } catch (error) {
         console.log(error)
@@ -61,7 +63,7 @@ const ChattingListPage = ({ src, onClick }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const moveChattingPage = (value) => {
+  const moveChattingPage = async (value) => {
     let contactUserId = ''
     let userName = ''
     if (value.receiver._id === _id) {
@@ -71,6 +73,11 @@ const ChattingListPage = ({ src, onClick }) => {
       contactUserId = value.receiver._id
       userName = JSON.parse(value.receiver.fullName).userName
     }
+
+    const data = {
+      sender: value.sender._id,
+    }
+    await ApiUtils.readChatting({ token, content: data })
 
     setUserInfo({
       ...userInfo,
@@ -96,6 +103,7 @@ const ChattingListPage = ({ src, onClick }) => {
       <ChatListContainer>
         {chatList.map((chat) => (
           <ChattingContainer onClick={() => moveChattingPage(chat)}>
+            {chat.seen ? null : chat.sender._id === _id ? null : <Badge dot />}
             <Avatar
               style={{
                 alignSelf: 'flex-start',
