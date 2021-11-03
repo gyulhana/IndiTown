@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import { useFormik } from 'formik'
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import Button from '../Button'
 import Modal from '../Modal'
 import theme from '../../themes'
@@ -36,6 +36,14 @@ const OptionText = styled.div`
   margin-bottom: 1rem;
 `
 
+const JoinText = styled.div`
+  color: ${theme.colors.warning};
+  font-size: ${theme.fontSizes.sm};
+  font-weight: 500;
+  text-align: center;
+  margin-top: 0.5rem;
+`
+
 const Join = ({ initialState, isExpired, value }) => {
   const [show, setShow] = useState(false)
   const [join, setJoin] = useState(false)
@@ -43,6 +51,16 @@ const Join = ({ initialState, isExpired, value }) => {
   const [userInfo] = useSessionStorage('IndiTown')
   const { token } = userInfo
   const history = useHistory()
+  const [joined, setJoined] = useState(0)
+
+  useEffect(() => {
+    const { joined } = JSON.parse(value.title)
+    if (!joined) {
+      setJoined(0)
+    } else {
+      setJoined(joined.length)
+    }
+  }, [])
 
   const closeModal = (e) => {
     e.preventDefault()
@@ -95,11 +113,17 @@ const Join = ({ initialState, isExpired, value }) => {
   return (
     <Fragment>
       {!isExpired ? null : !initialState ? (
-        <Button onClick={openModal}>참여하기</Button>
+        <div>
+          <Button onClick={openModal}>참여하기</Button>
+          <JoinText>{joined}명 참여 중</JoinText>
+        </div>
       ) : (
-        <JoinButton disabled primary={false}>
-          참여 중
-        </JoinButton>
+        <div>
+          <JoinButton disabled primary={false}>
+            참여 중
+          </JoinButton>
+          <JoinText>{joined}명 참여 중</JoinText>
+        </div>
       )}
 
       <Modal show={show} onClose={() => setShow(false)}>
