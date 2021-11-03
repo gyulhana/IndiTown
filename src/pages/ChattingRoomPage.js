@@ -6,14 +6,15 @@ import ChattingHistory from '../components/Chat/ChattingHistory'
 import useSessionStorage from '../hooks/useSessionStorage'
 import theme from '../themes'
 import { ApiUtils } from '../utils/api'
+import useScroll from '../hooks/useScroll'
 
 const ChattingContainer = styled.div`
   background-color: #fff;
   position: relative;
-  height: 75vh;
+  height: 80vh;
   background-color: #fff;
   border-radius: 12.8px;
-  margin: 1rem;
+  margin: 5rem 1rem;
   padding: 1rem;
   border: none;
   box-sizing: border-box;
@@ -35,17 +36,21 @@ const InputTextArea = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 76px;
   padding: 20px;
   border-top: 1px solid ${theme.colors.gray_2};
   box-sizing: border-box;
 `
 
 const ChattingRoomPage = () => {
+  function resize(element1, element2) {
+    element1.style.height = 40 + element2.scrollHeight + 'px'
+  }
+
   const [messages, setMessages] = useState([])
-  const messageRef = useRef(null)
   const [userInfo] = useSessionStorage('IndiTown')
   const { token, contactUserId, _id } = userInfo
+  const [ref] = useScroll()
+  const textAreaRef = useRef()
 
   const getMessages = async () => {
     try {
@@ -75,7 +80,7 @@ const ChattingRoomPage = () => {
           chat: '',
         })
 
-        getMessages()
+        await getMessages()
       } catch (error) {
         console.log(error)
       }
@@ -87,13 +92,18 @@ const ChattingRoomPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    ref.current.scrollTop = ref.current.scrollHeight
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messages])
+
   return (
     <Fragment>
       <ChattingContainer>
-        <MessageArea ref={messageRef}>
+        <MessageArea ref={ref}>
           <ChattingHistory message={messages} id={_id} />
         </MessageArea>
-        <InputTextArea>
+        <InputTextArea ref={textAreaRef}>
           <TextArea
             placeholder={'메세지를 입력하세요!'}
             onSubmit={formik.handleSubmit}
@@ -101,9 +111,12 @@ const ChattingRoomPage = () => {
             onChange={formik.handleChange}
             value={formik.values.chat}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' && e.key !== 'shift') {
+              if (e.key === 'Enter' && !e.ctrlKey) {
                 formik.handleSubmit()
               }
+            }}
+            onKeyUp={(e) => {
+              resize(textAreaRef.current, e.target)
             }}
           />
         </InputTextArea>
