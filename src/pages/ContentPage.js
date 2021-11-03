@@ -171,6 +171,15 @@ const ContentPage = () => {
                 postId: contentId,
               })
             }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && e.key !== 'shift') {
+                e.preventDefault()
+                handleCommentSubmit({
+                  comment: e.target.value,
+                  postId: contentId,
+                })
+              }
+            }}
           />
           <LikeAndJoin
             initialState={like}
