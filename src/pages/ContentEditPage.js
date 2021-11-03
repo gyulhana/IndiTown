@@ -7,6 +7,7 @@ import ContentEditProvider from '../contexts/ContentEditProvider'
 import moment from 'moment'
 import useSessionStorage from '../hooks/useSessionStorage'
 import { ApiUtils } from '../utils/api'
+import { ProfileUtils } from '../utils/profile'
 import { useHistory } from 'react-router'
 
 const Container = styled.div`
@@ -91,6 +92,7 @@ const ContentEditPage = ({ match }) => {
   )
 
   const userFullName = JSON.parse(user.fullName)
+
   return (
     <Container>
       <ContentEditProvider
@@ -106,6 +108,7 @@ const ContentEditPage = ({ match }) => {
         <ContentsEdit
           style={{ padding: '1rem' }}
           alt={`${userFullName.userName}님의 프로필`}
+          userImg={user.image || ProfileUtils.getDefaultImage(user.email)}
           userNickName={userFullName.userName}
           userEmail={user.email}
           userTown={userFullName.location}

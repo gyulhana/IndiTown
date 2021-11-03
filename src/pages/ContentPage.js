@@ -17,7 +17,6 @@ const ContentPage = () => {
   const { contentId } = useParams()
   const [userInfo, setUserInfo] = useSessionStorage('IndiTown')
   const { token, _id } = userInfo
-  console.log(userInfo)
   const [comments, setComments] = useState([])
   const history = useHistory()
   const [like, setLike] = useState(false)
@@ -131,7 +130,7 @@ const ContentPage = () => {
       console.error(error)
     }
   }
-
+  console.log(value)
   if (!isLoading && value) {
     return (
       <ContentsProvider handleDeleteContent={handleDeleteContent}>
