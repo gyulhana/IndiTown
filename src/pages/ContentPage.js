@@ -172,8 +172,8 @@ const ContentPage = () => {
             count={count}
             onLikeClick={like ? dislikePost : likePost}
             joinState={isJoin}
-            isExpired={TimeUtils.checkExpired(content.value)}
-            value={content.value}
+            isExpired={TimeUtils.checkExpired(value)}
+            value={value}
           />
 
           <CommentInput
@@ -181,8 +181,8 @@ const ContentPage = () => {
               padding: '1rem',
             }}
             userImg={
-              content.value.author.image ||
-              ProfileUtils.getDefaultImage(content.value.author.email)
+              value.author.image ||
+              ProfileUtils.getDefaultImage(value.author.email)
             }
             onSubmit={(e) => {
               e.preventDefault()
