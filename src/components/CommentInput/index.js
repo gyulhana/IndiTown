@@ -2,11 +2,13 @@ import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import Avatar from '../Avatar'
 import TextArea from '../TextArea'
+import React, { useRef } from 'react'
 
 const StyledCommentInput = styled.div`
   display: flex;
   align-items: center;
 `
+
 const CommentInput = ({
   lazy,
   threshold,
@@ -27,7 +29,7 @@ const CommentInput = ({
         alt={imgAlt}
         style={{ marginRight: '1rem', flexShrink: 0 }}
       />
-      <TextArea placeholder={textPlaceholder} name="comment" />
+      <TextArea placeholder={'댓글을 입력해주세요!'} name="comment" />
     </StyledCommentInput>
   )
 }
