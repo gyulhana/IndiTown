@@ -21,7 +21,8 @@ const StyledProgress = styled.div`
   justify-content: center;
   border-radius: 0.75rem;
   font-weight: 500;
-  background-color: ${theme.colors.gray_2};
+  background-color: ${(props) =>
+    props.isExpired ? theme.colors.gray_3 : theme.colors.gray_2};
   position: relative;
   height: 1rem;
   overflow: hidden;
@@ -35,7 +36,7 @@ const ProgressBar = styled.div`
   height: 100%;
   left: 0;
   top: 0;
-  width: 2rem;
+  width: ${({ resultNum, targetNum }) => (resultNum / targetNum) * 100 + 2}%;
 `
 
 const Progress = ({
@@ -48,14 +49,10 @@ const Progress = ({
   ...props
 }) => {
   return (
-    <StyledProgress
-      {...props}
-      size={size}
-      width={width}
-      resultNum={resultNum}
-      targetNum={targetNum}
-    >
-      {targetNum && !isExpired && <ProgressBar />}
+    <StyledProgress {...props} size={size} width={width} isExpired={isExpired}>
+      {targetNum && !isExpired && (
+        <ProgressBar resultNum={resultNum} targetNum={targetNum} />
+      )}
       <Text style={{ zIndex: 10 }} size={sizeStyles[size].fontSize}>
         {children}
       </Text>
@@ -66,8 +63,8 @@ const Progress = ({
 Progress.propTypes = {
   size: PropTypes.string,
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  targetNum: PropTypes.number,
-  resultNum: PropTypes.number,
+  targetNum: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  resultNum: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   children: PropTypes.node.isRequired,
 }
 

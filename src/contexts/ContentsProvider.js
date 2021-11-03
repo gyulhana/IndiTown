@@ -35,7 +35,6 @@ const ContentsProvider = ({
   handleAddContent,
 }) => {
   const [contents, dispatch] = useReducer(reducer, initialContents || [])
-  console.log(contents)
   useEffect(() => {
     dispatch({ type: 'INIT_CONTENTS', payload: initialContents || [] })
   }, [initialContents])
@@ -58,7 +57,11 @@ const ContentsProvider = ({
 
   return (
     <ContentsContext.Provider
-      value={{ contents, onDeleteContent, onAddContent }}
+      value={{
+        contents,
+        onDeleteContent,
+        onAddContent,
+      }}
     >
       {children}
     </ContentsContext.Provider>

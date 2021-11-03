@@ -16,6 +16,7 @@ const StyledAvatar = styled.div`
   border-radius: ${({ shape }) => ShapeToCssValue[shape]};
   background-color: #f5f5f5;
   overflow: hidden;
+  flex-shrink: 0;
 
   > img {
     transition: opacity 0.2s ease-out;

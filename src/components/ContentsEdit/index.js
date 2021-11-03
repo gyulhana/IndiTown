@@ -10,7 +10,7 @@ import { useContentEditContext } from '../../contexts/ContentEditProvider'
 
 const StyledTextarea = styled.textarea`
   width: 100%;
-  height: 16rem;
+  height: 5rem;
   outline: none;
   resize: none;
   border: none;

@@ -60,7 +60,6 @@ const ChattingListPage = ({ src, onClick }) => {
     getMessageList()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  console.log(chatList)
 
   const moveChattingPage = (value) => {
     let contactUserId = ''

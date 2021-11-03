@@ -16,7 +16,6 @@ const FlexBox = styled.div`
 
 const ImgWrapper = styled.div`
   width: 100%;
-  max-height: 12rem;
   border-radius: 0.8rem;
   margin: 2rem 0;
   overflow: hidden;
@@ -132,17 +131,26 @@ const ContentsDescription = ({
       <Progress
         size="medium"
         targetNum={progress.recruitmentOption}
-        resultNum={''}
+        resultNum={progress.orderedOption}
         isExpired={isExpired}
         children={
           isExpired
             ? '모집마감'
-            : `${progress.recruitmentOption}${
+            : `${progress.recruitmentOption - progress.orderedOption}${
                 selectedOptions[progress.selectedOption]
               } 남음`
         }
       />
-
+      <Text
+        block
+        size="h6"
+        color={theme.colors.gray_4}
+        style={{ textAlign: 'end', margin: '0.4rem 0.8rem 0 0' }}
+      >
+        {`${progress.recruitmentOption} ${
+          selectedOptions[progress.selectedOption]
+        }`}
+      </Text>
       <Text
         block
         size={12}

@@ -91,7 +91,6 @@ const SignupForm = () => {
         password: JSON.stringify(userPassword),
       }
 
-      console.log(data)
       try {
         const user = await axios({
           url: `${API_ENDPOINT}/signup`,

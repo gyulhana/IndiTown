@@ -7,10 +7,11 @@ import ContentEditProvider from '../contexts/ContentEditProvider'
 import moment from 'moment'
 import useSessionStorage from '../hooks/useSessionStorage'
 import { ApiUtils } from '../utils/api'
+import { ProfileUtils } from '../utils/profile'
 import { useHistory } from 'react-router'
 
 const Container = styled.div`
-  margin: 5rem 1rem 4rem 1rem;
+  margin: 5rem 1rem;
   background-color: white;
   border-radius: 0.8rem;
 `
@@ -23,6 +24,8 @@ const Header = styled.div`
 
 const ContentEditPage = ({ match }) => {
   const MOMENT_DEFAULT_FORMAT = 'YYYY-MM-DD HH:mm'
+  const [userInfo] = useSessionStorage('IndiTown')
+  const { user, token } = userInfo
 
   const initialState = {
     title: '',
@@ -34,6 +37,9 @@ const ContentEditPage = ({ match }) => {
       .format(MOMENT_DEFAULT_FORMAT),
     selectedOption: '금액',
     recruitmentOption: null,
+    orderedOption: 0,
+    joined: [],
+    token: token,
   }
 
   const validate = ({ title, recruitmentDate, recruitmentOption }, data) => {
@@ -76,20 +82,17 @@ const ContentEditPage = ({ match }) => {
 
     return errors
   }
-
-  const [userInfo] = useSessionStorage('IndiTown')
-  const { user, token } = userInfo
   const history = useHistory()
   const handleSubmitContent = useCallback(
     async (content) => {
       const { _id } = await ApiUtils.createContent({ content, token })
-      console.log(_id)
       history.push(`/content/${_id}`)
     },
     [history, token]
   )
 
   const userFullName = JSON.parse(user.fullName)
+
   return (
     <Container>
       <ContentEditProvider
@@ -105,6 +108,7 @@ const ContentEditPage = ({ match }) => {
         <ContentsEdit
           style={{ padding: '1rem' }}
           alt={`${userFullName.userName}님의 프로필`}
+          userImg={user.image || ProfileUtils.getDefaultImage(user.email)}
           userNickName={userFullName.userName}
           userEmail={user.email}
           userTown={userFullName.location}
