@@ -33,8 +33,6 @@ const LikeAndJoin = ({
         initialState={joinState}
         isExpired={isExpired}
         onClick={onJoinClick}
-        openJoinClick={openJoinClick}
-        isPopup={isPopup}
         value={value}
       />
     </Container>

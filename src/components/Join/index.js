@@ -52,8 +52,14 @@ const Join = ({ initialState, isExpired, value }) => {
     setShow(true)
   }
   const calculateRemainingOptions = (value) => {
-    const { recruitmentOption, orderdOption } = JSON.parse(value.title)
-    const sub = parseInt(recruitmentOption, 10) - parseInt(orderdOption, 10)
+    const { recruitmentOption, orderedOption } = JSON.parse(value.title)
+    if (!orderedOption) {
+      console.log('')
+    }
+    const sub = parseInt(recruitmentOption, 10) - parseInt(orderedOption, 10)
+    console.log(sub)
+    console.log(recruitmentOption)
+    console.log(orderedOption)
     setRemainOptions(sub)
     setJoin(true)
   }
