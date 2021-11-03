@@ -16,7 +16,6 @@ const FlexBox = styled.div`
 
 const ImgWrapper = styled.div`
   width: 100%;
-  max-height: 12rem;
   border-radius: 0.8rem;
   margin: 2rem 0;
   overflow: hidden;

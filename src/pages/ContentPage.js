@@ -17,10 +17,12 @@ const ContentPage = () => {
   const { contentId } = useParams()
   const [userInfo, setUserInfo] = useSessionStorage('IndiTown')
   const { token, _id } = userInfo
+  console.log(userInfo)
   const [comments, setComments] = useState([])
   const history = useHistory()
   const [like, setLike] = useState(false)
   const [count, setCount] = useState(0)
+  // eslint-disable-next-line no-unused-vars
   const [isJoin, setIsJoin] = useState(false)
 
   const { isLoading, value } = useAsync(async () => {
@@ -172,8 +174,8 @@ const ContentPage = () => {
             count={count}
             onLikeClick={like ? dislikePost : likePost}
             joinState={isJoin}
-            isExpired={TimeUtils.checkExpired(content.value)}
-            value={content.value}
+            isExpired={TimeUtils.checkExpired(value)}
+            value={value}
           />
 
           <CommentInput
@@ -181,8 +183,8 @@ const ContentPage = () => {
               padding: '1rem',
             }}
             userImg={
-              content.value.author.image ||
-              ProfileUtils.getDefaultImage(content.value.author.email)
+              value.author.image ||
+              ProfileUtils.getDefaultImage(userInfo.user.email)
             }
             onSubmit={(e) => {
               e.preventDefault()

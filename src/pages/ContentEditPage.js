@@ -10,7 +10,7 @@ import { ApiUtils } from '../utils/api'
 import { useHistory } from 'react-router'
 
 const Container = styled.div`
-  margin: 5rem 1rem 4rem 1rem;
+  margin: 5rem 1rem;
   background-color: white;
   border-radius: 0.8rem;
 `
