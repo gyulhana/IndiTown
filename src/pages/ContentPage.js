@@ -17,10 +17,12 @@ const ContentPage = () => {
   const { contentId } = useParams()
   const [userInfo, setUserInfo] = useSessionStorage('IndiTown')
   const { token, _id } = userInfo
+  console.log(userInfo)
   const [comments, setComments] = useState([])
   const history = useHistory()
   const [like, setLike] = useState(false)
   const [count, setCount] = useState(0)
+  // eslint-disable-next-line no-unused-vars
   const [isJoin, setIsJoin] = useState(false)
 
   const { isLoading, value } = useAsync(async () => {
@@ -182,7 +184,7 @@ const ContentPage = () => {
             }}
             userImg={
               value.author.image ||
-              ProfileUtils.getDefaultImage(value.author.email)
+              ProfileUtils.getDefaultImage(userInfo.user.email)
             }
             onSubmit={(e) => {
               e.preventDefault()
