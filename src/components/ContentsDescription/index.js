@@ -131,7 +131,7 @@ const ContentsDescription = ({
       <Progress
         size="medium"
         targetNum={progress.recruitmentOption}
-        resultNum={''}
+        resultNum={progress.orderdOption}
         isExpired={isExpired}
         children={
           isExpired
