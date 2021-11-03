@@ -21,11 +21,11 @@ const ContentPage = () => {
   const history = useHistory()
   const [like, setLike] = useState(false)
   const [count, setCount] = useState(0)
-  // eslint-disable-next-line no-unused-vars
   const [isJoin, setIsJoin] = useState(false)
 
   const { isLoading, value } = useAsync(async () => {
     const response = await ApiUtils.getContentDetail(contentId)
+    const { joined } = JSON.parse(response.title) || []
     setComments(response.comments)
 
     const checkLikePost = (likeList) => {
@@ -39,7 +39,20 @@ const ContentPage = () => {
         }
       }
     }
+
+    const checkJoinedPost = (JoinedIdList) => {
+      if (!JoinedIdList) {
+        return setIsJoin(false)
+      }
+      for (const id of JoinedIdList) {
+        if (id === _id) {
+          return setIsJoin(true)
+        }
+      }
+    }
+
     checkLikePost(response.likes)
+    checkJoinedPost(joined)
 
     return response
   }, [contentId])

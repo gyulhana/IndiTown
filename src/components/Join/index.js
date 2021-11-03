@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import { useFormik } from 'formik'
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import Button from '../Button'
 import Modal from '../Modal'
 import theme from '../../themes'
@@ -36,13 +36,32 @@ const OptionText = styled.div`
   margin-bottom: 1rem;
 `
 
+const JoinText = styled.div`
+  color: ${theme.colors.warning};
+  font-size: ${theme.fontSizes.sm};
+  font-weight: 500;
+  text-align: center;
+  margin-top: 0.5rem;
+`
+
 const Join = ({ initialState, isExpired, value }) => {
   const [show, setShow] = useState(false)
   const [join, setJoin] = useState(false)
   const [remainOptions, setRemainOptions] = useState(0)
   const [userInfo] = useSessionStorage('IndiTown')
-  const { token } = userInfo
+  const { _id } = userInfo
   const history = useHistory()
+  const [joined, setJoined] = useState(0)
+
+  useEffect(() => {
+    const { joined } = JSON.parse(value.title)
+    if (!joined) {
+      setJoined(0)
+    } else {
+      setJoined(joined.length)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const closeModal = (e) => {
     e.preventDefault()
@@ -77,9 +96,9 @@ const Join = ({ initialState, isExpired, value }) => {
       }
 
       if (!title.joined) {
-        title.joined = [value.author._id]
+        title.joined = [_id]
       } else {
-        title.joined.push(value.author._id)
+        title.joined.push(_id)
       }
 
       formData.append('postId', value._id)
@@ -87,7 +106,7 @@ const Join = ({ initialState, isExpired, value }) => {
       formData.append('image', value.image ? value.image : null)
       formData.append('channelId', value.channel._id)
 
-      await ApiUtils.updatePost({ token, content: formData })
+      await ApiUtils.updatePost({ token: title.token, content: formData })
       history.go(0)
     },
   })
@@ -95,11 +114,17 @@ const Join = ({ initialState, isExpired, value }) => {
   return (
     <Fragment>
       {!isExpired ? null : !initialState ? (
-        <Button onClick={openModal}>참여하기</Button>
+        <div>
+          <Button onClick={openModal}>참여하기</Button>
+          <JoinText>{joined}명 참여 중</JoinText>
+        </div>
       ) : (
-        <JoinButton disabled primary={false}>
-          참여 중
-        </JoinButton>
+        <div>
+          <JoinButton disabled primary={false}>
+            참여 중
+          </JoinButton>
+          <JoinText>{joined}명 참여 중</JoinText>
+        </div>
       )}
 
       <Modal show={show} onClose={() => setShow(false)}>

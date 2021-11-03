@@ -24,6 +24,8 @@ const Header = styled.div`
 
 const ContentEditPage = ({ match }) => {
   const MOMENT_DEFAULT_FORMAT = 'YYYY-MM-DD HH:mm'
+  const [userInfo] = useSessionStorage('IndiTown')
+  const { user, token } = userInfo
 
   const initialState = {
     title: '',
@@ -37,6 +39,7 @@ const ContentEditPage = ({ match }) => {
     recruitmentOption: null,
     orderedOption: 0,
     joined: [],
+    token: token,
   }
 
   const validate = ({ title, recruitmentDate, recruitmentOption }, data) => {
@@ -79,9 +82,6 @@ const ContentEditPage = ({ match }) => {
 
     return errors
   }
-
-  const [userInfo] = useSessionStorage('IndiTown')
-  const { user, token } = userInfo
   const history = useHistory()
   const handleSubmitContent = useCallback(
     async (content) => {

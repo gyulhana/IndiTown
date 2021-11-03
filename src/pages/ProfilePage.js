@@ -25,6 +25,7 @@ const ProfilePage = () => {
   const [userData, setUserData] = useState({})
   const [myPostsList, setMyPostsList] = useState([])
   const [myLikePostList, setMyLikePostList] = useState([])
+  const [joinedPostList, setJoinedPostList] = useState([])
 
   const getUserInfoAsync = async (userId) => {
     const data = await ApiUtils.getUsersInfo(userId)
@@ -39,7 +40,20 @@ const ProfilePage = () => {
   const getPostsListsAsync = async () => {
     const posts = await ApiUtils.getPostsList()
     const myPosts = posts.filter((post) => post.author._id === _id)
+    const joinedPosts = posts.filter((post) => {
+      const { joined } = JSON.parse(post.title)
+      if (!joined) {
+        return false
+      }
+      for (const id of joined) {
+        if (_id === id) {
+          return true
+        }
+      }
+      return false
+    })
     setMyPostsList(myPosts)
+    setJoinedPostList(joinedPosts)
 
     const myLikePosts = posts
       .filter((post) => !!post.likes.length)
@@ -90,7 +104,9 @@ const ProfilePage = () => {
           </ContentsProvider>
         </Nav.Item>
         <Nav.Item title="참여내역" index="profile/participant">
-          {/* 참여 */}
+          <ContentsProvider initialContents={joinedPostList}>
+            <ContentsSummaryList style={{ padding: '1rem 0 0' }} />
+          </ContentsProvider>
         </Nav.Item>
         <Nav.Item title="관심내역" index="profile/likes">
           <ContentsProvider initialContents={myLikePostList}>
