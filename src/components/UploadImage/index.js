@@ -91,6 +91,7 @@ const UploadImage = ({
       reader.readAsDataURL(changedFile)
 
       reader.onload = () => {
+        onImgChange(changedFile, reader.result)
         photoRef.current.style.background = `center 100% / auto 100% no-repeat url(${reader.result})`
       }
     }

@@ -143,7 +143,7 @@ const ContentPage = () => {
       console.error(error)
     }
   }
-  console.log(value)
+
   if (!isLoading && value) {
     return (
       <ContentsProvider handleDeleteContent={handleDeleteContent}>
