@@ -9,6 +9,8 @@ import Avatar from '../components/Avatar'
 import moment from 'moment'
 import { ApiUtils } from '../utils/api'
 import { ProfileUtils } from '../utils/profile'
+import { useHistory } from 'react-router'
+import useSessionStorage from '../hooks/useSessionStorage'
 
 const calculateTime = (time) => {
   const t1 = moment(time, 'YYYY-MM-DD hh:mm')
@@ -87,6 +89,24 @@ export const SearchPage = () => {
     [value]
   )
 
+  const history = useHistory()
+  const [userInfo, setUserInfo] = useSessionStorage('IndiTown')
+  const { _id } = userInfo
+  const moveToChat = (value) => {
+    if (_id !== value._id) {
+      const userName = JSON.parse(value.fullName).userName
+      setUserInfo({
+        ...userInfo,
+        contactUserId: '',
+      })
+      setUserInfo({
+        ...userInfo,
+        contactUserId: value._id,
+      })
+      history.push(`/chatting/${userName}`)
+    }
+  }
+
   return (
     <Container>
       <div>
@@ -103,20 +123,22 @@ export const SearchPage = () => {
             ?.map((item) => {
               const userInfo = JSON.parse(item.fullName)
               return (
-                <Profile
-                  key={item._id}
-                  lazy
-                  threshold={0.5}
-                  src={
-                    item.image ||
-                    (item.email && ProfileUtils.getDefaultImage(item.email))
-                  }
-                  alt={userInfo.userName}
-                  nickName={userInfo.userName}
-                  email={item.email}
-                  town={userInfo.location}
-                  style={{ marginBottom: '1rem' }}
-                />
+                <div onClick={() => moveToChat(item)}>
+                  <Profile
+                    key={item._id}
+                    lazy
+                    threshold={0.5}
+                    src={
+                      item.image ||
+                      (item.email && ProfileUtils.getDefaultImage(item.email))
+                    }
+                    alt={userInfo.userName}
+                    nickName={userInfo.userName}
+                    email={item.email}
+                    town={userInfo.location}
+                    style={{ marginBottom: '1rem' }}
+                  />
+                </div>
               )
             })}
         </div>

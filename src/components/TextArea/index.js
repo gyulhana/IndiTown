@@ -61,7 +61,19 @@ const TextArea = ({
     >
       <StyledTextArea
         placeholder={placeholder}
-        onKeyUp={(event) => resize(event.target)}
+        onKeyUp={(event) => {
+          if (event.ctrlKey && event.key === 'Enter') {
+            event.target.value += '\n'
+            resize(event.target)
+          } else {
+            resize(event.target)
+          }
+        }}
+        onKeyDown={(event) => {
+          if (!event.ctrlKey && event.key === 'Enter') {
+            event.preventDefault()
+          }
+        }}
         spellcheck="false"
         onChange={onChange}
         value={value}
