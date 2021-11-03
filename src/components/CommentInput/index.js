@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import Avatar from '../Avatar'
 import TextArea from '../TextArea'
-import React, { useRef } from 'react'
+import React from 'react'
 
 const StyledCommentInput = styled.div`
   display: flex;
