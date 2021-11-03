@@ -49,7 +49,7 @@ const Join = ({ initialState, isExpired, value }) => {
   const [join, setJoin] = useState(false)
   const [remainOptions, setRemainOptions] = useState(0)
   const [userInfo] = useSessionStorage('IndiTown')
-  const { token } = userInfo
+  const { _id } = userInfo
   const history = useHistory()
   const [joined, setJoined] = useState(0)
 
@@ -60,6 +60,7 @@ const Join = ({ initialState, isExpired, value }) => {
     } else {
       setJoined(joined.length)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const closeModal = (e) => {
@@ -95,9 +96,9 @@ const Join = ({ initialState, isExpired, value }) => {
       }
 
       if (!title.joined) {
-        title.joined = [value.author._id]
+        title.joined = [_id]
       } else {
-        title.joined.push(value.author._id)
+        title.joined.push(_id)
       }
 
       formData.append('postId', value._id)
@@ -105,7 +106,7 @@ const Join = ({ initialState, isExpired, value }) => {
       formData.append('image', value.image ? value.image : null)
       formData.append('channelId', value.channel._id)
 
-      await ApiUtils.updatePost({ token, content: formData })
+      await ApiUtils.updatePost({ token: title.token, content: formData })
       history.go(0)
     },
   })

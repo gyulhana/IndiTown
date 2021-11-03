@@ -50,6 +50,7 @@ const ProfilePage = () => {
           return true
         }
       }
+      return false
     })
     setMyPostsList(myPosts)
     setJoinedPostList(joinedPosts)
